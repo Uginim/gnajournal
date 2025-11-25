@@ -125,7 +125,7 @@ dependencies {
 ktor:
   application:
     modules:
-      - net.gnajournal.blog.ApplicationKt.module  # 모듈 경로
+      - com.gnajournal.blog.ApplicationKt.module  # 모듈 경로
   deployment:
     port: 8080
 ```

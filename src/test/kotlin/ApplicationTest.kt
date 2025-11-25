@@ -1,4 +1,4 @@
-package net.gnajournal.blog
+package com.gnajournal.blog
 
 import io.ktor.client.request.*
 import io.ktor.http.*

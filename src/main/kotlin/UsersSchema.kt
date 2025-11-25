@@ -1,4 +1,4 @@
-package net.gnajournal.blog
+package com.gnajournal.blog
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.Serializable

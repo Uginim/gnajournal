@@ -194,9 +194,9 @@ dependencies {
 
 ```kotlin
 // di/AppModule.kt
-package net.gnajournal.blog.di
+package com.gnajournal.blog.di
 
-import net.gnajournal.blog.UserService
+import com.gnajournal.blog.UserService
 import org.jetbrains.exposed.sql.Database
 import org.koin.dsl.module
 
