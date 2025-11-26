@@ -46,6 +46,10 @@ notes/
 - [Comment System](./web/comment-system.md) - 댓글 시스템 (Giscus, 직접 구현)
 - [Analytics](./web/analytics.md) - 통계/분석 도구 (Umami, GA)
 - [Sitemap & SEO](./web/sitemap-seo.md) - Sitemap, RSS, Open Graph
+- [Markdown Editor](./web/markdown-editor.md) - Milkdown, TipTap 등 에디터 비교
 
 ### DevOps
-(추가 예정)
+- [Docker Setup](./devops/docker-setup.md) - Docker, docker-compose 프로젝트 구성
+- [Namecheap Domain](./devops/namecheap-domain.md) - 도메인 구매 및 DNS 설정
+- [Cloud Hosting](./devops/cloud-hosting.md) - Fly.io, Railway 등 호스팅 비교
+- [Media Storage](./devops/media-storage.md) - Cloudflare R2 이미지 저장소

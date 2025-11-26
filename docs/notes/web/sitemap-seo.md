@@ -4,10 +4,10 @@
 
 ```mermaid
 graph TB
-    SEO[SEO 엔드포인트] --> Sitemap[/sitemap.xml]
-    SEO --> Robots[/robots.txt]
-    SEO --> RSS[/rss 또는 /feed]
-    SEO --> OG[Open Graph Meta]
+    SEO["SEO 엔드포인트"] --> Sitemap["sitemap.xml"]
+    SEO --> Robots["robots.txt"]
+    SEO --> RSS["rss 또는 feed"]
+    SEO --> OG["Open Graph Meta"]
 ```
 
 ---
