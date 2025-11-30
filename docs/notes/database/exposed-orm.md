@@ -11,6 +11,8 @@
 | **DSL** | SQL과 유사한 코드 작성 | 현재 프로젝트에서 사용 |
 | **DAO** | JPA처럼 Entity 객체 사용 | 더 객체지향적 |
 
+> 상세 비교는 [Exposed DSL vs DAO 비교](./exposed-dsl-vs-dao.md) 참고
+
 ## 테이블 정의 (DSL 방식)
 
 ```kotlin
