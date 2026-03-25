@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<h1>그나저나,</h1>
+				<p>이런저런 이야기를 기록하는 공간입니다.</p>
+			</section>
+
+			<section class="recent-posts">
+				<div class="section-header">
+					<h2>최근 글</h2>
+					<a href="/blog" class="view-all">모든 글 보기 &rarr;</a>
+				</div>
+				<ul>
+					{posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>
+								<div class="post-meta">
+									<FormattedDate date={post.data.pubDate} />
+									{post.data.tags.length > 0 && (
+										<div class="post-tags">
+											{post.data.tags.map((tag: string) => (
+												<span class="tag-small">{tag}</span>
+											))}
+										</div>
+									)}
+								</div>
+								<h3>{post.data.title}</h3>
+								<p>{post.data.description}</p>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.hero {
+		padding: 3em 0 2em;
+	}
+	.hero h1 {
+		font-size: 2.5em;
+		margin-bottom: 0.3em;
+		letter-spacing: -0.03em;
+	}
+	.hero p {
+		color: var(--text-secondary);
+		font-size: 1.1em;
+		margin: 0;
+	}
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: 1.5em;
+		padding-bottom: 0.5em;
+		border-bottom: 1px solid var(--border);
+	}
+	.section-header h2 {
+		margin: 0;
+		font-size: 1.3em;
+	}
+	.view-all {
+		font-size: 0.9em;
+		color: var(--text-secondary);
+	}
+	.view-all:hover {
+		color: var(--accent);
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	li {
+		margin-bottom: 0.5em;
+	}
+	li a {
+		display: block;
+		padding: 1.2em;
+		border-radius: var(--radius);
+		text-decoration: none;
+		color: var(--text);
+		transition: all 0.2s ease;
+	}
+	li a:hover {
+		background: var(--bg-secondary);
+	}
+	.post-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.8em;
+		font-size: 0.85em;
+		color: var(--text-muted);
+		margin-bottom: 0.4em;
+	}
+	.post-tags {
+		display: flex;
+		gap: 0.4em;
+	}
+	.tag-small {
+		padding: 0.1em 0.5em;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		font-size: 0.85em;
+		color: var(--text-secondary);
+	}
+	li a:hover .tag-small {
+		background: var(--card-bg);
+	}
+	h3 {
+		margin: 0 0 0.3em;
+		font-size: 1.15em;
+		line-height: 1.4;
+	}
+	li p {
+		margin: 0;
+		color: var(--text-secondary);
+		font-size: 0.9em;
+		line-height: 1.6;
+	}
+</style>

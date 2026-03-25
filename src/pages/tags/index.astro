@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+const tagCounts = new Map<string, number>();
+posts.forEach((post) => {
+	post.data.tags?.forEach((tag: string) => {
+		tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+	});
+});
+const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`태그 — ${SITE_TITLE}`} description="태그별 글 모아보기" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1 class="page-title">태그</h1>
+			<p class="tag-count">총 {sortedTags.length}개의 태그</p>
+
+			<div class="tags-grid">
+				{sortedTags.map(([tag, count]) => (
+					<a href={`/tags/${tag}/`} class="tag-card">
+						<span class="tag-name">{tag}</span>
+						<span class="tag-post-count">{count}개의 글</span>
+					</a>
+				))}
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page-title {
+		font-size: 2em;
+		margin-bottom: 0.2em;
+	}
+	.tag-count {
+		color: var(--text-muted);
+		font-size: 0.9em;
+		margin-bottom: 2em;
+	}
+	.tags-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 1em;
+	}
+	.tag-card {
+		display: flex;
+		flex-direction: column;
+		padding: 1.2em;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		text-decoration: none;
+		color: var(--text);
+		transition: all 0.2s ease;
+	}
+	.tag-card:hover {
+		border-color: var(--accent);
+		background: var(--bg-secondary);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow);
+	}
+	.tag-name {
+		font-weight: 600;
+		font-size: 1.1em;
+		margin-bottom: 0.3em;
+	}
+	.tag-post-count {
+		color: var(--text-muted);
+		font-size: 0.85em;
+	}
+</style>

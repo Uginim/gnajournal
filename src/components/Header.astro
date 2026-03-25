@@ -1,0 +1,136 @@
+---
+import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+	<nav>
+		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<div class="nav-links">
+			<div class="internal-links">
+				<HeaderLink href="/">홈</HeaderLink>
+				<HeaderLink href="/blog">글</HeaderLink>
+				<HeaderLink href="/tags">태그</HeaderLink>
+				<HeaderLink href="/search">검색</HeaderLink>
+				<HeaderLink href="/about">소개</HeaderLink>
+			</div>
+			<button id="theme-toggle" aria-label="테마 전환" title="테마 전환">
+				<svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="5"></circle>
+					<line x1="12" y1="1" x2="12" y2="3"></line>
+					<line x1="12" y1="21" x2="12" y2="23"></line>
+					<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+					<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+					<line x1="1" y1="12" x2="3" y2="12"></line>
+					<line x1="21" y1="12" x2="23" y2="12"></line>
+					<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+					<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+				</svg>
+				<svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+				</svg>
+			</button>
+		</div>
+	</nav>
+</header>
+
+<script>
+	function setupThemeToggle() {
+		const toggle = document.getElementById('theme-toggle');
+		if (!toggle) return;
+
+		toggle.addEventListener('click', () => {
+			const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+			if (isDark) {
+				document.documentElement.removeAttribute('data-theme');
+				localStorage.setItem('theme', 'light');
+			} else {
+				document.documentElement.setAttribute('data-theme', 'dark');
+				localStorage.setItem('theme', 'dark');
+			}
+		});
+	}
+	setupThemeToggle();
+	document.addEventListener('astro:after-swap', setupThemeToggle);
+</script>
+
+<style>
+	header {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		background: var(--bg);
+		border-bottom: 1px solid var(--border);
+		backdrop-filter: blur(8px);
+		transition: background 0.3s ease;
+	}
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 0 1em;
+	}
+	h2 {
+		margin: 0;
+		font-size: 1.2em;
+		letter-spacing: -0.03em;
+	}
+	h2 a,
+	h2 a.active {
+		text-decoration: none;
+		color: var(--text);
+	}
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+	}
+	.internal-links {
+		display: flex;
+		align-items: center;
+	}
+	nav a {
+		padding: 1em 0.6em;
+		color: var(--text-secondary);
+		border-bottom: 2px solid transparent;
+		text-decoration: none;
+		font-size: 0.9em;
+		transition: all 0.2s ease;
+	}
+	nav a:hover {
+		color: var(--text);
+	}
+	nav a.active {
+		color: var(--text);
+		border-bottom-color: var(--accent);
+	}
+	#theme-toggle {
+		background: none;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		padding: 6px;
+		cursor: pointer;
+		color: var(--text-secondary);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s ease;
+	}
+	#theme-toggle:hover {
+		color: var(--text);
+		border-color: var(--text-muted);
+	}
+	.sun-icon { display: none; }
+	.moon-icon { display: block; }
+	[data-theme="dark"] .sun-icon { display: block; }
+	[data-theme="dark"] .moon-icon { display: none; }
+
+	@media (max-width: 720px) {
+		nav a {
+			padding: 1em 0.4em;
+			font-size: 0.85em;
+		}
+	}
+</style>

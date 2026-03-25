@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r visible-venus/* visible-venus/.* .)",
+      "Bash(rm -rf visible-venus)",
+      "Bash(npm install:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(n lts:*)",
+      "Bash(sudo n:*)",
+      "Bash(/usr/local/bin/node -v)",
+      "Bash(/opt/homebrew/bin/node -v)",
+      "Bash(brew upgrade:*)",
+      "Bash(timeout 15 npm run dev)",
+      "Bash(npm run:*)",
+      "Bash(gh auth:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

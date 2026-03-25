@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import AdBanner from '../components/AdBanner.astro';
+import Giscus from '../components/Giscus.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+---
+
+<html lang="ko">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				{heroImage && (
+					<div class="hero-image">
+						<Image width={720} height={360} src={heroImage} alt={title} />
+					</div>
+				)}
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{updatedDate && (
+								<span class="last-updated">
+									(수정: <FormattedDate date={updatedDate} />)
+								</span>
+							)}
+						</div>
+						<h1>{title}</h1>
+						{tags.length > 0 && (
+							<div class="tags">
+								{tags.map((tag: string) => (
+									<a href={`/tags/${tag}/`} class="tag">{tag}</a>
+								))}
+							</div>
+						)}
+						<hr />
+					</div>
+					<slot />
+				</div>
+			</article>
+			<div class="ad-section">
+				<AdBanner />
+			</div>
+			<div class="comments">
+				<Giscus />
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		width: 720px;
+		max-width: calc(100% - 2em);
+		margin: auto;
+		padding: 2em 1em;
+	}
+	.hero-image {
+		margin-bottom: 2em;
+	}
+	.hero-image img {
+		display: block;
+		width: 100%;
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+	}
+	.prose {
+		color: var(--text);
+	}
+	.title {
+		margin-bottom: 2em;
+	}
+	.title h1 {
+		margin: 0.5em 0 0.4em;
+		font-size: 2em;
+		line-height: 1.3;
+	}
+	.date {
+		color: var(--text-muted);
+		font-size: 0.9em;
+	}
+	.last-updated {
+		margin-left: 0.5em;
+		font-style: italic;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em;
+		margin-top: 0.8em;
+	}
+	.ad-section {
+		margin-top: 3em;
+	}
+	.comments {
+		margin-top: 2em;
+		padding-top: 2em;
+		border-top: 1px solid var(--border);
+	}
+</style>

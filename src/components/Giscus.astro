@@ -1,0 +1,70 @@
+---
+// Giscus 댓글 컴포넌트
+// 사용하려면 https://giscus.app/ko 에서 설정 후 아래 값들을 변경하세요.
+// 1. GitHub 저장소에서 Discussions 기능을 활성화
+// 2. giscus 앱을 저장소에 설치: https://github.com/apps/giscus
+// 3. https://giscus.app/ko 에서 설정 값 생성
+---
+
+<div id="giscus-container">
+	<p class="giscus-placeholder">
+		댓글을 사용하려면 <a href="https://giscus.app/ko" target="_blank" rel="noopener">Giscus</a>를 설정해주세요.
+	</p>
+</div>
+
+<script>
+	function loadGiscus() {
+		const container = document.getElementById('giscus-container');
+		if (!container) return;
+
+		// TODO: 아래 값들을 giscus.app에서 생성한 값으로 교체하세요
+		const repo = 'YOUR_GITHUB_USERNAME/YOUR_REPO_NAME';
+		const repoId = 'YOUR_REPO_ID';
+		const category = 'Announcements';
+		const categoryId = 'YOUR_CATEGORY_ID';
+
+		// 설정되지 않았으면 placeholder 유지
+		if (repo === 'YOUR_GITHUB_USERNAME/YOUR_REPO_NAME') return;
+
+		container.innerHTML = '';
+
+		const theme = document.documentElement.getAttribute('data-theme') === 'dark'
+			? 'dark'
+			: 'light';
+
+		const script = document.createElement('script');
+		script.src = 'https://giscus.app/client.js';
+		script.setAttribute('data-repo', repo);
+		script.setAttribute('data-repo-id', repoId);
+		script.setAttribute('data-category', category);
+		script.setAttribute('data-category-id', categoryId);
+		script.setAttribute('data-mapping', 'pathname');
+		script.setAttribute('data-strict', '0');
+		script.setAttribute('data-reactions-enabled', '1');
+		script.setAttribute('data-emit-metadata', '0');
+		script.setAttribute('data-input-position', 'bottom');
+		script.setAttribute('data-theme', theme);
+		script.setAttribute('data-lang', 'ko');
+		script.crossOrigin = 'anonymous';
+		script.async = true;
+
+		container.appendChild(script);
+	}
+
+	loadGiscus();
+	document.addEventListener('astro:after-swap', loadGiscus);
+</script>
+
+<style>
+	.giscus-placeholder {
+		text-align: center;
+		color: var(--text-muted);
+		font-size: 0.9em;
+		padding: 2em;
+		border: 1px dashed var(--border);
+		border-radius: var(--radius);
+	}
+	.giscus-placeholder a {
+		color: var(--accent);
+	}
+</style>

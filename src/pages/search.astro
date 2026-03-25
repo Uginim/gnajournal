@@ -1,0 +1,194 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.map((post) => ({
+		id: post.id,
+		title: post.data.title,
+		description: post.data.description,
+		date: post.data.pubDate.toLocaleDateString('ko-KR', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		}),
+		tags: post.data.tags || [],
+	}));
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`검색 — ${SITE_TITLE}`} description="블로그 글 검색" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1 class="page-title">검색</h1>
+
+			<div class="search-box">
+				<input
+					type="text"
+					id="search-input"
+					placeholder="제목, 설명, 태그로 검색..."
+					autocomplete="off"
+				/>
+			</div>
+
+			<div id="search-results">
+				<p class="search-hint">검색어를 입력하면 결과가 표시됩니다.</p>
+			</div>
+		</main>
+		<Footer />
+
+		<script define:vars={{ posts }}>
+			const searchInput = document.getElementById('search-input');
+			const searchResults = document.getElementById('search-results');
+
+			function search(query) {
+				if (!query || query.length < 1) {
+					searchResults.innerHTML = '<p class="search-hint">검색어를 입력하면 결과가 표시됩니다.</p>';
+					return;
+				}
+
+				const q = query.toLowerCase();
+				const results = posts.filter((post) =>
+					post.title.toLowerCase().includes(q) ||
+					post.description.toLowerCase().includes(q) ||
+					post.tags.some((tag) => tag.toLowerCase().includes(q))
+				);
+
+				if (results.length === 0) {
+					searchResults.innerHTML = `<p class="no-results">"${query}"에 대한 검색 결과가 없습니다.</p>`;
+					return;
+				}
+
+				searchResults.innerHTML = `
+					<p class="result-count">${results.length}개의 검색 결과</p>
+					<ul>
+						${results.map((post) => `
+							<li>
+								<a href="/blog/${post.id}/">
+									<div class="post-meta">
+										<span>${post.date}</span>
+										${post.tags.length > 0 ? `
+											<div class="post-tags">
+												${post.tags.map((tag) => `<span class="tag-small">${tag}</span>`).join('')}
+											</div>
+										` : ''}
+									</div>
+									<h3>${post.title}</h3>
+									<p>${post.description}</p>
+								</a>
+							</li>
+						`).join('')}
+					</ul>
+				`;
+			}
+
+			searchInput.addEventListener('input', (e) => {
+				search(e.target.value.trim());
+			});
+
+			// auto-focus
+			searchInput.focus();
+		</script>
+	</body>
+</html>
+
+<style>
+	.page-title {
+		font-size: 2em;
+		margin-bottom: 1em;
+	}
+	.search-box {
+		margin-bottom: 2em;
+	}
+	#search-input {
+		width: 100%;
+		padding: 0.8em 1em;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--bg);
+		color: var(--text);
+		font-size: 1em;
+		font-family: inherit;
+		transition: border-color 0.2s ease;
+	}
+	#search-input:focus {
+		outline: none;
+		border-color: var(--accent);
+	}
+	#search-input::placeholder {
+		color: var(--text-muted);
+	}
+	.search-hint, .no-results {
+		color: var(--text-muted);
+		text-align: center;
+		padding: 2em 0;
+	}
+</style>
+
+<style is:global>
+	#search-results .result-count {
+		color: var(--text-muted);
+		font-size: 0.9em;
+		margin-bottom: 1em;
+	}
+	#search-results ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	#search-results li {
+		margin-bottom: 0.5em;
+	}
+	#search-results li a {
+		display: block;
+		padding: 1.2em;
+		border-radius: var(--radius);
+		text-decoration: none;
+		color: var(--text);
+		transition: all 0.2s ease;
+	}
+	#search-results li a:hover {
+		background: var(--bg-secondary);
+	}
+	#search-results .post-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.8em;
+		font-size: 0.85em;
+		color: var(--text-muted);
+		margin-bottom: 0.4em;
+	}
+	#search-results .post-tags {
+		display: flex;
+		gap: 0.4em;
+	}
+	#search-results .tag-small {
+		padding: 0.1em 0.5em;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		font-size: 0.85em;
+		color: var(--text-secondary);
+	}
+	#search-results h3 {
+		margin: 0 0 0.3em;
+		font-size: 1.15em;
+		font-weight: 700;
+		line-height: 1.4;
+	}
+	#search-results li p {
+		margin: 0;
+		color: var(--text-secondary);
+		font-size: 0.9em;
+		line-height: 1.6;
+	}
+</style>
