@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import heroImage from '../assets/hero.png';
 
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft)
@@ -21,6 +23,9 @@ const posts = (await getCollection('blog'))
 		<Header />
 		<main>
 			<section class="hero">
+				<div class="hero-image">
+					<Image src={heroImage} alt="그나저나 메모 마스코트" width={360} />
+				</div>
 				<h1>그나저나 메모</h1>
 				<p>이런저런 이야기를 기록하는 메모입니다.</p>
 			</section>
@@ -59,6 +64,14 @@ const posts = (await getCollection('blog'))
 <style>
 	.hero {
 		padding: 3em 0 2em;
+		text-align: center;
+	}
+	.hero-image {
+		margin-bottom: 1.5em;
+	}
+	.hero-image img {
+		border-radius: 16px;
+		box-shadow: var(--shadow);
 	}
 	.hero h1 {
 		font-size: 2.5em;
