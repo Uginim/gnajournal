@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8a96"/>
+    </marker>
+  </defs>
+
+  <text x="190" y="38" text-anchor="middle" font-size="12" font-weight="600" fill="#d9480f">1NF 위반 — 한 칸에 값 두 개</text>
+  <rect x="40" y="52" width="300" height="52" rx="9" fill="#fff4ef" stroke="#d9480f" stroke-width="1.5"/>
+  <text x="190" y="84" text-anchor="middle" font-size="15" fill="#1f2330">010-1111-2222, 010-3333-4444</text>
+
+  <line x1="350" y1="78" x2="432" y2="78" stroke="#8a8a96" stroke-width="1.6" marker-end="url(#arrow1)"/>
+  <text x="391" y="69" text-anchor="middle" font-size="12" fill="#80828f">분리</text>
+
+  <rect x="442" y="52" width="238" height="38" rx="8" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.4"/>
+  <text x="561" y="76" text-anchor="middle" font-size="15" fill="#1f2330">010-1111-2222</text>
+  <rect x="442" y="100" width="238" height="38" rx="8" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.4"/>
+  <text x="561" y="124" text-anchor="middle" font-size="15" fill="#1f2330">010-3333-4444</text>
+  <text x="561" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#2f9e44">값 하나당 한 행 (원자값)</text>
+</svg>

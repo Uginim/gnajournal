@@ -15,7 +15,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 
 <html lang="ko">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} image={heroImage} />
 	</head>
 
 	<body>
@@ -24,7 +24,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 			<article>
 				{heroImage && (
 					<div class="hero-image">
-						<Image width={720} height={360} src={heroImage} alt={title} />
+						<Image width={1200} height={630} src={heroImage} alt={title} />
 					</div>
 				)}
 				<div class="prose">

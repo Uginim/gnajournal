@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 232" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <text x="40" y="24" font-size="14" font-weight="700" fill="#1f2330">회원 (기본키: 회원ID)</text>
+
+  <!-- header -->
+  <rect x="40" y="38" width="120" height="38" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <rect x="160" y="38" width="120" height="38" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="100" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#4f46e5">회원ID</text>
+  <text x="220" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">이름</text>
+
+  <!-- row 1 : OK -->
+  <rect x="40" y="76" width="120" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="160" y="76" width="120" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="100" y="101" text-anchor="middle" font-size="14" fill="#1f2330">1</text>
+  <text x="220" y="101" text-anchor="middle" font-size="14" fill="#1f2330">김민준</text>
+  <text x="300" y="101" font-size="15" font-weight="700" fill="#2f9e44">✓</text>
+
+  <!-- row 2 : duplicate -->
+  <rect x="40" y="116" width="120" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <rect x="160" y="116" width="120" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="100" y="141" text-anchor="middle" font-size="14" font-weight="700" fill="#d9480f">1</text>
+  <text x="220" y="141" text-anchor="middle" font-size="14" fill="#1f2330">이서연</text>
+  <text x="300" y="141" font-size="13" font-weight="600" fill="#d9480f">중복 — "1번 회원"이 둘</text>
+
+  <!-- row 3 : null -->
+  <rect x="40" y="156" width="120" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <rect x="160" y="156" width="120" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="100" y="181" text-anchor="middle" font-size="13" font-weight="700" fill="#d9480f">(NULL)</text>
+  <text x="220" y="181" text-anchor="middle" font-size="14" fill="#1f2330">박지호</text>
+  <text x="300" y="181" font-size="13" font-weight="600" fill="#d9480f">비어 있음 — 가리킬 수 없음</text>
+
+  <text x="40" y="222" font-size="12.5" font-weight="600" fill="#5b5fb0">개체 무결성: 기본키는 중복도 NULL도 안 된다</text>
+</svg>

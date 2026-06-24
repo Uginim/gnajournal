@@ -1,0 +1,64 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`페이지를 찾을 수 없습니다 — ${SITE_TITLE}`} description="요청하신 페이지를 찾을 수 없습니다." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="notfound">
+				<p class="code">404</p>
+				<h1>페이지를 찾을 수 없습니다</h1>
+				<p>요청하신 주소가 잘못되었거나, 글이 이동·삭제되었을 수 있습니다.</p>
+				<p class="links">
+					<a href="/">홈으로</a>
+					<span aria-hidden="true">·</span>
+					<a href="/blog/">글 목록</a>
+				</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.notfound {
+		max-width: 720px;
+		margin: 0 auto;
+		text-align: center;
+		padding: 3em 1em;
+	}
+	.notfound .code {
+		font-size: 4em;
+		font-weight: 800;
+		color: var(--accent);
+		margin: 0;
+		line-height: 1;
+	}
+	.notfound h1 {
+		font-size: 1.6em;
+		margin: 0.4em 0 0.6em;
+	}
+	.notfound p {
+		line-height: 1.8;
+		color: var(--text);
+	}
+	.notfound .links {
+		margin-top: 1.6em;
+	}
+	.notfound .links a {
+		color: var(--accent);
+		text-decoration: underline;
+	}
+	.notfound .links span {
+		margin: 0 0.6em;
+		opacity: 0.6;
+	}
+</style>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 170" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="fdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8a96"/>
+    </marker>
+  </defs>
+
+  <!-- 결정자 -->
+  <rect x="70" y="46" width="150" height="50" rx="9" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="145" y="77" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2330">회원ID</text>
+  <text x="145" y="116" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b5fb0">결정자 (A)</text>
+
+  <!-- 종속자 -->
+  <rect x="380" y="46" width="150" height="50" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+  <text x="455" y="77" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2330">이름</text>
+  <text x="455" y="116" text-anchor="middle" font-size="12.5" font-weight="600" fill="#80828f">종속자 (B)</text>
+
+  <!-- dependency arrow -->
+  <text x="300" y="56" text-anchor="middle" font-size="12.5" font-weight="600" fill="#555">함수적 종속  A → B</text>
+  <line x1="220" y1="72" x2="378" y2="72" stroke="#8a8a96" stroke-width="1.7" marker-end="url(#fdArrow)"/>
+
+  <text x="300" y="150" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b5fb0">A(회원ID)의 값이 정해지면 B(이름)도 항상 하나로 정해진다</text>
+</svg>

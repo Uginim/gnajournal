@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 196" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <text x="40" y="24" font-size="13" font-weight="700" fill="#1f2330">영업부 부서장을 박부장 → 최부장으로 교체</text>
+
+  <!-- header -->
+  <rect x="40" y="36" width="90" height="36" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="130" y="36" width="110" height="36" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.3"/>
+  <rect x="240" y="36" width="110" height="36" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.3"/>
+  <text x="85" y="59" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4f46e5">직원ID</text>
+  <text x="185" y="59" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">부서명</text>
+  <text x="295" y="59" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">부서장</text>
+
+  <!-- row 1 : updated -->
+  <rect x="40" y="72" width="90" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="130" y="72" width="110" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="240" y="72" width="110" height="40" fill="#eaf6ec" stroke="#2f9e44" stroke-width="1.4"/>
+  <text x="85" y="97" text-anchor="middle" font-size="14" fill="#1f2330">1</text>
+  <text x="185" y="97" text-anchor="middle" font-size="14" fill="#1f2330">영업부</text>
+  <text x="295" y="97" text-anchor="middle" font-size="14" font-weight="700" fill="#2f9e44">최부장</text>
+  <text x="362" y="97" font-size="12.5" font-weight="600" fill="#2f9e44">바꿈</text>
+
+  <!-- row 2 : missed -->
+  <rect x="40" y="112" width="90" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="130" y="112" width="110" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="240" y="112" width="110" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <text x="85" y="137" text-anchor="middle" font-size="14" fill="#1f2330">2</text>
+  <text x="185" y="137" text-anchor="middle" font-size="14" fill="#1f2330">영업부</text>
+  <text x="295" y="137" text-anchor="middle" font-size="14" font-weight="700" fill="#d9480f">박부장</text>
+  <text x="362" y="137" font-size="12.5" font-weight="600" fill="#d9480f">놓침</text>
+
+  <text x="40" y="184" font-size="12.5" font-weight="600" fill="#5b5fb0">갱신 이상: 같은 영업부인데 부서장이 둘로 갈리는 모순</text>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 222" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8a96"/>
+    </marker>
+    <marker id="arrow2w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d9480f"/>
+    </marker>
+  </defs>
+
+  <rect x="30" y="45" width="190" height="120" rx="10" fill="#f4f6ff" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="125" y="66" text-anchor="middle" font-size="12" font-weight="600" fill="#5b5fb0">후보키 (복합키)</text>
+  <rect x="48" y="76" width="154" height="34" rx="7" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="125" y="98" text-anchor="middle" font-size="16" font-weight="600" fill="#1f2330">학번</text>
+  <rect x="48" y="120" width="154" height="34" rx="7" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="125" y="142" text-anchor="middle" font-size="16" font-weight="600" fill="#1f2330">과목코드</text>
+
+  <rect x="525" y="58" width="150" height="44" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+  <text x="600" y="85" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2330">성적</text>
+  <rect x="525" y="132" width="150" height="44" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+  <text x="600" y="159" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2330">과목명</text>
+
+  <!-- 완전 함수적 종속: line broken into two segments, label sits in the gap -->
+  <line x1="222" y1="95" x2="305" y2="90.9" stroke="#8a8a96" stroke-width="1.6"/>
+  <line x1="435" y1="84.4" x2="523" y2="80" stroke="#8a8a96" stroke-width="1.6" marker-end="url(#arrow2)"/>
+  <text x="370" y="92" text-anchor="middle" font-size="12.5" font-weight="600" fill="#555">완전 함수적 종속</text>
+
+  <!-- 부분 함수적 종속: line broken into two segments, label sits in the gap -->
+  <line x1="204" y1="137" x2="305" y2="142.4" stroke="#d9480f" stroke-width="1.7" stroke-dasharray="6 4"/>
+  <line x1="435" y1="149.3" x2="523" y2="154" stroke="#d9480f" stroke-width="1.7" stroke-dasharray="6 4" marker-end="url(#arrow2w)"/>
+  <text x="370" y="154" text-anchor="middle" font-size="12.5" font-weight="600" fill="#d9480f">부분 함수적 종속</text>
+
+  <text x="360" y="206" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b5fb0">성적은 키 전체에(완전), 과목명은 키 일부인 과목코드에만(부분) 종속</text>
+</svg>

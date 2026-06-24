@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 222" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="lnk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b5fb0"/>
+    </marker>
+  </defs>
+
+  <!-- ===== 회원 ===== -->
+  <text x="130" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2330">회원</text>
+  <!-- header -->
+  <rect x="30" y="40" width="90" height="34" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <rect x="120" y="40" width="110" height="34" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.3"/>
+  <text x="75" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4f46e5">회원ID</text>
+  <text x="175" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">이름</text>
+  <!-- rows -->
+  <rect x="30" y="74" width="90" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="120" y="74" width="110" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="75" y="96" text-anchor="middle" font-size="13" fill="#1f2330">1</text>
+  <text x="175" y="96" text-anchor="middle" font-size="13" fill="#1f2330">김민준</text>
+  <rect x="30" y="108" width="90" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="120" y="108" width="110" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="75" y="130" text-anchor="middle" font-size="13" fill="#1f2330">2</text>
+  <text x="175" y="130" text-anchor="middle" font-size="13" fill="#1f2330">이서연</text>
+
+  <!-- ===== 회원연락처 ===== -->
+  <text x="530" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2330">회원연락처</text>
+  <!-- header -->
+  <rect x="420" y="40" width="90" height="34" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <rect x="510" y="40" width="160" height="34" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.3"/>
+  <text x="465" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4f46e5">회원ID (FK)</text>
+  <text x="590" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">연락처</text>
+  <!-- rows -->
+  <rect x="420" y="74" width="90" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="510" y="74" width="160" height="34" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="465" y="96" text-anchor="middle" font-size="13" fill="#1f2330">1</text>
+  <text x="590" y="96" text-anchor="middle" font-size="13" fill="#1f2330">010-1111-2222</text>
+  <rect x="420" y="108" width="90" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="510" y="108" width="160" height="34" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="465" y="130" text-anchor="middle" font-size="13" fill="#1f2330">1</text>
+  <text x="590" y="130" text-anchor="middle" font-size="13" fill="#1f2330">010-3333-4444</text>
+  <rect x="420" y="142" width="90" height="34" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="510" y="142" width="160" height="34" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="465" y="164" text-anchor="middle" font-size="13" fill="#1f2330">2</text>
+  <text x="590" y="164" text-anchor="middle" font-size="13" fill="#1f2330">010-5555-6666</text>
+
+  <!-- link 회원ID -->
+  <line x1="420" y1="57" x2="234" y2="57" stroke="#5b5fb0" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#lnk)"/>
+  <rect x="266" y="46" width="120" height="22" rx="4" fill="#ffffff"/>
+  <text x="326" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#5b5fb0">회원ID로 연결</text>
+
+  <text x="350" y="208" text-anchor="middle" font-size="12.5" font-weight="600" fill="#2f9e44">연락처를 별도 테이블로 분리 — 번호 하나가 한 행(원자값)</text>
+</svg>

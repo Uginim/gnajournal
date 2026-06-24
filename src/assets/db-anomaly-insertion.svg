@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 184" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <text x="40" y="24" font-size="13" font-weight="700" fill="#1f2330">직원이 없는 인사부를 넣으려면…</text>
+
+  <!-- header -->
+  <rect x="40" y="36" width="110" height="36" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <rect x="150" y="36" width="110" height="36" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.3"/>
+  <rect x="260" y="36" width="110" height="36" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.3"/>
+  <text x="95" y="59" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4f46e5">직원ID (PK)</text>
+  <text x="205" y="59" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">직원명</text>
+  <text x="315" y="59" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">부서명</text>
+
+  <!-- problem row -->
+  <rect x="40" y="72" width="110" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <rect x="150" y="72" width="110" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <rect x="260" y="72" width="110" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="95" y="97" text-anchor="middle" font-size="13" font-weight="700" fill="#d9480f">(NULL)</text>
+  <text x="205" y="97" text-anchor="middle" font-size="13" font-weight="700" fill="#d9480f">(NULL)</text>
+  <text x="315" y="97" text-anchor="middle" font-size="14" fill="#1f2330">인사부</text>
+  <text x="392" y="97" font-size="15" font-weight="700" fill="#d9480f">✕</text>
+
+  <text x="40" y="150" font-size="13" font-weight="600" fill="#d9480f">키(직원ID)가 비어 행을 식별할 수 없다 → 부서만 따로 넣을 수 없음</text>
+  <text x="40" y="172" font-size="12.5" font-weight="600" fill="#5b5fb0">삽입 이상: 직원이 없으면 부서를 등록하지 못한다</text>
+</svg>

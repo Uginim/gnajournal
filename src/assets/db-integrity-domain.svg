@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 252" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <text x="40" y="22" font-size="12.5" font-weight="600" fill="#5b5fb0">규칙: 수량 ≥ 1 (CHECK) · 상태 ∈ {결제대기, 배송중, 완료}</text>
+
+  <!-- header -->
+  <rect x="40" y="34" width="110" height="38" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <rect x="150" y="34" width="140" height="38" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="95" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">수량</text>
+  <text x="220" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">상태</text>
+
+  <!-- row 1 : OK -->
+  <rect x="40" y="72" width="110" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="150" y="72" width="140" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="95" y="97" text-anchor="middle" font-size="14" fill="#1f2330">3</text>
+  <text x="220" y="97" text-anchor="middle" font-size="14" fill="#1f2330">배송중</text>
+  <text x="310" y="97" font-size="15" font-weight="700" fill="#2f9e44">✓</text>
+
+  <!-- row 2 : negative quantity -->
+  <rect x="40" y="112" width="110" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <rect x="150" y="112" width="140" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <text x="95" y="137" text-anchor="middle" font-size="14" font-weight="700" fill="#d9480f">-2</text>
+  <text x="220" y="137" text-anchor="middle" font-size="14" fill="#1f2330">배송중</text>
+  <text x="310" y="137" font-size="13" font-weight="600" fill="#d9480f">수량이 음수 → 차단</text>
+
+  <!-- row 3 : value out of allowed set -->
+  <rect x="40" y="152" width="110" height="40" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="150" y="152" width="140" height="40" fill="#fff4ec" stroke="#d9480f" stroke-width="1.4"/>
+  <text x="95" y="177" text-anchor="middle" font-size="14" fill="#1f2330">2</text>
+  <text x="220" y="177" text-anchor="middle" font-size="14" font-weight="700" fill="#d9480f">취소됨</text>
+  <text x="310" y="177" font-size="13" font-weight="600" fill="#d9480f">정해진 값이 아님 → 차단</text>
+
+  <text x="40" y="232" font-size="12.5" font-weight="600" fill="#5b5fb0">도메인 무결성: 값은 정의된 범위·형식 안에 있어야 한다</text>
+</svg>

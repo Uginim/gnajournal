@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # tutorial folder
 tutorial/
+
+# playwright-mcp browser artifacts
+.playwright-mcp/

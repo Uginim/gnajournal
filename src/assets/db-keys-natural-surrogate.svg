@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 312" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrowWarn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d9480f"/>
+    </marker>
+    <marker id="arrowOk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/>
+    </marker>
+  </defs>
+
+  <!-- panel divider -->
+  <line x1="324" y1="24" x2="324" y2="288" stroke="#dcdde6" stroke-width="1.4" stroke-dasharray="4 5"/>
+
+  <!-- ============ LEFT: natural key as PK ============ -->
+  <text x="130" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#5b5fb0">자연키를 기본키로</text>
+
+  <g>
+    <rect x="50" y="52" width="160" height="72" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+    <text x="130" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2330">회원</text>
+    <text x="130" y="101" text-anchor="middle" font-size="13" font-weight="600" fill="#4f46e5">PK : 이메일</text>
+  </g>
+  <g>
+    <rect x="50" y="186" width="160" height="72" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+    <text x="130" y="212" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2330">주문</text>
+    <text x="130" y="235" text-anchor="middle" font-size="13" font-weight="600" fill="#d9480f">FK : 이메일</text>
+  </g>
+  <!-- FK references PK; coupling that must change -->
+  <line x1="130" y1="186" x2="130" y2="126" stroke="#d9480f" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrowWarn)"/>
+
+  <text x="130" y="284" text-anchor="middle" font-size="12.5" font-weight="600" fill="#d9480f">이메일이 바뀌면 두 곳 모두 수정</text>
+
+  <!-- ============ RIGHT: surrogate key as PK ============ -->
+  <text x="496" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#5b5fb0">대리키를 기본키로</text>
+
+  <g>
+    <rect x="406" y="52" width="180" height="92" rx="9" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.6"/>
+    <text x="496" y="76" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2330">회원</text>
+    <text x="496" y="98" text-anchor="middle" font-size="13" font-weight="600" fill="#4f46e5">PK : id</text>
+    <text x="496" y="120" text-anchor="middle" font-size="12" fill="#80828f">이메일 · UNIQUE</text>
+  </g>
+  <g>
+    <rect x="406" y="186" width="180" height="72" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+    <text x="496" y="212" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2330">주문</text>
+    <text x="496" y="235" text-anchor="middle" font-size="13" font-weight="600" fill="#2f9e44">FK : id</text>
+  </g>
+  <line x1="496" y1="186" x2="496" y2="146" stroke="#2f9e44" stroke-width="1.8" marker-end="url(#arrowOk)"/>
+
+  <text x="496" y="284" text-anchor="middle" font-size="12.5" font-weight="600" fill="#2f9e44">이메일이 바뀌어도 키는 그대로</text>
+</svg>

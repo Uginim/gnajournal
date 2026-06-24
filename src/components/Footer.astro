@@ -3,6 +3,11 @@ const today = new Date();
 ---
 
 <footer>
+	<p class="links">
+		<a href="/about/">소개</a>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/">개인정보처리방침</a>
+	</p>
 	<p>&copy; {today.getFullYear()} 그나저나 메모. All rights reserved.</p>
 	<p class="powered-by">
 		Powered by <a href="https://astro.build/" target="_blank" rel="noopener">Astro</a>
@@ -20,6 +25,20 @@ const today = new Date();
 	}
 	footer p {
 		margin: 0.3em 0;
+	}
+	.links {
+		margin-bottom: 0.8em;
+	}
+	.links a {
+		color: var(--text-muted);
+		text-decoration: underline;
+	}
+	.links a:hover {
+		color: var(--accent);
+	}
+	.links span {
+		margin: 0 0.5em;
+		opacity: 0.6;
 	}
 	.powered-by a {
 		color: var(--text-muted);
