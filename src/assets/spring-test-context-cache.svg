@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 272" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="aWarn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d9480f"/>
+    </marker>
+    <marker id="aOk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/>
+    </marker>
+  </defs>
+
+  <line x1="380" y1="16" x2="380" y2="240" stroke="#dcdde6" stroke-width="1.4" stroke-dasharray="4 5"/>
+
+  <!-- ===== Before ===== -->
+  <text x="184" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#d9480f">Before — 테스트마다 다른 H2 이름</text>
+
+  <g>
+    <rect x="26" y="44" width="96" height="44" rx="8" fill="#ffffff" stroke="#cfd0db" stroke-width="1.3"/>
+    <text x="74" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">TestA</text>
+    <text x="74" y="80" text-anchor="middle" font-size="10.5" fill="#d9480f">mem:aDb</text>
+    <rect x="134" y="44" width="96" height="44" rx="8" fill="#ffffff" stroke="#cfd0db" stroke-width="1.3"/>
+    <text x="182" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">TestB</text>
+    <text x="182" y="80" text-anchor="middle" font-size="10.5" fill="#d9480f">mem:bDb</text>
+    <rect x="242" y="44" width="96" height="44" rx="8" fill="#ffffff" stroke="#cfd0db" stroke-width="1.3"/>
+    <text x="290" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">TestC</text>
+    <text x="290" y="80" text-anchor="middle" font-size="10.5" fill="#d9480f">mem:cDb</text>
+  </g>
+
+  <line x1="74" y1="88" x2="74" y2="122" stroke="#d9480f" stroke-width="1.6" marker-end="url(#aWarn)"/>
+  <line x1="182" y1="88" x2="182" y2="122" stroke="#d9480f" stroke-width="1.6" marker-end="url(#aWarn)"/>
+  <line x1="290" y1="88" x2="290" y2="122" stroke="#d9480f" stroke-width="1.6" marker-end="url(#aWarn)"/>
+
+  <rect x="16" y="124" width="332" height="50" rx="9" fill="none" stroke="#d9480f" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <rect x="28" y="132" width="96" height="34" rx="6" fill="#fff4ec" stroke="#d9480f" stroke-width="1.3"/>
+  <text x="76" y="154" text-anchor="middle" font-size="12" fill="#d9480f">컨텍스트</text>
+  <rect x="136" y="132" width="96" height="34" rx="6" fill="#fff4ec" stroke="#d9480f" stroke-width="1.3"/>
+  <text x="184" y="154" text-anchor="middle" font-size="12" fill="#d9480f">컨텍스트</text>
+  <rect x="244" y="132" width="96" height="34" rx="6" fill="#fff4ec" stroke="#d9480f" stroke-width="1.3"/>
+  <text x="292" y="154" text-anchor="middle" font-size="12" fill="#d9480f">컨텍스트</text>
+
+  <text x="184" y="196" text-anchor="middle" font-size="12" font-weight="600" fill="#7a7a85">캐시에 무거운 컨텍스트가 계속 쌓임 → 힙 가득</text>
+  <text x="184" y="218" text-anchor="middle" font-size="13" font-weight="700" fill="#d9480f">→ OutOfMemoryError</text>
+
+  <!-- ===== After ===== -->
+  <text x="574" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#2f9e44">After — 공통 애너테이션(단일 이름)</text>
+
+  <g>
+    <rect x="420" y="44" width="96" height="44" rx="8" fill="#ffffff" stroke="#cfd0db" stroke-width="1.3"/>
+    <text x="468" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">TestA</text>
+    <text x="468" y="80" text-anchor="middle" font-size="10" fill="#2f9e44">mem:sharedDb</text>
+    <rect x="524" y="44" width="96" height="44" rx="8" fill="#ffffff" stroke="#cfd0db" stroke-width="1.3"/>
+    <text x="572" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">TestB</text>
+    <text x="572" y="80" text-anchor="middle" font-size="10" fill="#2f9e44">mem:sharedDb</text>
+    <rect x="628" y="44" width="96" height="44" rx="8" fill="#ffffff" stroke="#cfd0db" stroke-width="1.3"/>
+    <text x="676" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">TestC</text>
+    <text x="676" y="80" text-anchor="middle" font-size="10" fill="#2f9e44">mem:sharedDb</text>
+  </g>
+
+  <line x1="468" y1="88" x2="560" y2="120" stroke="#2f9e44" stroke-width="1.6" marker-end="url(#aOk)"/>
+  <line x1="572" y1="88" x2="572" y2="120" stroke="#2f9e44" stroke-width="1.6" marker-end="url(#aOk)"/>
+  <line x1="676" y1="88" x2="584" y2="120" stroke="#2f9e44" stroke-width="1.6" marker-end="url(#aOk)"/>
+
+  <rect x="510" y="124" width="128" height="40" rx="8" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.5"/>
+  <text x="574" y="149" text-anchor="middle" font-size="12.5" font-weight="600" fill="#2f9e44">컨텍스트 1개 공유</text>
+
+  <text x="574" y="196" text-anchor="middle" font-size="12" font-weight="600" fill="#7a7a85">키가 같아 컨텍스트를 재사용 → 힙 여유</text>
+  <text x="574" y="218" text-anchor="middle" font-size="13" font-weight="700" fill="#2f9e44">→ 안정 + 빠름</text>
+
+  <text x="380" y="256" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b5fb0">핵심: 캐시 키(설정)가 같아야 컨텍스트가 재사용된다</text>
+</svg>

@@ -1,8 +1,8 @@
 ---
 title: '데이터베이스 정규화 (5) — 제3정규형(3NF): 이행적 함수적 종속 제거'
 description: '제3정규형(3NF)을 다룹니다. 이행적 함수적 종속의 의미, Codd의 1971년 원문 정의, 그리고 키가 아닌 속성을 거쳐 생기는 중복을 제거하는 방법을 예시와 함께 정리합니다.'
-pubDate: 'Jun 16 2026'
-heroImage: '../../assets/blog-placeholder-5.jpg'
+pubDate: 'Jun 25 2026'
+heroImage: '../../assets/db-normalization-5-3nf.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '3NF']
 draft: false
 ---

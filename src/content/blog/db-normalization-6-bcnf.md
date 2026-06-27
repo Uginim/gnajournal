@@ -1,8 +1,8 @@
 ---
 title: '데이터베이스 정규화 (6) — 보이스-코드 정규형(BCNF): 모든 결정자를 후보키로'
 description: '보이스-코드 정규형(BCNF)을 다룹니다. 3NF가 남긴 빈틈, 모든 결정자가 후보키여야 한다는 조건, 후보키가 겹치는 구조에서 생기는 중복을 예시와 함께 정리합니다.'
-pubDate: 'Jun 17 2026'
-heroImage: '../../assets/blog-placeholder-5.jpg'
+pubDate: 'Jun 26 2026'
+heroImage: '../../assets/db-normalization-6-bcnf.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', 'BCNF']
 draft: false
 ---

@@ -1,79 +1,83 @@
 # 히어로/OG 이미지 생성 프롬프트 (그나저나 메모)
 
-블로그 히어로 이미지를 **일관된 수채화 마스코트 톤**으로, **OG 표준 비율 1.91:1 (1200×630)** 에 맞춰 생성하기 위한 프롬프트 템플릿.
+블로그 히어로 이미지를 **일관된 수채화 양 마스코트 톤**으로, **16:9 (예: 1365×768 또는 1200×675)** 에 맞춰 생성하기 위한 프롬프트.
 
-- 이미지 생성 모델(Gemini / ChatGPT 등)에 붙여 넣고, `«...»` 부분만 글마다 교체한다.
-- 히어로는 `1200×630`(또는 2배 `2400×1260`)로 만들면 히어로·OG 양쪽에 크롭 없이 들어간다.
+- 히어로 레이아웃은 16:9(1200×675)로 렌더되며, OG 이미지로도 그대로 쓰인다. 16:9면 크롭 없이 들어간다.
+- **일관성의 핵심은 "기존 히어로 이미지 1~2장을 참고 이미지로 함께 첨부"** 하는 것. 그림체·색감·폰트·구도가 자동으로 맞춰진다.
+- 이미지 생성 모델(Gemini / ChatGPT 등)에 프롬프트 + 참고 이미지를 함께 주고, `«...»`만 글마다 교체한다.
 - **금지어**: 책등·문구에 `마스터`, `정복`, `완벽`, `전문가` 등 도달·결과 보장 표현 금지(게시 콘텐츠 과장 금지 규칙).
 
 ---
 
-## 공통 프롬프트 (스타일·레이아웃 고정)
+## 공통 프롬프트 (복붙 + 참고 이미지 첨부)
 
 ```
-A warm, soft watercolor illustration, children's-book style, cozy and cute.
-ASPECT RATIO: wide landscape banner, 1.91:1 (1200 x 630 px). Keep all text and the
-sheep within a safe margin so nothing is cut at the edges.
+첨부한 [참고 이미지들]과 완전히 같은 그림체·색감·레이아웃·폰트(크기 포함)·양 마스코트·구도로
+새 히어로 이미지를 만들어 주세요. 비율 16:9.
 
-SCENE (keep identical every time for consistency):
-- A fluffy white cartoon sheep sitting at a light wooden desk on the RIGHT, holding a
-  pencil, gentle smile, a gray laptop with a tiny sheep sticker, a coffee mug, and a
-  stack of books with Korean spine labels on the far right.
-- LEFT/back: a bright window with greenery, potted plants, a folded "JPA" newspaper.
-- Cream / warm-beige background. Soft brown outlines. Rounded bold Korean lettering.
-- TOP: a parchment scroll banner. Brown rounded tag with the series label, big bold
-  title below, small leaf sprigs beside the subtitle.
-- A thought/speech bubble near the sheep's head (top-right).
+단, 글자를 확 줄이고 더 크고 시원하게 가주세요. 규칙:
+- 제목: 한 줄 (시리즈 태그 + 제목), 기존과 같은 크기.
+- 부제: 딱 한 줄, 짧게. (3줄 설명 금지)
+- 가운데 개념 패널: 정확히 3개. 각 패널은 "큰 아이콘 + 2~4단어 라벨"만.
+  → 패널 안에 표·문장·여러 줄 설명을 넣지 마세요.
+- 말풍선: 작은 아이콘이나 간단한 미니 도식 하나만, 글자 최소.
+- 책등: 2~3개, 각 1~2단어.
+- 쪽지/메모의 불릿 목록 같은 잡다한 텍스트는 빼주세요.
+- 여백을 넉넉히. 작은 글씨로 빽빽하게 채우지 마세요.
 
-TEXT TO RENDER (Korean, exact):
-- Series tag:  데이터베이스 정규화 (N)
-- Title:       «제목»
-- Subtitle:    «부제»
-- Panels (3 cards on the parchment):  «패널1» / «패널2» / «패널3»
-- Bottom "분해" section:  Before «...»  →  After «...»  + green check "중복 감소"
-- Speech bubble:  «말풍선»
-- Book spines (right): «책등1» / «책등2» / «책등3»
-
-Clean, uncluttered, friendly. No watermark.
+[이번 글 내용 — 아래만 반영하고 본문 세부는 넣지 마세요]
+- 시리즈 태그: «데이터베이스 정규화 (N)»
+- 제목: «...»
+- 부제(한 줄): «...»
+- 개념 패널 3개(아이콘 + 짧은 라벨): «라벨1» / «라벨2» / «라벨3»
+- 말풍선(한 단어 또는 아이콘): «...»
+- 책등: «...» / «...»
 ```
 
-> 모델이 1.91:1을 정확히 안 지키면, 나온 그림을 1200×630으로 크롭한다.
-> (중요 요소는 가운데 안전영역에 두도록 위 프롬프트에 명시돼 있음)
+### 덜 빽빽하게 만드는 3대 포인트
+1. **패널 안에 표·문장 금지 → 아이콘 + 2~4단어만** (미니표·타임라인이 글자 밀도의 주범)
+2. **부제 한 줄** (기존 3줄 설명을 한 줄로)
+3. **여백 넉넉, 빽빽 금지** (폰트 크기는 크게 유지)
+
+> 모델이 16:9를 정확히 안 지키면, 나온 그림을 16:9로 크롭한다(중요 요소는 가운데에 두도록 프롬프트에 명시).
 
 ---
 
-## 편별 채움값
+## 편별 채움값 (라벨은 이만큼 짧게)
 
 ### 5편 — 제3정규형 (3NF)
 ```
-- Series tag: 데이터베이스 정규화 (5)
-- Title: 제3정규형 (3NF)
-- Subtitle: 이행적 함수적 종속 제거
-- Panels: [핵심 개념] 이행적 함수적 종속 (키 → A → B) / [예시] 직원ID → 부서ID → 부서명 / [3NF 핵심] 비주요 속성은 키에만 직접 의존
-- Bottom: Before 직원(직원ID, 직원명, 부서ID, 부서명, 부서장) → After 직원(직원ID, 직원명, 부서ID) + 부서(부서ID, 부서명, 부서장) + 중복 감소
-- 말풍선: 거쳐서 의존하면 분리!
-- 책등: 3NF / 이행적 종속 / 함수적 종속
+- 태그: 데이터베이스 정규화 (5)
+- 제목: 제3정규형(3NF)
+- 부제: 이행적 함수적 종속 제거
+- 패널 3개: 이행적 종속 / 분해 과정 / 키에만 의존
+- 말풍선: 거쳐서 의존 → 분리
+- 책등: 3NF / DB 설계
 ```
 
 ### 6편 — 보이스-코드 정규형 (BCNF)
 ```
-- Series tag: 데이터베이스 정규화 (6)
-- Title: 보이스-코드 정규형 (BCNF)
-- Subtitle: 모든 결정자를 후보키로
-- Panels: [핵심 개념] 결정자 · 후보키 / [예시] 교수 → 과목 (결정자가 후보키 아님) / [BCNF 핵심] 모든 비자명 종속의 결정자 = 슈퍼키
-- Bottom: Before 수강(학생, 과목, 교수) → After 수강(학생, 교수) + 교수과목(교수, 과목) + 중복 감소
-- 말풍선: 결정자가 키가 아니면 분리!
-- 책등: BCNF / 결정자 / 후보키
+- 태그: 데이터베이스 정규화 (6)
+- 제목: 보이스-코드 정규형(BCNF)
+- 부제: 모든 결정자를 후보키로
+- 패널 3개: 결정자=후보키 / 후보키 겹침 / 중복 제거
+- 말풍선: 결정자가 키 아니면 분리
+- 책등: BCNF / DB 설계
 ```
 
-### (참고) 작성된 편
-- 1편 데이터 무결성과 키 / 2편 이상현상 / 3편 1NF / 4편 2NF — 히어로 이미지 적용됨.
-- 7편 자연키와 대리키(현재 draft) / 8편 제4·제5정규형 / 9편 정규화 절차와 역정규화 — 추후 같은 형식으로 채워 사용.
+### (참고) 시리즈 현황
+- 1~6편: 히어로 이미지 적용됨 (단, 지금 버전은 텍스트가 다소 많아 위 규칙으로 재생성 권장).
+- 7편 자연키와 대리키(draft) / 8편 제4·제5정규형 / 9편 정규화 절차와 역정규화 — 추후 같은 형식으로.
 
 ---
 
 ## 적용 방법
-1. 위 프롬프트로 1200×630 PNG 생성(필요 시 크롭).
-2. `src/assets/db-normalization-<n>-<slug>.png` 로 저장.
-3. 해당 글 frontmatter `heroImage` 경로 지정(이미 지정돼 있으면 파일만 교체).
-4. `npm run build` 후 `npx wrangler pages deploy dist --project-name gnajournal --commit-dirty=true`.
+1. 위 프롬프트 + 기존 히어로 1~2장으로 **16:9 PNG** 생성(필요 시 16:9로 크롭).
+2. `src/assets/db-normalization-<n>-<slug>.png` 로 저장(기존 파일명 그대로 덮어쓰면 frontmatter 수정 불필요).
+3. 새 글이면 frontmatter `heroImage` 경로 지정.
+4. 빌드·배포:
+   ```bash
+   npm run build
+   npx wrangler pages deploy dist --project-name gnajournal --commit-dirty=true
+   ```
+   (셸 NODE_OPTIONS 프리로드 충돌 시 wrangler 앞에 `env -u NODE_OPTIONS`)

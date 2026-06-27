@@ -35,7 +35,7 @@ draft: false
 
 정규화 이론의 출발점은 E.F. Codd가 1970년에 발표한 논문 [「A Relational Model of Data for Large Shared Data Banks」](https://doi.org/10.1145/362384.362685)입니다(*Communications of the ACM* 13권 6호). Codd는 이 논문에서 관계형 데이터 모델 자체를 제안했고, 이는 오늘날 관계형 데이터베이스의 토대가 되었습니다.
 
-흥미로운 점은, 1970년 시점에 존재한 정규형은 1NF 하나뿐이었다는 것입니다. 2NF와 3NF는 이듬해인 1971년 논문 「Further Normalization of the Data Base Relational Model」에서야 등장합니다. 국내 자료 중에는 2NF·3NF도 1970년에 나온 것처럼 적은 글이 있는데, 정확히는 1970년에는 1NF뿐이고 2NF·3NF는 1971년입니다.
+1970년 시점에 존재한 정규형은 1NF 하나뿐이었습니다. 2NF와 3NF는 이듬해인 1971년 논문 「Further Normalization of the Data Base Relational Model」에서야 등장합니다. 국내 자료 중에는 2NF·3NF도 1970년에 나온 것처럼 적은 글이 있는데, 정확히는 1970년에는 1NF뿐이고 2NF·3NF는 1971년입니다.
 
 | 연도 | 정규형 | 도입 | 다루는 종속성 |
 |------|--------|------|----------------|
