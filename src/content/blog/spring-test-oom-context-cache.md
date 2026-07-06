@@ -2,12 +2,12 @@
 title: 'JPA 테스트가 CI에서 OOM으로 죽은 이유 — Spring 컨텍스트 캐시 키와 H2'
 description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨텍스트 캐시가 무력화되어 CI에서 OutOfMemoryError가 납니다. 원인인 컨텍스트 캐시 키(MergedContextConfiguration)의 동작과 해결 방법을 공식 문서·소스를 근거로 정리합니다.'
 pubDate: 'Jun 24 2026'
-heroImage: '../../assets/blog-placeholder-2.jpg'
+heroImage: '../../assets/spring-test-oom-context-cache.png'
 tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM']
 draft: false
 ---
 
-리포지토리 테스트가 수백 개인 프로젝트에서, 어느 날부터 CI의 `./gradlew test`가 `OutOfMemoryError`로 실패하기 시작했습니다. 실패하는 테스트는 실행할 때마다 달라져, 특정 테스트의 버그처럼 보이지도 않았습니다. 원인을 따라가 보면 `@DataJpaTest`와 H2 인메모리 DB, 그리고 **Spring 테스트의 컨텍스트 캐시 키**가 맞물려 있었습니다. 이 글은 그 과정을 공식 문서와 소스 코드를 근거로 정리합니다.
+리포지토리 테스트가 수백 개인 프로젝트에서, 어느 날부터 CI의 `./gradlew test`가 `OutOfMemoryError`로 실패하기 시작했습니다. 실패하는 테스트는 실행할 때마다 달라져, 특정 테스트의 버그처럼 보이지도 않았습니다. 원인을 따라가 보니 `@DataJpaTest`와 H2 인메모리 DB, 그리고 **Spring 테스트의 컨텍스트 캐시 키**가 맞물려 있었습니다.
 
 > 환경은 Spring Boot 2.7 / Spring Framework 5.3 기준입니다. 컨텍스트 캐시 메커니즘 자체는 이후 버전에서도 같습니다.
 
@@ -26,7 +26,7 @@ java.lang.OutOfMemoryError
 - `DefaultCacheAwareContextLoaderDelegate` — Spring 테스트가 **캐시를 거쳐 ApplicationContext를 로드**하는 부분입니다.
 - `ClassPathScanningCandidateComponentProvider` — 컨텍스트를 만들 때 **지정한 패키지의 classpath를 훑어 빈으로 등록할 후보 클래스를 찾아내는** 스캐너입니다. 공식 Javadoc은 이 클래스를 "기준 패키지로부터 후보 컴포넌트를 제공하며, 인덱스가 있으면 인덱스를 쓰고 없으면 classpath를 스캔한다"고 설명합니다. `@ComponentScan`이 "어디를 스캔할지"를 정하면, 실제 스캔을 수행하는 일꾼이 이 클래스입니다.
 
-정리하면 OOM은 테스트의 쿼리·검증 코드가 아니라 **새 컨텍스트를 만들며 classpath를 스캔하던 도중**에 났습니다. 곧 테스트가 컨텍스트를 너무 많이 만들고 있다는 신호였고, 테스트 설정에서 원인이 드러났습니다. 리포지토리 테스트들이 각각 다음과 같은 형태였습니다.
+OOM은 테스트의 쿼리·검증 코드가 아니라 **새 컨텍스트를 만들며 classpath를 스캔하던 도중**에 났습니다. 테스트가 컨텍스트를 너무 많이 만들고 있다는 신호였고, 테스트 설정에서 원인이 드러났습니다. 리포지토리 테스트들이 각각 다음과 같은 형태였습니다.
 
 ```kotlin
 @DataJpaTest
@@ -53,7 +53,7 @@ Spring 테스트는 무거운 `ApplicationContext`를 테스트마다 새로 만
 | **`@TestPropertySource` 인라인 property** | `properties` ← 이번 원인 |
 | ContextCustomizer 집합 | `@MockBean`, `@DynamicPropertySource` 등 |
 
-인라인 property가 **한 글자만 달라도 다른 키 = 다른 컨텍스트**입니다. 이는 추측이 아니라 소스에 그대로 드러나 있습니다. `MergedContextConfiguration`의 `equals()`와 `hashCode()`가 인라인 property 배열을 직접 비교하고 해시합니다.
+인라인 property가 **한 글자만 달라도 다른 키 = 다른 컨텍스트**입니다. 이는 Spring 프레임워크의 소스를 보면 알 수 있습니다. `MergedContextConfiguration`의 `equals()`와 `hashCode()`가 인라인 property 배열을 직접 비교하고 해시합니다.
 
 ```java
 // MergedContextConfiguration.equals()
@@ -69,7 +69,7 @@ result = 31 * result + Arrays.hashCode(this.propertySourceProperties);
 
 ## 왜 OOM이 나는가
 
-원인을 잡은 뒤, 정말 그래서 OOM이 나는지 재현하며 GC 로그를 찍어 확인했습니다. 컨텍스트 캐시 구현은 `org.springframework.test.context.cache.ContextCache`이고, 세 가지 성질이 겹쳐 OOM을 만듭니다.
+원인을 잡은 뒤, 정말 이 설정 때문에 OOM이 나는지 재현하며 GC 로그를 찍어 확인했습니다. 컨텍스트 캐시 구현은 `org.springframework.test.context.cache.ContextCache`이고, 여기서는 세 가지 성질이 같이 문제를 만들었습니다.
 
 - **재사용 0%**: 키가 테스트마다 다르므로 조회는 매번 캐시 미스가 되고, 그때마다 새 컨텍스트를 빌드합니다.
 - **강한 참조로 동시 상주**: 캐시는 기본 `maxSize=32`까지 컨텍스트를 강한 참조로 보관합니다. JPA 컨텍스트 하나에는 전체 엔티티 메타모델, H2, 커넥션 풀이 들어 있어 무겁습니다. 이런 컨텍스트가 32개까지 동시에 살아 있게 됩니다.
@@ -96,7 +96,11 @@ Full GC를 돌려도 사용량이 내려가지 않는다는 것은, 힙에 있�
 - 전체 엔티티에 대한 Hibernate 메타모델 빌드
 - 빈 H2에 전체 테이블을 만드는 스키마 DDL
 
+특히 마지막 스키마 DDL의 비용이 큽니다. 엔티티가 수백 개라면 매 컨텍스트마다 그만큼의 `CREATE TABLE`을 인덱스·외래키까지 새로 실행합니다. 컨텍스트가 수백 개로 쪼개지면 이 전체 스키마 생성이 수백 번 되풀이됩니다.
+
 수백 번 반복되던 이 작업이, 컨텍스트를 공유하면 몇 번으로 줄어듭니다. 그래서 캐시 키를 통일하면 OOM이 사라질 뿐 아니라 테스트가 크게 빨라집니다.
+
+![컨텍스트를 새로 만들 때마다 classpath 스캔·Hibernate 메타모델 빌드·전체 스키마 DDL이라는 무거운 3단계가 반복되는데, 테스트마다 새 컨텍스트면 수백 번 반복되어 느리고, 컨텍스트를 공유하면 몇 번으로 줄어 빨라짐을 보여주는 도식](../../assets/spring-test-context-cost.svg)
 
 ## H2 인메모리의 추가 함정
 
@@ -111,7 +115,7 @@ Full GC를 돌려도 사용량이 내려가지 않는다는 것은, 힙에 있�
 
 ## 해결 — 캐시 키를 같게 만든다
 
-핵심은 간단합니다. `@DataJpaTest`는 메서드마다 트랜잭션을 롤백하므로 **테스트별 고유 DB가 애초에 필요하지 않습니다.** 격리는 롤백이 이미 보장합니다. 따라서 고유 H2 이름을 없애고 설정을 하나로 고정하면 됩니다.
+`@DataJpaTest`는 메서드마다 트랜잭션을 롤백하므로 **테스트별 고유 DB가 애초에 필요하지 않습니다.** 격리는 롤백이 이미 보장합니다. 따라서 고유 H2 이름을 없애고 설정을 하나로 고정하면 됩니다.
 
 이를 위해 공통 설정을 묶은 **합성(메타) 애너테이션**을 만듭니다. Spring TestContext는 `@DataJpaTest`나 `@TestPropertySource`가 메타 애너테이션으로 올라가 있어도 병합해서 인식합니다.
 
@@ -154,7 +158,7 @@ class MemberRepositoryTest
 
 ## 정리
 
-원인을 한 줄로 이으면 이렇습니다.
+이번 문제의 흐름은 결국 이랬습니다.
 
 > 테스트마다 다른 H2 url → 캐시 키 분열 → 컨텍스트 재사용 0% → 무거운 컨텍스트 누적 → 힙 고갈 → (다음 컨텍스트의) classpath 스캔 중 OOM
 
