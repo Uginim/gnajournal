@@ -1,6 +1,6 @@
 ---
-title: 'JPA 테스트가 CI에서 OOM으로 죽은 이유 — Spring 컨텍스트 캐시 키와 H2'
-description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨텍스트 캐시가 무력화되어 CI에서 OutOfMemoryError가 납니다. 원인인 컨텍스트 캐시 키(MergedContextConfiguration)의 동작과 해결 방법을 공식 문서·소스를 근거로 정리합니다.'
+title: 'JPA 테스트가 CI에서 OOM으로 죽은 이유: Spring 컨텍스트 캐시 키와 H2'
+description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨텍스트 캐시가 무력화되어 CI에서 OutOfMemoryError가 납니다. 원인인 컨텍스트 캐시 키(MergedContextConfiguration)의 동작과 해결 방법을 공식 문서, 소스를 근거로 정리합니다.'
 pubDate: 'Jun 24 2026'
 heroImage: '../../assets/spring-test-oom-context-cache.png'
 tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM']
@@ -11,7 +11,7 @@ draft: false
 
 > 환경은 Spring Boot 2.7 / Spring Framework 5.3 기준입니다. 컨텍스트 캐시 메커니즘 자체는 이후 버전에서도 같습니다.
 
-## 원인 — 테스트마다 다른 H2 DB 이름
+## 원인: 테스트마다 다른 H2 DB 이름
 
 먼저 OOM이 난 스택을 봤습니다. 터지는 위치가 테스트의 쿼리나 데이터가 아니라, **새 Spring 컨텍스트를 빌드하며 classpath를 스캔하는 도중**이었습니다.
 
@@ -23,10 +23,10 @@ java.lang.OutOfMemoryError
 
 스택에 찍힌 두 클래스가 핵심 단서입니다.
 
-- `DefaultCacheAwareContextLoaderDelegate` — Spring 테스트가 **캐시를 거쳐 ApplicationContext를 로드**하는 부분입니다.
-- `ClassPathScanningCandidateComponentProvider` — 컨텍스트를 만들 때 **지정한 패키지의 classpath를 훑어 빈으로 등록할 후보 클래스를 찾아내는** 스캐너입니다. 공식 Javadoc은 이 클래스를 "기준 패키지로부터 후보 컴포넌트를 제공하며, 인덱스가 있으면 인덱스를 쓰고 없으면 classpath를 스캔한다"고 설명합니다. `@ComponentScan`이 "어디를 스캔할지"를 정하면, 실제 스캔을 수행하는 일꾼이 이 클래스입니다.
+- `DefaultCacheAwareContextLoaderDelegate`: Spring 테스트가 **캐시를 거쳐 ApplicationContext를 로드**하는 부분입니다.
+- `ClassPathScanningCandidateComponentProvider`: 컨텍스트를 만들 때 **지정한 패키지의 classpath를 훑어 빈으로 등록할 후보 클래스를 찾아내는** 스캐너입니다. 공식 Javadoc은 이 클래스를 "기준 패키지로부터 후보 컴포넌트를 제공하며, 인덱스가 있으면 인덱스를 쓰고 없으면 classpath를 스캔한다"고 설명합니다. `@ComponentScan`이 "어디를 스캔할지"를 정하면, 실제 스캔을 수행하는 일꾼이 이 클래스입니다.
 
-OOM은 테스트의 쿼리·검증 코드가 아니라 **새 컨텍스트를 만들며 classpath를 스캔하던 도중**에 났습니다. 테스트가 컨텍스트를 너무 많이 만들고 있다는 신호였고, 테스트 설정에서 원인이 드러났습니다. 리포지토리 테스트들이 각각 다음과 같은 형태였습니다.
+OOM은 테스트의 쿼리, 검증 코드가 아니라 **새 컨텍스트를 만들며 classpath를 스캔하던 도중**에 났습니다. 테스트가 컨텍스트를 너무 많이 만들고 있다는 신호였고, 테스트 설정에서 원인이 드러났습니다. 리포지토리 테스트들이 각각 다음과 같은 형태였습니다.
 
 ```kotlin
 @DataJpaTest
@@ -88,19 +88,19 @@ result = 31 * result + Arrays.hashCode(this.propertySourceProperties);
 
 Full GC를 돌려도 사용량이 내려가지 않는다는 것은, 힙에 있는 객체가 전부 살아 있어 회수할 수 없다는 뜻입니다. 메모리 누수가 아니라 **강한 참조로 잡힌 컨텍스트들이 힙을 가득 채운** 상태입니다. 그 상태에서 다음 컨텍스트를 빌드하며 classpath를 스캔하는 순간 `OutOfMemoryError`가 납니다.
 
-## 왜 느리기도 했나 — 속도
+## 왜 느리기도 했나: 속도
 
-테스트마다 고유한 H2 이름은 단순한 캐시 미스가 아니라, **그때마다 컨텍스트·스키마를 통째로 새로 만든다**는 뜻입니다. 테스트 클래스 하나가 추가될 때마다 다음이 반복됩니다.
+테스트마다 고유한 H2 이름은 단순한 캐시 미스가 아니라, **그때마다 컨텍스트, 스키마를 통째로 새로 만든다**는 뜻입니다. 테스트 클래스 하나가 추가될 때마다 다음이 반복됩니다.
 
 - classpath 스캔과 빈 생성
 - 전체 엔티티에 대한 Hibernate 메타모델 빌드
 - 빈 H2에 전체 테이블을 만드는 스키마 DDL
 
-특히 마지막 스키마 DDL의 비용이 큽니다. 엔티티가 수백 개라면 매 컨텍스트마다 그만큼의 `CREATE TABLE`을 인덱스·외래키까지 새로 실행합니다. 컨텍스트가 수백 개로 쪼개지면 이 전체 스키마 생성이 수백 번 되풀이됩니다.
+특히 마지막 스키마 DDL의 비용이 큽니다. 엔티티가 수백 개라면 매 컨텍스트마다 그만큼의 `CREATE TABLE`을 인덱스, 외래키까지 새로 실행합니다. 컨텍스트가 수백 개로 쪼개지면 이 전체 스키마 생성이 수백 번 되풀이됩니다.
 
 수백 번 반복되던 이 작업이, 컨텍스트를 공유하면 몇 번으로 줄어듭니다. 그래서 캐시 키를 통일하면 OOM이 사라질 뿐 아니라 테스트가 크게 빨라집니다.
 
-![컨텍스트를 새로 만들 때마다 classpath 스캔·Hibernate 메타모델 빌드·전체 스키마 DDL이라는 무거운 3단계가 반복되는데, 테스트마다 새 컨텍스트면 수백 번 반복되어 느리고, 컨텍스트를 공유하면 몇 번으로 줄어 빨라짐을 보여주는 도식](../../assets/spring-test-context-cost.svg)
+![컨텍스트를 새로 만들 때마다 classpath 스캔, Hibernate 메타모델 빌드, 전체 스키마 DDL이라는 무거운 3단계가 반복되는데, 테스트마다 새 컨텍스트면 수백 번 반복되어 느리고, 컨텍스트를 공유하면 몇 번으로 줄어 빨라짐을 보여주는 도식](../../assets/spring-test-context-cost.svg)
 
 ## H2 인메모리의 추가 함정
 
@@ -113,7 +113,7 @@ Full GC를 돌려도 사용량이 내려가지 않는다는 것은, 힙에 있�
 
 즉 "단일 컨텍스트 = 단일 DB 이름"입니다.
 
-## 해결 — 캐시 키를 같게 만든다
+## 해결: 캐시 키를 같게 만든다
 
 `@DataJpaTest`는 메서드마다 트랜잭션을 롤백하므로 **테스트별 고유 DB가 애초에 필요하지 않습니다.** 격리는 롤백이 이미 보장합니다. 따라서 고유 H2 이름을 없애고 설정을 하나로 고정하면 됩니다.
 
@@ -170,9 +170,9 @@ class MemberRepositoryTest
 
 ## 참고 문헌
 
-- [Spring Framework Reference — Context Caching](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/testing.html#testcontext-ctx-management-caching) — 캐시 키 구성 파라미터 목록(`propertySourceProperties` 포함).
-- [Spring Framework Reference — @TestPropertySource](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/testing.html#testcontext-ctx-management-property-sources) — 인라인 property 주입.
-- [Javadoc — `MergedContextConfiguration`](https://docs.spring.io/spring-framework/docs/5.3.31/javadoc-api/org/springframework/test/context/MergedContextConfiguration.html) — 캐시 키 객체. `equals()`/`hashCode()`가 `propertySourceProperties`를 비교.
-- [Javadoc — `ContextCache`](https://docs.spring.io/spring-framework/docs/5.3.31/javadoc-api/org/springframework/test/context/cache/ContextCache.html) — 기본 `maxSize` 32, LRU 제거.
-- [Javadoc — `ClassPathScanningCandidateComponentProvider`](https://docs.spring.io/spring-framework/docs/5.3.31/javadoc-api/org/springframework/context/annotation/ClassPathScanningCandidateComponentProvider.html) — "기준 패키지로부터 후보 컴포넌트를 제공하며, 인덱스가 없으면 classpath를 스캔한다." OOM 스택에 나타난 스캐너.
-- [Spring Framework Reference — Classpath Scanning and Managed Components](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/core.html#beans-classpath-scanning) — `@ComponentScan`이 classpath를 스캔해 빈 정의를 자동 등록하는 방식.
+- [Spring Framework Reference, Context Caching](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/testing.html#testcontext-ctx-management-caching): 캐시 키 구성 파라미터 목록(`propertySourceProperties` 포함).
+- [Spring Framework Reference, @TestPropertySource](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/testing.html#testcontext-ctx-management-property-sources): 인라인 property 주입.
+- [Javadoc, `MergedContextConfiguration`](https://docs.spring.io/spring-framework/docs/5.3.31/javadoc-api/org/springframework/test/context/MergedContextConfiguration.html): 캐시 키 객체. `equals()`/`hashCode()`가 `propertySourceProperties`를 비교.
+- [Javadoc, `ContextCache`](https://docs.spring.io/spring-framework/docs/5.3.31/javadoc-api/org/springframework/test/context/cache/ContextCache.html): 기본 `maxSize` 32, LRU 제거.
+- [Javadoc, `ClassPathScanningCandidateComponentProvider`](https://docs.spring.io/spring-framework/docs/5.3.31/javadoc-api/org/springframework/context/annotation/ClassPathScanningCandidateComponentProvider.html): "기준 패키지로부터 후보 컴포넌트를 제공하며, 인덱스가 없으면 classpath를 스캔한다." OOM 스택에 나타난 스캐너.
+- [Spring Framework Reference, Classpath Scanning and Managed Components](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/core.html#beans-classpath-scanning): `@ComponentScan`이 classpath를 스캔해 빈 정의를 자동 등록하는 방식.

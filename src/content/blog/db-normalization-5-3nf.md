@@ -1,5 +1,5 @@
 ---
-title: '데이터베이스 정규화 (5) — 제3정규형(3NF): 이행적 함수적 종속 제거'
+title: '데이터베이스 정규화 (5): 제3정규형(3NF), 이행적 함수적 종속 제거'
 description: '제3정규형(3NF)을 다룹니다. 이행적 함수적 종속의 의미, Codd의 1971년 원문 정의, 그리고 키가 아닌 속성을 거쳐 생기는 중복을 제거하는 방법을 예시와 함께 정리합니다.'
 pubDate: 'Jun 25 2026'
 heroImage: '../../assets/db-normalization-5-3nf.png'
@@ -16,8 +16,8 @@ draft: false
 > 4. [제2정규형 (2NF)](/blog/db-normalization-4-2nf/)
 > 5. **제3정규형 (3NF)** (이번 글)
 > 6. [보이스-코드 정규형 (BCNF)](/blog/db-normalization-6-bcnf/)
-> 7. 자연키와 대리키 — 키 설계
-> 8. 제4·제5정규형 개요와 그 너머
+> 7. 자연키와 대리키: 키 설계
+> 8. 제4, 제5정규형 개요와 그 너머
 > 9. 정규화 절차와 역정규화
 
 ## 등장 배경
@@ -50,7 +50,7 @@ Codd의 1971년 원문은 3NF를 다음과 같이 정의합니다.
 
 > "A relation R is in third normal form if it is in second normal form and every non-prime attribute of R is non-transitively dependent on each candidate key of R."
 >
-> — E.F. Codd, 1971
+> (E.F. Codd, 1971)
 
 풀어 쓰면, **2NF를 만족하면서, 모든 비주요 속성이 각 후보키에 이행적으로 종속되지 않아야 한다**는 조건입니다. 즉 2NF가 제거한 부분 함수적 종속에 더해, **이행적 함수적 종속까지 제거**하는 단계가 3NF입니다.
 
@@ -74,13 +74,13 @@ Codd의 1971년 원문은 3NF를 다음과 같이 정의합니다.
 
 - `직원ID → 부서ID` : 직원은 한 부서에 속한다
 - `부서ID → 부서명, 부서장` : 부서ID가 부서명과 부서장을 결정한다
-- 따라서 `직원ID → 부서ID → 부서명, 부서장` : `부서명`·`부서장`은 키에 **이행적으로** 종속
+- 따라서 `직원ID → 부서ID → 부서명, 부서장` : `부서명`, `부서장`은 키에 **이행적으로** 종속
 
 이 테이블은 키가 단일키라 부분 함수적 종속이 없으므로 2NF는 만족합니다. 그런데도 부서 정보(`부서명`, `부서장`)가 직원마다 중복됩니다. 위 표에서 `영업부 / 박부장`이 두 번 저장된 것이 그 예입니다. 영업부의 부서장이 바뀌면 영업부에 속한 모든 직원 행을 빠짐없이 고쳐야 하고, 하나라도 놓치면 같은 `부서ID`에 부서장이 둘로 갈리는 모순이 생깁니다([2편](/blog/db-normalization-2-anomalies/)에서 본 갱신 이상).
 
 3NF로 만들려면 이행적 함수적 종속을 별도 테이블로 분리합니다. `부서ID`에 종속되는 속성들을 `부서ID`가 키인 테이블로 옮깁니다.
 
-**직원** — `직원ID(PK)`, `직원명`, `부서ID(FK)`
+**직원**: `직원ID(PK)`, `직원명`, `부서ID(FK)`
 
 | 직원ID | 직원명 | 부서ID |
 |--------|--------|--------|
@@ -88,7 +88,7 @@ Codd의 1971년 원문은 3NF를 다음과 같이 정의합니다.
 | 2 | 이서연 | 10 |
 | 3 | 박지호 | 20 |
 
-**부서** — `부서ID(PK)`, `부서명`, `부서장`
+**부서**: `부서ID(PK)`, `부서명`, `부서장`
 
 | 부서ID | 부서명 | 부서장 |
 |--------|--------|--------|
@@ -115,5 +115,5 @@ Codd의 1971년 원문은 3NF를 다음과 같이 정의합니다.
 
 ## 참고 문헌
 
-- [E.F. Codd, *Further Normalization of the Data Base Relational Model*](https://dblp.org/rec/persons/Codd71a.html), IBM Research Report RJ909, 1971. (2NF·3NF의 원전이며 3NF 정의의 출처. 정식 출판은 Prentice-Hall, 1972)
+- [E.F. Codd, *Further Normalization of the Data Base Relational Model*](https://dblp.org/rec/persons/Codd71a.html), IBM Research Report RJ909, 1971. (2NF, 3NF의 원전이며 3NF 정의의 출처. 정식 출판은 Prentice-Hall, 1972)
 - [E.F. Codd, *Normalized Data Base Structure: A Brief Tutorial*](https://doi.org/10.1145/1734714.1734716), Proc. 1971 ACM SIGFIDET Workshop, 1971. (1NF~3NF를 다룬 같은 해의 튜토리얼)

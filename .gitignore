@@ -28,3 +28,10 @@ tutorial/
 
 # playwright-mcp browser artifacts
 .playwright-mcp/
+
+# gist 백업 (사내 내용 — 절대 커밋 금지)
+*gist-backup*/
+reco-hyeonuk-gist-backup/
+
+# 글 구조 수정 전 백업 (로컬 전용)
+.backups/

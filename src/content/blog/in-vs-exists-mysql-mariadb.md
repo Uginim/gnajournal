@@ -1,5 +1,5 @@
 ---
-title: '억울한 EXISTS — IN과 EXISTS, 무엇이 더 빠른가 (MySQL 8.0 / MariaDB)'
+title: '억울한 EXISTS: IN과 EXISTS, 무엇이 더 빠른가 (MySQL 8.0 / MariaDB)'
 description: 'IN을 EXISTS로 바꾸면 빨라진다는 통념을 따져봅니다. 옵티마이저의 semijoin 변환, B-tree 인덱스 다이브, 그리고 같은 쿼리가 DB 버전에 따라 정반대로 나오는 이유까지 공식 문서를 근거로 정리합니다.'
 pubDate: 'Jun 29 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
@@ -7,7 +7,7 @@ tags: ['데이터베이스', 'MySQL', 'MariaDB', '쿼리최적화', 'SQL']
 draft: true
 ---
 
-"EXISTS는 느리다", "IN 서브쿼리는 EXISTS로 바꿔라" 같은 격언이 있습니다. 그런데 현대 MySQL·MariaDB에서 이 격언은 대부분 맞지 않습니다. 한 쿼리가 느려져 EXISTS가 원인으로 지목됐고, IN으로 바꿔 해결된 듯 보였지만, 정작 측정해 보니 이야기는 더 복잡했습니다.
+"EXISTS는 느리다", "IN 서브쿼리는 EXISTS로 바꿔라" 같은 격언이 있습니다. 그런데 현대 MySQL, MariaDB에서 이 격언은 대부분 맞지 않습니다. 한 쿼리가 느려져 EXISTS가 원인으로 지목됐고, IN으로 바꿔 해결된 듯 보였지만, 정작 측정해 보니 이야기는 더 복잡했습니다.
 
 > 환경 표기는 MySQL 8.0 / MariaDB 기준입니다.
 
@@ -39,7 +39,7 @@ IN으로 바꿔 빨라진 것은 EXISTS를 걷어냈기 때문이 아니었습�
 
 마지막 조건이 컸습니다. IN 리스트가 작을 때는 빠릅니다. 그러나 "IN이 빠르다"가 일반 법칙은 아닙니다. 데이터가 늘어 IN 리스트가 커지면 이야기가 달라집니다. 그 메커니즘을 보려면 먼저 DB가 IN과 EXISTS를 어떻게 실행하는지 알아야 합니다.
 
-## MySQL·MariaDB는 IN과 EXISTS를 어떻게 실행하나
+## MySQL, MariaDB는 IN과 EXISTS를 어떻게 실행하나
 
 ### B-tree 인덱스와 IN 리스트
 
@@ -94,11 +94,11 @@ IN과 EXISTS가 같은 취급을 받는다는 점은 버전에도 명시돼 있�
 
 ## 무엇으로 판단해야 하나
 
-IN도 EXISTS도 "항상 빠른" 쪽은 없습니다. 옵티마이저·DB 버전·`LIMIT`·인덱스·데이터 분포가 그때그때 정합니다. 그래서 판단 기준은 다음과 같습니다.
+IN도 EXISTS도 "항상 빠른" 쪽은 없습니다. 옵티마이저, DB 버전, `LIMIT`, 인덱스, 데이터 분포가 그때그때 정합니다. 그래서 판단 기준은 다음과 같습니다.
 
 - **측정으로 결정한다.** "느릴 것 같다"가 아니라 `EXPLAIN` / `EXPLAIN ANALYZE`로 본다.
 - **타이밍만으로 결론 내지 않는다.** 응답이 느렸다는 숫자 하나는 락이나 캐시 상태 같은 일시적 요인일 수도 있다. 그래서 실행계획을 함께 본다. 락이나 일시적 부하는 실행계획을 바꾸지 않으므로, 한쪽만 구조적으로 다른 계획(예: 한쪽만 Materialization)을 쓴다면 그건 일시적 요인이 아니라 옵티마이저의 선택이다. 여기에 여러 번 반복해 일관성까지 확인한다.
-- **운영과 같은 엔진·버전에서 측정한다.** 마이너 버전 차이로도 옵티마이저 선택이 달라진다. 개발에서 빨랐다고 운영에서 빠른 것은 아니다.
+- **운영과 같은 엔진, 버전에서 측정한다.** 마이너 버전 차이로도 옵티마이저 선택이 달라진다. 개발에서 빨랐다고 운영에서 빠른 것은 아니다.
 - **`LIMIT` 쿼리와 `COUNT` 쿼리를 따로 본다.** 조기 종료 여부가 다르므로 비용 구조도 다르다.
 - **서브쿼리 IN과 EXISTS는 성능이 아니라 다른 기준으로 고른다.** 가독성, 그리고 `NOT IN`의 NULL 동작이다. 서브쿼리 결과에 `NULL`이 섞이면 `NOT IN`은 빈 결과를 내므로, 부정 조건은 `NOT EXISTS`가 안전하다.
 - **같은 패턴이 반복되면 그 자체를 점검한다.** 문법을 바꾸기 전에, 같은 서브쿼리가 여러 개 쌓이고 있지 않은지 본다.
@@ -109,8 +109,8 @@ EXISTS는 느린 문법이 아니었습니다. 측정 없이 내린 판단이 �
 
 ## 참고 문헌
 
-- [MySQL — Optimizing IN and EXISTS Subquery Predicates with Semijoin Transformations](https://dev.mysql.com/doc/refman/8.0/en/semijoins.html) — semijoin은 준비 단계 변환이며 비용 기반으로 전략을 선택한다. 8.0.16부터 EXISTS도 IN과 같은 변환을 받는다.
-- [MySQL — Optimizing Subqueries with Materialization](https://dev.mysql.com/doc/refman/8.0/en/subquery-materialization.html) — 과거 `IN`을 상관 `EXISTS`로 재작성하던 동작과, 서브쿼리 구체화.
-- [MySQL — Range Optimization](https://dev.mysql.com/doc/refman/8.0/en/range-optimization.html) — `IN()` 리스트의 인덱스 다이브와 행 추정.
-- [MySQL — `eq_range_index_dive_limit`](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_eq_range_index_dive_limit) — 다이브에서 통계로 전환되는 한도(기본 200).
-- [MariaDB — Semi-join Subquery Optimizations](https://mariadb.com/kb/en/semi-join-subquery-optimizations/) — semi-join 최적화(기본 활성)와 전략들.
+- [MySQL, Optimizing IN and EXISTS Subquery Predicates with Semijoin Transformations](https://dev.mysql.com/doc/refman/8.0/en/semijoins.html): semijoin은 준비 단계 변환이며 비용 기반으로 전략을 선택한다. 8.0.16부터 EXISTS도 IN과 같은 변환을 받는다.
+- [MySQL, Optimizing Subqueries with Materialization](https://dev.mysql.com/doc/refman/8.0/en/subquery-materialization.html): 과거 `IN`을 상관 `EXISTS`로 재작성하던 동작과, 서브쿼리 구체화.
+- [MySQL, Range Optimization](https://dev.mysql.com/doc/refman/8.0/en/range-optimization.html): `IN()` 리스트의 인덱스 다이브와 행 추정.
+- [MySQL, `eq_range_index_dive_limit`](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_eq_range_index_dive_limit): 다이브에서 통계로 전환되는 한도(기본 200).
+- [MariaDB, Semi-join Subquery Optimizations](https://mariadb.com/kb/en/semi-join-subquery-optimizations/): semi-join 최적화(기본 활성)와 전략들.

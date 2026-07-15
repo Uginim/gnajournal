@@ -1,5 +1,5 @@
 ---
-title: '데이터베이스 정규화 (6) — 보이스-코드 정규형(BCNF): 모든 결정자를 후보키로'
+title: '데이터베이스 정규화 (6): 보이스-코드 정규형(BCNF), 모든 결정자를 후보키로'
 description: '보이스-코드 정규형(BCNF)을 다룹니다. 3NF가 남긴 빈틈, 모든 결정자가 후보키여야 한다는 조건, 후보키가 겹치는 구조에서 생기는 중복을 예시와 함께 정리합니다.'
 pubDate: 'Jun 26 2026'
 heroImage: '../../assets/db-normalization-6-bcnf.png'
@@ -16,8 +16,8 @@ draft: false
 > 4. [제2정규형 (2NF)](/blog/db-normalization-4-2nf/)
 > 5. [제3정규형 (3NF)](/blog/db-normalization-5-3nf/)
 > 6. **보이스-코드 정규형 (BCNF)** (이번 글)
-> 7. 자연키와 대리키 — 키 설계
-> 8. 제4·제5정규형 개요와 그 너머
+> 7. 자연키와 대리키: 키 설계
+> 8. 제4, 제5정규형 개요와 그 너머
 > 9. 정규화 절차와 역정규화
 
 ## 등장 배경
@@ -29,7 +29,7 @@ BCNF는 Raymond F. Boyce와 E.F. Codd가 1974년에 제안한 정규형입니다
 | 1970 | 1NF | Codd | 원자값 (값의 형태) |
 | 1971 | 2NF | Codd | 부분 함수적 종속 |
 | 1971 | 3NF | Codd | 이행적 함수적 종속 |
-| 1974 | **BCNF** | Boyce·Codd | 결정자가 후보키가 아닌 종속 |
+| 1974 | **BCNF** | Boyce, Codd | 결정자가 후보키가 아닌 종속 |
 
 > **레이먼드 보이스 이야기**
 >
@@ -37,7 +37,7 @@ BCNF는 Raymond F. Boyce와 E.F. Codd가 1974년에 제안한 정규형입니다
 >
 > 한 가지 덧붙이면, BCNF와 같은 조건을 Ian Heath가 1971년에 먼저 기술했다는 점에서, C.J. Date는 이를 'Heath 정규형'으로 불러야 한다고 주장하기도 합니다. 또한 1974년 논문은 Codd 단독 저자이며, 보이스는 공동 연구자였습니다.
 
-## 정의에 앞서 — 결정자와 자명한 종속
+## 정의에 앞서: 결정자와 자명한 종속
 
 BCNF의 정의는 **결정자**를 중심으로 서술됩니다. 용어 두 개를 먼저 짚습니다(둘 다 [2편](/blog/db-normalization-2-anomalies/)에서 다뤘습니다).
 
@@ -83,14 +83,14 @@ BCNF의 정의는 **결정자**를 중심으로 서술됩니다. 용어 두 개�
 
 위 예에서 문제가 된 종속은 `교수 → 과목`이고, 결정자 `교수`가 슈퍼키가 아닙니다. 이를 기준으로 분리합니다.
 
-**교수-과목** — `교수(PK)`, `과목`
+**교수-과목**: `교수(PK)`, `과목`
 
 | 교수 | 과목 |
 |------|------|
 | 박교수 | 데이터베이스 |
 | 정교수 | 운영체제 |
 
-**수강** — `{학생, 교수}(PK)`
+**수강**: `{학생, 교수}(PK)`
 
 | 학생 | 교수 |
 |------|------|
@@ -114,10 +114,10 @@ BCNF는 3NF보다 엄격하지만, 위와 같이 후보키가 겹치는 특수�
 - 후보키가 하나뿐인 테이블은 3NF를 만족하면 보통 BCNF도 만족하므로, 실무에서는 3NF에 머무르는 경우가 많다
 - BCNF 분해는 함수적 종속을 보존하지 못할 수 있어, 종속 보존과의 트레이드오프를 따져야 한다
 
-여기까지가 함수적 종속을 기준으로 한 기본 정규형(1NF~BCNF)입니다. 이어지는 편에서는 잠시 정규형에서 벗어나 실무 키 설계(자연키와 대리키)를 다룬 뒤, 함수적 종속을 넘어선 제4·제5정규형으로 돌아옵니다.
+여기까지가 함수적 종속을 기준으로 한 기본 정규형(1NF~BCNF)입니다. 이어지는 편에서는 잠시 정규형에서 벗어나 실무 키 설계(자연키와 대리키)를 다룬 뒤, 함수적 종속을 넘어선 제4, 제5정규형으로 돌아옵니다.
 
 ## 참고 문헌
 
 - [E.F. Codd, *Recent Investigations in Relational Data Base Systems*](https://dblp.org/rec/conf/ifip/Codd74.html), Proc. IFIP Congress 1974, pp. 1017–1021. (BCNF가 제안된 논문)
-- [Boyce–Codd normal form — Wikipedia](https://en.wikipedia.org/wiki/Boyce%E2%80%93Codd_normal_form) — BCNF의 정의·명명과 Heath의 선행 연구.
-- [Raymond F. Boyce — Wikipedia](https://en.wikipedia.org/wiki/Raymond_F._Boyce) — 생애, SEQUEL과 BCNF 기여.
+- [Boyce–Codd normal form, Wikipedia](https://en.wikipedia.org/wiki/Boyce%E2%80%93Codd_normal_form): BCNF의 정의, 명명과 Heath의 선행 연구.
+- [Raymond F. Boyce, Wikipedia](https://en.wikipedia.org/wiki/Raymond_F._Boyce): 생애, SEQUEL과 BCNF 기여.
