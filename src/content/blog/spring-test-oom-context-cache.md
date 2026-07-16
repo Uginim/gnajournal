@@ -2,7 +2,7 @@
 title: 'JPA 테스트가 CI에서 OOM으로 죽은 이유: Spring 컨텍스트 캐시 키와 H2'
 description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨텍스트 캐시가 무력화되어 CI에서 OutOfMemoryError가 납니다. 원인인 컨텍스트 캐시 키(MergedContextConfiguration)의 동작과 해결 방법을 공식 문서, 소스를 근거로 정리합니다.'
 pubDate: 'Jun 24 2026'
-heroImage: '../../assets/spring-test-oom-context-cache.png'
+heroImage: '../../assets/spring-test-oom-context-cache-hero.png'
 tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM']
 draft: false
 ---
@@ -115,7 +115,7 @@ Full GC를 돌려도 사용량이 내려가지 않는다는 것은, 힙에 있�
 
 ## 해결: 캐시 키를 같게 만든다
 
-`@DataJpaTest`는 메서드마다 트랜잭션을 롤백하므로 **테스트별 고유 DB가 애초에 필요하지 않습니다.** 격리는 롤백이 이미 보장합니다. 따라서 고유 H2 이름을 없애고 설정을 하나로 고정하면 됩니다.
+`@DataJpaTest`는 메서드마다 트랜잭션을 롤백하므로 **테스트별 고유 DB가 애초에 필요하지 않습니다**. 격리는 롤백이 이미 보장합니다. 따라서 고유 H2 이름을 없애고 설정을 하나로 고정하면 됩니다.
 
 이를 위해 공통 설정을 묶은 **합성(메타) 애너테이션**을 만듭니다. Spring TestContext는 `@DataJpaTest`나 `@TestPropertySource`가 메타 애너테이션으로 올라가 있어도 병합해서 인식합니다.
 
