@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 214" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
   <text x="10" y="20" font-size="13" font-weight="700" fill="#1f2330">매 요청, 앞부분(prefix)은 캐시에서 재사용되고 새 내용만 끝에 붙습니다</text>
 
   <!-- 요청 1 -->
