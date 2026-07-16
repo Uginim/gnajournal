@@ -1,18 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
   <rect width="1020" height="510" fill="#f7f7fb"/>
 
-  <!-- 위: 압축 없음. 긴 토큰이지만 캐시로 싸게 읽힘 -->
-  <rect x="110" y="150" width="800" height="60" rx="10" fill="#ffffff" stroke="#e3e4ec" stroke-width="2"/>
-  <rect x="110" y="150" width="640" height="60" rx="10" fill="#eef0ff" stroke="#4f46e5" stroke-width="2.5"/>
-  <rect x="762" y="150" width="96" height="60" rx="10" fill="#eef9f0" stroke="#2f9e44" stroke-width="2.5"/>
+  <text x="90" y="105" font-size="28" font-weight="700" fill="#1f2330">같은 작업, 압축 여부에 따른 토큰과 비용</text>
 
-  <!-- 아래: 압축함. 토큰은 짧아졌지만 전부 재계산 -->
-  <rect x="110" y="300" width="800" height="60" rx="10" fill="#ffffff" stroke="#e3e4ec" stroke-width="2"/>
-  <rect x="110" y="300" width="320" height="60" rx="10" fill="#fdf1ea" stroke="#d9480f" stroke-width="2.5"/>
+  <text x="470" y="165" text-anchor="middle" font-size="19" fill="#80828f">전송 토큰</text>
+  <text x="866" y="165" text-anchor="middle" font-size="19" fill="#80828f">비용 상당</text>
 
-  <text x="110" y="135" font-size="22" font-weight="700" fill="#5a5c6b">압축 없음: 토큰은 많지만 캐시로 싸게 읽음</text>
-  <text x="110" y="285" font-size="22" font-weight="700" fill="#d9480f">압축 프록시: 토큰은 줄지만 캐시가 깨져 전부 재계산</text>
+  <!-- 압축 없음 -->
+  <text x="90" y="217" font-size="20" font-weight="700" fill="#1f2330">압축 없음</text>
+  <rect x="230" y="185" width="480" height="48" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="470" y="217" text-anchor="middle" font-size="18" fill="#4f46e5">100 토큰, 캐시 읽기 0.1배</text>
+  <rect x="770" y="185" width="48" height="48" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="834" y="217" font-size="20" font-weight="700" fill="#4f46e5">10</text>
 
-  <!-- 깨진 캐시를 나타내는 균열 표시 -->
-  <path d="M270,238 L250,262 L272,268 L252,292" fill="none" stroke="#d9480f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 압축 프록시 -->
+  <text x="90" y="317" font-size="20" font-weight="700" fill="#1f2330">압축 프록시</text>
+  <rect x="230" y="285" width="192" height="48" rx="6" fill="#fdf1ea" stroke="#d9480f" stroke-width="2"/>
+  <text x="326" y="317" text-anchor="middle" font-size="18" fill="#d9480f">40 토큰</text>
+  <text x="440" y="317" font-size="18" fill="#d9480f">전부 재계산 1.0배</text>
+  <rect x="770" y="285" width="192" height="48" rx="6" fill="#fdf1ea" stroke="#d9480f" stroke-width="2"/>
+  <text x="974" y="317" font-size="20" font-weight="700" fill="#d9480f">40</text>
+
+  <text x="90" y="412" font-size="19" font-weight="600" fill="#d9480f">토큰은 60% 줄었는데 비용은 네 배입니다. 압축이 prefix를 바꿔 매 요청 캐시 미스가 나기 때문입니다.</text>
 </svg>
