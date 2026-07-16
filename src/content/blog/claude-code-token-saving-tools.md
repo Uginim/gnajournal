@@ -4,7 +4,7 @@ description: 'Claude Code용 토큰 절감 도구는 무엇을 압축하느냐�
 pubDate: 'Jul 16 2026'
 heroImage: '../../assets/claude-code-token-saving-tools-hero.png'
 tags: ['ClaudeCode', '프롬프트캐싱', '토큰', '절감도구', 'LLM']
-draft: false
+draft: true
 ---
 
 [전편](/blog/claude-code-prompt-caching/)에서 Claude Code의 프롬프트 캐싱 구조를 정리했습니다. 이 글은 그 구조 위에서, 토큰 절감을 표방하는 서드파티 도구를 고르는 판별 기준을 다룹니다.
