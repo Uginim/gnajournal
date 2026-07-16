@@ -361,8 +361,6 @@ total_input_tokens = cache_read_input_tokens
 
 > 매 요청 전체 컨텍스트 재전송 → 서버가 prefix를 대조 → 정확히 일치하면 재계산 생략(0.1배) → 앞이 한 바이트라도 다르면 그 뒤 전부 재계산(1.0배)
 
-실전에서 기억할 것은 넷입니다.
-
 - 모델과 effort를 세션 중에 자주 바꾸지 않습니다. `opusplan`의 plan 토글도 모델 전환입니다.
 - 진행 방향을 되돌릴 때는 `/compact`가 아니라 `/rewind`를 씁니다.
 - CLAUDE.md와 output style은 세션 시작 전에 수정합니다. 세션 중 편집은 적용되지 않습니다.
