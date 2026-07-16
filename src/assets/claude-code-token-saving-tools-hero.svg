@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
   <rect width="1020" height="510" fill="#f7f7fb"/>
 
   <!-- 위: 압축 없음. 긴 토큰이지만 캐시로 싸게 읽힘 -->
@@ -9,6 +9,9 @@
   <!-- 아래: 압축함. 토큰은 짧아졌지만 전부 재계산 -->
   <rect x="110" y="300" width="800" height="60" rx="10" fill="#ffffff" stroke="#e3e4ec" stroke-width="2"/>
   <rect x="110" y="300" width="320" height="60" rx="10" fill="#fdf1ea" stroke="#d9480f" stroke-width="2.5"/>
+
+  <text x="110" y="135" font-size="22" font-weight="700" fill="#5a5c6b">압축 없음: 토큰은 많지만 캐시로 싸게 읽음</text>
+  <text x="110" y="285" font-size="22" font-weight="700" fill="#d9480f">압축 프록시: 토큰은 줄지만 캐시가 깨져 전부 재계산</text>
 
   <!-- 깨진 캐시를 나타내는 균열 표시 -->
   <path d="M270,238 L250,262 L272,268 L252,292" fill="none" stroke="#d9480f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
