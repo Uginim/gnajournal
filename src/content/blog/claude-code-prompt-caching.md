@@ -355,7 +355,7 @@ total_input_tokens = cache_read_input_tokens
 
 실시간으로 보려면 `current_usage` 객체를 읽는 statusline 스크립트를 쓰면 됩니다. 조직 단위 가시성이 필요하면 OpenTelemetry exporter가 유저별, 세션별로 두 카운트를 보고합니다. 같은 값이 로컬의 대화 JSONL에도 기록되므로, ccusage 같은 사용량 모니터링 도구는 API를 거치지 않고 이 파일을 읽습니다. `/cost`와 `/usage`는 합계 수준이라 이 두 필드를 따로 보여주지 않습니다. 요청 단위로 보려면 statusline이나 JSONL 쪽입니다.
 
-JSONL을 직접 열어 볼 수 있습니다. 이 글의 측정값도 제가 그렇게 확인했습니다. 위치는 `~/.claude/projects/` 아래인데, 프로젝트 경로의 `/`를 `-`로 바꾼 이름의 디렉토리에 세션마다 세션 ID를 파일명으로 하는 `.jsonl` 파일이 하나씩 쌓입니다. 각 줄이 JSON 하나이고, `type`이 `assistant`인 줄이 모델 응답입니다. 두 카운트는 그 줄의 `message.usage`에 있고, 그 안의 `cache_creation` 객체가 쓴 토큰을 TTL별(`ephemeral_1h_input_tokens`, `ephemeral_5m_input_tokens`)로 나눠 보여줍니다. 제 세션의 한 줄에서 캐시와 관련된 필드만 발췌하면 이런 모양입니다. 실제 줄에는 응답 본문을 포함해 필드가 훨씬 많습니다.
+JSONL을 직접 열어 볼 수 있습니다. 이 글의 측정값도 그렇게 확인했습니다. 위치는 `~/.claude/projects/` 아래인데, 프로젝트 경로의 `/`를 `-`로 바꾼 이름의 디렉토리에 세션마다 세션 ID를 파일명으로 하는 `.jsonl` 파일이 하나씩 쌓입니다. 각 줄이 JSON 하나이고, `type`이 `assistant`인 줄이 모델 응답입니다. 두 카운트는 그 줄의 `message.usage`에 있고, 그 안의 `cache_creation` 객체가 쓴 토큰을 TTL별(`ephemeral_1h_input_tokens`, `ephemeral_5m_input_tokens`)로 나눠 보여줍니다. 제 세션의 한 줄에서 캐시와 관련된 필드만 발췌하면 이런 모양입니다. 실제 줄에는 응답 본문을 포함해 필드가 훨씬 많습니다.
 
 ```json
 {
