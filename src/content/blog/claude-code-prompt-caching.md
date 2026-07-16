@@ -370,20 +370,12 @@ total_input_tokens = cache_read_input_tokens
 
 토큰 절감을 표방하는 서드파티 도구들이 이 캐시 구조와 어떻게 충돌하는지도 궁금하실 텐데, 분량이 있어 따로 다뤘습니다: [Claude Code 토큰 절감 도구가 오히려 비용을 늘리는 경우](/blog/claude-code-token-saving-tools/)
 
-## 실전 지침
+## 이 구조에서 따라 나오는 습관
 
 - 모델과 effort를 세션 중에 자주 바꾸지 않습니다. `opusplan`의 plan 토글도 모델 전환입니다.
 - 진행 방향을 되돌릴 때는 `/compact`가 아니라 `/rewind`를 씁니다.
 - CLAUDE.md와 output style은 세션 시작 전에 수정합니다. 세션 중 편집은 적용되지 않습니다.
 - 적중률이 높아도 prefix가 크면 비쌉니다. tool search, 서브에이전트, 경로 참조, `/clear`로 작게 유지합니다.
-
-## 부록: 컨텍스트가 많으면 정확도가 떨어지나
-
-이 글은 컨텍스트 크기가 비용과 한도에 미치는 영향을 다뤘습니다. 품질은 또 다른 문제입니다. 컨텍스트가 커질수록 정확도가 떨어지는 경향이 있습니다.
-
-이유는 캐싱과 무관합니다. 모델은 매 요청에서 컨텍스트 전체를 함께 봅니다. 토큰이 많아질수록 지금 필요한 정보가 나머지 사이에 묻히기 쉽습니다. 여러 모델에서 공통적으로, 컨텍스트의 앞과 끝에 있는 정보가 가운데 있는 정보보다 잘 활용되는 경향이 관찰됩니다. 정확한 정도는 모델과 작업에 따라 다르므로 단정하기는 어렵습니다.
-
-여기서 캐싱은 도움이 되지 않습니다. 단가를 낮출 뿐 모델이 읽는 토큰 수는 그대로이기 때문입니다. 품질을 지키는 것은 컨텍스트를 줄이는 쪽이고, 방법은 "prefix 크기를 줄이는 방법"에서 소개한 것과 같습니다. 요청을 작게 유지하면 요금과 한도만이 아니라 답변의 초점도 함께 지켜집니다.
 
 ## 용어 정리
 
@@ -414,6 +406,4 @@ total_input_tokens = cache_read_input_tokens
 - [How do usage and length limits work?](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work): 사용량이 대화 길이, 복잡도, 기능, 모델, effort에 영향받는다는 점. claude.ai와 Claude Code와 Claude Desktop이 같은 사용량 풀을 공유한다는 점. 유료 플랜에서 최신 모델이 최대 1M, 나머지가 500K나 200K 컨텍스트 윈도우를 지원한다는 점. 윈도우의 일부가 응답용으로 예약된다는 점.
 - [Extend Claude with skills](https://code.claude.com/docs/en/skills): 호출된 스킬의 렌더링 내용이 단일 메시지로 대화에 들어가 세션 내내 남는다는 점. 재호출 시 렌더링 결과가 동일하면 노트만 추가하고 다르면 전체를 다시 덧붙인다는 점. 서브에이전트 프리로드 시 전체 내용이 시작 시점에 주입된다는 점. `.claude/commands/`와 스킬이 동일하게 동작한다는 점.
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices): 시작 시 모든 스킬의 name과 description이 시스템 프롬프트로 로드된다는 점. description을 3인칭으로 쓰는 이유. 스크립트 실행 시 코드가 아니라 출력만 컨텍스트를 차지한다는 점.
-- [Choose a permission mode](https://code.claude.com/docs/en/permission-modes): `Shift+Tab` 사이클과 plan mode. `opusplan`이 모델 전환을 유발하는 경로의 배경.
-- [Lost in the Middle: How Language Models Use Long Contexts (Liu et al., 2023)](https://arxiv.org/abs/2307.03172): 부록의 근거. 관련 정보가 컨텍스트의 앞이나 끝에 있을 때 성능이 높고 가운데에 있으면 낮아지는 경향이 여러 모델에서 관찰된다는 연구.
-- [Lessons from building Claude Code: Prompt caching is everything](https://claude.com/blog/lessons-from-building-claude-code-prompt-caching-is-everything): plan mode, 툴 지연 로딩, compaction의 설계 근거.
+- [Choose a permission mode](https://code.claude.com/docs/en/permission-modes): `Shift+Tab` 사이클과 plan mode. `opusplan`이 모델 전환을 유발하는 경로의 배경.- [Lessons from building Claude Code: Prompt caching is everything](https://claude.com/blog/lessons-from-building-claude-code-prompt-caching-is-everything): plan mode, 툴 지연 로딩, compaction의 설계 근거.
