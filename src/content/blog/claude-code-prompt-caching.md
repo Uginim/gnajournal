@@ -370,7 +370,7 @@ total_input_tokens = cache_read_input_tokens
 
 토큰 절감을 표방하는 서드파티 도구들이 이 캐시 구조와 어떻게 충돌하는지도 궁금하실 텐데, 분량이 있어 따로 다뤘습니다: [Claude Code 토큰 절감 도구가 오히려 비용을 늘리는 경우](/blog/claude-code-token-saving-tools/)
 
-## 이 구조에서 따라 나오는 습관
+## 사용량을 아끼기 위해 하면 좋은 것들
 
 - 모델과 effort를 세션 중에 자주 바꾸지 않습니다. `opusplan`의 plan 토글도 모델 전환입니다.
 - 진행 방향을 되돌릴 때는 `/compact`가 아니라 `/rewind`를 씁니다.
