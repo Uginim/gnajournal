@@ -157,7 +157,7 @@ prefix 매칭을 활용하기 위해, Claude Code는 거의 바뀌지 않는 내
         + (캐시에 쓴 토큰 × write 배수)
 ```
 
-캐시에서 읽힌 토큰은 표준 입력가의 약 10%로 청구됩니다. write 배수는 TTL에 따라 다릅니다. 5분 TTL은 표준 입력가의 1.25배, 1시간 TTL은 2배입니다.
+캐시에서 읽힌 토큰은 표준 입력가의 약 10%로 청구되고, write 배수는 TTL에 따라 5분은 1.25배, 1시간은 2배입니다. [공식 가격 문서](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing)에 명시된 수치입니다.
 
 ### 캐시 적중률이 비용을 가름
 
