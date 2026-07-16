@@ -1,0 +1,31 @@
+# PR에 'claude-review' 라벨을 붙이면 중앙 레포의 재사용 워크플로우가 1회 리뷰한다.
+# 로직은 Uginim/claude-workflows 에 있고, 이 파일은 호출만 한다.
+# 리뷰가 끝나면 라벨이 자동 제거된다 — 재리뷰하려면 라벨을 다시 붙이면 된다.
+name: Claude Review
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  review:
+    # 'claude-review' 라벨이 붙은 경우에만 중앙 워크플로우 호출
+    if: github.event.label.name == 'claude-review'
+    uses: Uginim/claude-workflows/.github/workflows/claude-review.yml@main
+    # 재사용 워크플로우는 여기서 준 권한에서 하향만 가능하므로, 필요한 권한을
+    # caller가 전부 명시해야 한다 (레포 기본이 read-only여도 동작하도록).
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write     # 리뷰 후 트리거 라벨 자동 제거에 필요
+      id-token: write   # claude-code-action의 GitHub App 토큰 교환(OIDC)에 필요
+    secrets: inherit
+    # 기본값을 덮어쓰거나 이 레포만의 지침을 주려면 아래 주석 해제:
+    # with:
+    #   runs_on: self-hosted        # 이 레포 셀프 호스티드 러너로 (Actions 분 차감 없음)
+    #   max_turns: 80
+    #   language: Korean
+    #   extra_instructions: |
+    #     - PGN/좌표/hreflang 정합성은 CI verify 스크립트가 이미 막으니 리뷰 제외
+    #     - 이 레포는 Cloudflare Workers 배포라 node: 내장 모듈 사용 주의
+    # (레포 루트 CLAUDE.md 는 별도 지정 없이도 리뷰가 자동 참조한다)
