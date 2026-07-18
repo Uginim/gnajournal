@@ -21,7 +21,7 @@
 |---|---|---|---|
 | ✅ | JPA N+1 문제 비교 | fetch join / EntityGraph / batch size | 단발(게시됨) |
 | ✅ | 테스트 OOM: 컨텍스트 캐시 | Spring TestContext 캐시 키 + H2 DB 이름 | 단발(게시됨) |
-| 🔲 | **orphanRemoval + 유니크키 충돌** | clear+add 치환 시 INSERT→DELETE 순서로 UK 위반. ActionQueue flush 순서 | 단발(원인분석형, 임팩트 큼) |
+| 🚧 | **orphanRemoval + 유니크키 충돌** | clear+add 치환 시 INSERT→DELETE 순서로 UK 위반. ActionQueue flush 순서 | 단발(초안 완료 jpa-orphan-removal-unique-key, draft. 소스 검증에서 학습노트 전제4 정정: clear() 고아 삭제는 CollectionRemoveAction이 아니라 EntityDeleteAction 8순위) |
 | 🔲 | 엔티티 리스너에서 DI가 안 되는 이유 | `@EntityListeners` 콜백은 Hibernate가 생성 → 스프링 빈 주입 불가, 우회법 | 단발(원인분석형) |
 | 🔲 | pooled-lo ID 채번 전략 | Hibernate가 시퀀스를 미리 당겨오는 이유, allocationSize 트레이드오프 | 단발 |
 | 🔲 | Hibernate Envers | 감사 로그 내부동작, 운영 한계 | 단발(니치, 경쟁 적음) |
