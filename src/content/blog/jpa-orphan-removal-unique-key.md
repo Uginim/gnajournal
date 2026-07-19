@@ -45,7 +45,7 @@ fun replaceInterests(newIds: List<Int>) {
 }
 ```
 
-`orphanRemoval = true`는 자식 엔티티가 부모의 컬렉션에서 떨어져 나가면 그 행을 삭제하라는 매핑 설정입니다. 그래서 의도는 명확합니다. `clear()`로 기존 행이 전부 삭제되고, `add()`로 새 행이 삽입됩니다.
+`orphanRemoval = true`는 `remove()`나 `clear()`로 부모의 컬렉션에서 제거된 자식 엔티티의 행을 DB에서도 삭제하라는 매핑 설정입니다. 그래서 의도는 명확합니다. `clear()`로 기존 행이 전부 삭제되고, `add()`로 새 행이 삽입됩니다.
 
 실패 조건이 특이했습니다. 목록이 완전히 바뀔 때는 통과하고, **기존 목록과 새 목록에 같은 값이 하나라도 유지될 때만** 실패했습니다. `(14564, 10)`이 지울 목록과 넣을 목록 양쪽에 있는 경우입니다. 테스트가 이 버그를 놓친 이유도 여기 있습니다. 목록을 매번 전혀 다른 값으로 바꾸는 테스트만 있으면 전부 통과합니다.
 
@@ -53,7 +53,7 @@ fun replaceInterests(newIds: List<Int>) {
 
 "같은 값이면 그대로 두면 되지 않나"가 자연스러운 기대인데, Hibernate는 그렇게 하지 않습니다. 엔티티를 기본키(PK)로만 식별하기 때문입니다.
 
-- `clear()`로 떨어진 기존 자식: PK가 있는 엔티티. 삭제 대상
+- `clear()`로 컬렉션에서 제거된 기존 자식: PK가 있는 엔티티. 삭제 대상
 - `add()`로 들어온 새 자식: PK가 null인 엔티티. 삽입 대상
 
 두 엔티티의 `(member_id, interest_id)` 값이 같다는 것은 유니크키를 아는 DB의 사정이고, Hibernate는 비즈니스 값을 추적하지 않습니다. PK가 다르면(또는 아직 없으면) 서로 무관한 엔티티입니다. 그래서 같은 값이 유지되는 경우에도 "기존 행 삭제 + 새 행 삽입" 두 작업이 예약됩니다.
@@ -90,9 +90,9 @@ flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내�
 
 목록에서 1순위인 `OrphanRemovalAction`이 눈에 걸립니다. 이 사고의 삭제도 orphanRemoval에서 나온 것인데, 왜 1순위로 실행되지 않았을까요.
 
-Hibernate 5.6 소스를 보면 경로가 갈립니다. 컬렉션에서 떨어져 나간 고아들은 `Cascade.deleteOrphans()`가 일반 삭제 이벤트로 처리해서, 8순위 `EntityDeleteAction`으로 예약됩니다. 1순위 `OrphanRemovalAction`은 단일 연관을 교체할 때 외래키 위반을 피하려고 삭제를 앞당기는 예외 경로(`SessionImpl.removeOrphanBeforeUpdates()`)에서만 만들어지고, 소스 주석에 "작업 순서 문제(HHH-6484)를 위한 임시 hack"이라고 적혀 있습니다.
+Hibernate 5.6 소스를 보면 경로가 갈립니다. 컬렉션에서 제거된 자식들은 `Cascade.deleteOrphans()`가 일반 삭제 이벤트로 처리해서, 8순위 `EntityDeleteAction`으로 예약됩니다. 1순위 `OrphanRemovalAction`은 단일 연관을 교체할 때 외래키 위반을 피하려고 삭제를 앞당기는 예외 경로(`SessionImpl.removeOrphanBeforeUpdates()`)에서만 만들어지고, 소스 주석에 "작업 순서 문제(HHH-6484)를 위한 임시 hack"이라고 적혀 있습니다.
 
-정리하면 `orphanRemoval = true`는 "떨어진 자식을 삭제하라"는 정책일 뿐, 언제 삭제할지까지 정하지 않습니다. `clear()`로 비운 컬렉션의 삭제는 맨 마지막 순서입니다.
+정리하면 `orphanRemoval = true`는 "컬렉션에서 제거된 자식을 삭제하라"는 정책일 뿐, 언제 삭제할지까지 정하지 않습니다. `clear()`로 비운 컬렉션의 삭제는 맨 마지막 순서입니다.
 
 ## 이 순서는 FK를 지키기 위한 설계임
 
