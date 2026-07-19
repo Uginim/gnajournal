@@ -3,7 +3,8 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-	const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+	// dev 서버에서는 draft도 보이게 하고, 배포 빌드에서는 제외한다
+	const posts = (await getCollection('blog')).filter((post) => !import.meta.env.PROD || !post.data.draft);
 	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: post,
