@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 322" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="cWarn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d9480f"/>
+    </marker>
+  </defs>
+
+  <!-- 상단: 컨텍스트 1개 빌드 = 무거운 3단계 (범례) -->
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1f2330">컨텍스트를 새로 만들 때마다 반복되는 무거운 작업</text>
+
+  <rect x="18" y="40" width="222" height="58" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+  <text x="129" y="66" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f2330">① classpath 스캔</text>
+  <text x="129" y="84" text-anchor="middle" font-size="12.5" fill="#5b5b66">+ 빈 생성</text>
+  <rect x="249" y="40" width="222" height="58" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+  <text x="360" y="66" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f2330">② Hibernate 메타모델</text>
+  <text x="360" y="84" text-anchor="middle" font-size="12.5" fill="#5b5b66">빌드 (전체 엔티티)</text>
+  <rect x="480" y="40" width="222" height="58" rx="9" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1.4"/>
+  <text x="591" y="66" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f2330">③ H2 스키마 DDL</text>
+  <text x="591" y="84" text-anchor="middle" font-size="12.5" fill="#5b5b66">(전체 테이블 생성)</text>
+  <text x="360" y="120" text-anchor="middle" font-size="12.5" font-weight="600" fill="#7a7a85">= 컨텍스트 1개 빌드 = ①②③ 한 묶음 (무거움)</text>
+
+  <line x1="40" y1="138" x2="680" y2="138" stroke="#e6e6ec" stroke-width="1.2"/>
+
+  <text x="360" y="160" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b5fb0">테스트마다 이 ①②③ 묶음을 처음부터 다시 실행 (반복)</text>
+
+  <!-- Before: 묶음이 수백 번 반복 -->
+  <text x="248" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#d9480f">× 수백 회 반복</text>
+  <path d="M400 204 C 400 182 96 182 96 202" fill="none" stroke="#d9480f" stroke-width="1.7" marker-end="url(#cWarn)"/>
+  <text x="24" y="229" font-size="13" font-weight="700" fill="#d9480f">Before</text>
+
+  <!-- 묶음 3개 (각 묶음 = ①②③) -->
+  <g>
+    <rect x="96" y="206" width="96" height="34" rx="6" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+    <rect x="99" y="210" width="28" height="26" rx="4" fill="#e7ecff"/><text x="113" y="227" text-anchor="middle" font-size="13" fill="#3a3f5c">①</text>
+    <rect x="130" y="210" width="28" height="26" rx="4" fill="#e9f7ef"/><text x="144" y="227" text-anchor="middle" font-size="13" fill="#2f6b46">②</text>
+    <rect x="161" y="210" width="28" height="26" rx="4" fill="#ffeede"/><text x="175" y="227" text-anchor="middle" font-size="13" fill="#9a5a30">③</text>
+
+    <rect x="200" y="206" width="96" height="34" rx="6" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+    <rect x="203" y="210" width="28" height="26" rx="4" fill="#e7ecff"/><text x="217" y="227" text-anchor="middle" font-size="13" fill="#3a3f5c">①</text>
+    <rect x="234" y="210" width="28" height="26" rx="4" fill="#e9f7ef"/><text x="248" y="227" text-anchor="middle" font-size="13" fill="#2f6b46">②</text>
+    <rect x="265" y="210" width="28" height="26" rx="4" fill="#ffeede"/><text x="279" y="227" text-anchor="middle" font-size="13" fill="#9a5a30">③</text>
+
+    <rect x="304" y="206" width="96" height="34" rx="6" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+    <rect x="307" y="210" width="28" height="26" rx="4" fill="#e7ecff"/><text x="321" y="227" text-anchor="middle" font-size="13" fill="#3a3f5c">①</text>
+    <rect x="338" y="210" width="28" height="26" rx="4" fill="#e9f7ef"/><text x="352" y="227" text-anchor="middle" font-size="13" fill="#2f6b46">②</text>
+    <rect x="369" y="210" width="28" height="26" rx="4" fill="#ffeede"/><text x="383" y="227" text-anchor="middle" font-size="13" fill="#9a5a30">③</text>
+  </g>
+  <text x="416" y="229" font-size="17" font-weight="700" fill="#7a7a85">⋯</text>
+  <text x="470" y="229" font-size="13" font-weight="700" fill="#d9480f">→ 느림</text>
+
+  <!-- After: 묶음 몇 번만 -->
+  <text x="24" y="281" font-size="13" font-weight="700" fill="#2f9e44">After</text>
+  <rect x="96" y="258" width="96" height="34" rx="6" fill="#ffffff" stroke="#cfd0db" stroke-width="1.2"/>
+  <rect x="99" y="262" width="28" height="26" rx="4" fill="#e7ecff"/><text x="113" y="279" text-anchor="middle" font-size="13" fill="#3a3f5c">①</text>
+  <rect x="130" y="262" width="28" height="26" rx="4" fill="#e9f7ef"/><text x="144" y="279" text-anchor="middle" font-size="13" fill="#2f6b46">②</text>
+  <rect x="161" y="262" width="28" height="26" rx="4" fill="#ffeede"/><text x="175" y="279" text-anchor="middle" font-size="13" fill="#9a5a30">③</text>
+  <text x="210" y="279" font-size="12.5" font-weight="700" fill="#2f9e44">× 몇 회만</text>
+  <text x="300" y="279" font-size="13" font-weight="700" fill="#2f9e44">→ 빠름 + OOM 해소</text>
+
+  <text x="360" y="310" text-anchor="middle" font-size="12" font-weight="600" fill="#5b5fb0">캐시 키를 통일해 컨텍스트를 공유하면, 이 반복 자체가 사라진다</text>
+</svg>

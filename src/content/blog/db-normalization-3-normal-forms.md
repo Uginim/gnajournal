@@ -1,6 +1,6 @@
 ---
-title: '데이터베이스 정규화 (3) — 정규형 단계별 정의 (1NF ~ BCNF)'
-description: '제1정규형부터 BCNF까지 단계별 정의를 예시와 함께 정리합니다. 각 정규형이 어떤 함수적 종속성을 제거하는지, 1NF·2NF·3NF·BCNF의 차이를 설명합니다.'
+title: '데이터베이스 정규화 (3): 정규형 단계별 정의 (1NF ~ BCNF)'
+description: '제1정규형부터 BCNF까지 단계별 정의를 예시와 함께 정리합니다. 각 정규형이 어떤 함수적 종속성을 제거하는지, 1NF, 2NF, 3NF, BCNF의 차이를 설명합니다.'
 pubDate: 'Jun 14 2026'
 heroImage: '../../assets/blog-placeholder-5.jpg'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형']
@@ -50,7 +50,7 @@ draft: true
 | 1 | 010-2222 |
 | 2 | 010-3333 |
 
-이제 번호 하나가 한 행에 대응하므로, 특정 번호로 조회하거나 번호 하나만 추가·삭제하는 일이 단순해집니다.
+이제 번호 하나가 한 행에 대응하므로, 특정 번호로 조회하거나 번호 하나만 추가, 삭제하는 일이 단순해집니다.
 
 1NF는 관계형 테이블이 되기 위한 가장 기본 조건입니다. 이후의 정규형은 모두 1NF를 전제로 합니다.
 
@@ -60,7 +60,7 @@ draft: true
 
 > "A relation R is in second normal form if it is in first normal form and every non-prime attribute of R is fully dependent on each candidate key of R."
 >
-> — E.F. Codd, 1971
+> (E.F. Codd, 1971)
 
 핵심은 **부분 종속(partial dependency)의 제거**입니다. 부분 종속은 후보키가 둘 이상의 속성으로 이루어진 복합키일 때, 비주요 속성이 키 **전체**가 아니라 그 **일부**에만 종속되는 경우를 말합니다.
 
@@ -79,7 +79,7 @@ draft: true
 
 2NF로 만들려면 부분 종속을 별도 테이블로 분리합니다.
 
-**수강신청** — `{학번, 과목코드}(PK)`, `성적`
+**수강신청**: `{학번, 과목코드}(PK)`, `성적`
 
 | 학번 | 과목코드 | 성적 |
 |------|----------|------|
@@ -87,7 +87,7 @@ draft: true
 | S2 | C1 | B |
 | S1 | C2 | A |
 
-**과목** — `과목코드(PK)`, `과목명`
+**과목**: `과목코드(PK)`, `과목명`
 
 | 과목코드 | 과목명 |
 |----------|--------|
@@ -104,7 +104,7 @@ draft: true
 
 > "A relation R is in third normal form if it is in second normal form and every non-prime attribute of R is non-transitively dependent on each candidate key of R."
 >
-> — E.F. Codd, 1971
+> (E.F. Codd, 1971)
 
 핵심은 **이행적 함수적 종속(transitive functional dependency)의 제거**입니다. 이행적 함수적 종속은 `키 → A → B`처럼, 비주요 속성이 키에 직접 종속되는 게 아니라 다른 비주요 속성을 거쳐 종속되는 경우입니다.
 
@@ -124,7 +124,7 @@ draft: true
 
 3NF로 만들려면 이행 종속을 분리합니다.
 
-**직원** — `직원ID(PK)`, `직원명`, `부서ID(FK)`
+**직원**: `직원ID(PK)`, `직원명`, `부서ID(FK)`
 
 | 직원ID | 직원명 | 부서ID |
 |--------|--------|--------|
@@ -132,7 +132,7 @@ draft: true
 | E2 | 이서연 | D1 |
 | E3 | 박지호 | D2 |
 
-**부서** — `부서ID(PK)`, `부서명`
+**부서**: `부서ID(PK)`, `부서명`
 
 | 부서ID | 부서명 |
 |--------|--------|
@@ -164,14 +164,14 @@ draft: true
 
 BCNF로 만들려면 결정자가 후보키가 되도록 분리합니다.
 
-**교수-과목** — `교수(PK)`, `과목`
+**교수-과목**: `교수(PK)`, `과목`
 
 | 교수 | 과목 |
 |------|------|
 | 박교수 | 데이터베이스 |
 | 정교수 | 운영체제 |
 
-**수강** — `{학생, 교수}(PK)`
+**수강**: `{학생, 교수}(PK)`
 
 | 학생 | 교수 |
 |------|------|
@@ -183,7 +183,7 @@ BCNF로 만들려면 결정자가 후보키가 되도록 분리합니다.
 
 BCNF는 3NF보다 엄격하지만, 위와 같이 후보키가 겹치는 특수한 구조에서만 3NF와 차이가 납니다. 실무에서는 3NF만으로 충분한 경우가 많고, BCNF는 이런 경계 사례를 다룰 때 의미가 있습니다.
 
-## 그 너머 — 4NF, 5NF
+## 그 너머: 4NF, 5NF
 
 정규형은 BCNF에서 끝나지 않습니다. 다치 종속(multivalued dependency)을 다루는 **4NF**, 조인 종속을 다루는 **5NF**가 있고, C.J. Date의 데이터베이스 설계서는 **6NF**까지 다룹니다. 다만 이들은 특수한 상황에서 의미가 있는 고급 주제로, 일반적인 OLTP 설계는 대부분 3NF 또는 BCNF 수준에서 다뤄집니다. 4NF 이상은 이 시리즈의 범위를 넘어서므로 이름만 언급하고 넘어갑니다.
 
@@ -191,7 +191,7 @@ BCNF는 3NF보다 엄격하지만, 위와 같이 후보키가 겹치는 특수�
 
 | 정규형 | 조건 | 제거하는 것 |
 |--------|------|------------|
-| 1NF | 모든 값이 원자값 | 다중값·반복 그룹 |
+| 1NF | 모든 값이 원자값 | 다중값, 반복 그룹 |
 | 2NF | 1NF + 비주요 속성이 후보키에 완전 종속 | 부분 종속 |
 | 3NF | 2NF + 비주요 속성이 후보키에 비이행 종속 | 이행 종속 |
 | BCNF | 모든 결정자가 후보키 | 주요 속성이 얽힌 종속 |
@@ -204,5 +204,5 @@ BCNF는 3NF보다 엄격하지만, 위와 같이 후보키가 겹치는 특수�
 
 ## 참고 문헌
 
-- E.F. Codd, *Further Normalization of the Data Base Relational Model*, IBM Research Report RJ909, 1971. (2NF·3NF의 원전 정의)
+- E.F. Codd, *Further Normalization of the Data Base Relational Model*, IBM Research Report RJ909, 1971. (2NF, 3NF의 원전 정의)
 - C.J. Date, *Database Design and Relational Theory*. (정규형을 6NF까지 다룸)

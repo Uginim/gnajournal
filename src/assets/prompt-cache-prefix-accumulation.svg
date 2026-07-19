@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 214" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="10" y="20" font-size="13" font-weight="700" fill="#1f2330">매 요청, 앞부분(prefix)은 캐시에서 재사용되고 새 내용만 끝에 붙습니다</text>
+
+  <!-- 요청 1 -->
+  <text x="10" y="59" font-size="12" font-weight="700" fill="#1f2330">요청 1</text>
+  <rect x="70"  y="40" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <rect x="136" y="40" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <rect x="202" y="40" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="101" y="59" text-anchor="middle" font-size="11" fill="#2f9e44">시스템</text>
+  <text x="167" y="59" text-anchor="middle" font-size="11" fill="#2f9e44">프로젝트</text>
+  <text x="233" y="59" text-anchor="middle" font-size="11" fill="#2f9e44">메시지1</text>
+
+  <!-- 요청 2 -->
+  <text x="10" y="105" font-size="12" font-weight="700" fill="#1f2330">요청 2</text>
+  <rect x="70"  y="86" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="136" y="86" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="202" y="86" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="268" y="86" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <rect x="334" y="86" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="101" y="105" text-anchor="middle" font-size="11" fill="#4f46e5">시스템</text>
+  <text x="167" y="105" text-anchor="middle" font-size="11" fill="#4f46e5">프로젝트</text>
+  <text x="233" y="105" text-anchor="middle" font-size="11" fill="#4f46e5">메시지1</text>
+  <text x="299" y="105" text-anchor="middle" font-size="11" fill="#2f9e44">응답1</text>
+  <text x="365" y="105" text-anchor="middle" font-size="11" fill="#2f9e44">메시지2</text>
+
+  <!-- 요청 3 -->
+  <text x="10" y="151" font-size="12" font-weight="700" fill="#1f2330">요청 3</text>
+  <rect x="70"  y="132" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="136" y="132" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="202" y="132" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="268" y="132" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="334" y="132" width="62" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <rect x="400" y="132" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <rect x="466" y="132" width="62" height="30" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="101" y="151" text-anchor="middle" font-size="11" fill="#4f46e5">시스템</text>
+  <text x="167" y="151" text-anchor="middle" font-size="11" fill="#4f46e5">프로젝트</text>
+  <text x="233" y="151" text-anchor="middle" font-size="11" fill="#4f46e5">메시지1</text>
+  <text x="299" y="151" text-anchor="middle" font-size="11" fill="#4f46e5">응답1</text>
+  <text x="365" y="151" text-anchor="middle" font-size="11" fill="#4f46e5">메시지2</text>
+  <text x="431" y="151" text-anchor="middle" font-size="11" fill="#2f9e44">응답2</text>
+  <text x="497" y="151" text-anchor="middle" font-size="11" fill="#2f9e44">메시지3</text>
+
+  <!-- Legend -->
+  <rect x="70" y="188" width="14" height="14" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <text x="90" y="199" font-size="11.5" font-weight="600" fill="#5b5fb0">캐시된 prefix, 재사용 (약 0.1배)</text>
+  <rect x="300" y="188" width="14" height="14" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.3"/>
+  <text x="320" y="199" font-size="11.5" font-weight="600" fill="#2f9e44">이번 턴 새 계산 (1.0배)</text>
+</svg>

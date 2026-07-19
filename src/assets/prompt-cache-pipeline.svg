@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 168" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="10" y="18" font-size="13" font-weight="700" fill="#1f2330">로컬 원본이 토큰 배열이 되기까지</text>
+
+  <rect x="8"   y="36" width="100" height="30" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1"/>
+  <rect x="136" y="36" width="100" height="30" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1"/>
+  <rect x="264" y="36" width="100" height="30" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1"/>
+  <rect x="392" y="36" width="100" height="30" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1"/>
+  <rect x="520" y="36" width="108" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <text x="58"  y="55" text-anchor="middle" font-size="11" fill="#1f2330">로컬 원본</text>
+  <text x="186" y="55" text-anchor="middle" font-size="11" fill="#1f2330">JSON 조립</text>
+  <text x="314" y="55" text-anchor="middle" font-size="11" fill="#1f2330">전송 텍스트</text>
+  <text x="442" y="55" text-anchor="middle" font-size="11" fill="#1f2330">서버 토큰화</text>
+  <text x="574" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#4f46e5">토큰 배열</text>
+  <text x="122" y="56" text-anchor="middle" font-size="14" fill="#80828f">→</text>
+  <text x="250" y="56" text-anchor="middle" font-size="14" fill="#80828f">→</text>
+  <text x="378" y="56" text-anchor="middle" font-size="14" fill="#80828f">→</text>
+  <text x="506" y="56" text-anchor="middle" font-size="14" fill="#80828f">→</text>
+
+  <rect x="8" y="92" width="12" height="12" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="28" y="102" font-size="11.5" fill="#1f2330">토큰 배열의 앞부분 = prefix</text>
+  <rect x="8" y="114" width="12" height="12" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1"/>
+  <text x="28" y="124" font-size="11.5" fill="#1f2330">배열의 길이 = 컨텍스트 크기</text>
+  <rect x="8" y="136" width="12" height="12" fill="#f7f7fb" stroke="#cfd0db" stroke-width="1"/>
+  <text x="28" y="146" font-size="11.5" fill="#1f2330">배열의 상한 = 컨텍스트 윈도우</text>
+</svg>

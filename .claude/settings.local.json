@@ -21,7 +21,98 @@
       "Bash(gh api:*)",
       "Bash(git remote:*)",
       "Bash(git push:*)",
-      "Bash(wrangler:*)"
+      "Bash(wrangler:*)",
+      "Bash(gh gist *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4321/blog/jpa-n-plus-one-solutions/)",
+      "Bash(curl *)",
+      "Workflow(deep-research)",
+      "WebSearch",
+      "WebFetch(domain:www.informationweek.com)",
+      "WebFetch(domain:www.linkedin.com)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:forum.thethirdmanifesto.com)",
+      "WebFetch(domain:www.rfc-editor.org)",
+      "WebFetch(domain:itnext.io)",
+      "WebFetch(domain:www.geeksforgeeks.org)",
+      "WebFetch(domain:15445.courses.cs.cmu.edu)",
+      "WebFetch(domain:www.amazon.com)",
+      "WebFetch(domain:www.ssp.sh)",
+      "WebFetch(domain:codilime.com)",
+      "WebFetch(domain:www.kimballgroup.com)",
+      "WebFetch(domain:celerdata.com)",
+      "WebFetch(domain:designgurus.substack.com)",
+      "WebFetch(domain:dev.to)",
+      "WebFetch(domain:link.springer.com)",
+      "WebFetch(domain:www.historyofinformation.com)",
+      "WebFetch(domain:csc.lsu.edu)",
+      "WebFetch(domain:www.sqlskills.com)",
+      "WebFetch(domain:www.getdbt.com)",
+      "WebFetch(domain:airbyte.com)",
+      "WebFetch(domain:pmuens.medium.com)",
+      "WebFetch(domain:lemire.me)",
+      "Bash(echo \"---EXIT:$?---\")",
+      "WebFetch(domain:phoenixdata.ai)",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "mcp__playwright__browser_navigate",
+      "WebFetch(domain:people.inf.elte.hu)",
+      "WebFetch(domain:www.mssqltips.com)",
+      "WebFetch(domain:joecelkothesqlapprentice.blogspot.com)",
+      "Read(//private/tmp/**)",
+      "Bash(cp \"/Users/kimenugi/.claude/projects/-Users-kimenugi-workspace-dev-gnajournal-gnajournal-astro/ee1f845d-d3ff-4836-b601-dcf6e288e483/tool-results/webfetch-1781127581649-v3ilqb.pdf\" cmu08.pdf)",
+      "Bash(which pdftotext *)",
+      "Read(//tmp/**)",
+      "WebFetch(domain:www.karanpratapsingh.com)",
+      "WebFetch(domain:www.itprotoday.com)",
+      "WebFetch(domain:infolab.stanford.edu)",
+      "WebFetch(domain:www.integrate.io)",
+      "Bash(grep -o -i -E \"Boyce.Codd[^<]{0,200}|anomal[^<]{0,200}|normal form[^<]{0,200}|redundan[^<]{0,200}\" /tmp/bcnf.html)",
+      "WebFetch(domain:www.techtarget.com)",
+      "WebFetch(domain:www.sqlservercentral.com)",
+      "WebFetch(domain:cs186berkeley.net)",
+      "Bash(cd *)",
+      "Bash(python3 *)",
+      "Bash(grep -v '```')",
+      "Bash(grep -n '```' docs/hero-image-prompt.md)",
+      "Bash(grep -n '```' src/content/blog/db-normalization-1-integrity-and-keys.md)",
+      "Bash(jq --version)",
+      "Bash(chmod +x .claude/hooks/blog-style-check.sh)",
+      "Bash(.claude/hooks/blog-style-check.sh)",
+      "Bash(echo \"exit=$?\")",
+      "Read(//Users/kimenugi/**)",
+      "Bash(grep -nE '\\(한다|없다|된다|이다|진다|린다|남는다|받는다|따른다|만든다|커진다|빠르다|비싸다|아니다|다뤄진다\\)\\\\.?$' \"Downloads/claude-code-prompt-caching \\(1\\).md\")",
+      "Bash(echo \"hook exit=$?\")",
+      "Bash(awk '/^[[:space:]]*```/{f=!f;next} !f' src/content/blog/claude-code-prompt-caching.md)",
+      "Bash(env -u NODE_OPTIONS npm run build)",
+      "Bash(pkill -f 'astro dev')",
+      "Bash(break)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/blog-style-check.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/blog-style-check.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$CLAUDE_PROJECT_DIR/.claude/statusline-cache.sh"
   }
 }
