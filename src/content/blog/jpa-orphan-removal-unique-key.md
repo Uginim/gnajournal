@@ -11,14 +11,22 @@ draft: true
 
 > 환경은 Spring Boot 2.7, Hibernate 5.6 기준입니다. 이 글이 다루는 flush 순서는 Hibernate 공식 문서에 명시된 동작입니다.
 
-## 같은 값이 유지될 때만 실패함
+## 유니크해야 해서 유니크키를 넣었는데 왜 중복이 나지?
 
-에러 로그는 이랬습니다. 유니크키는 같은 값의 조합이 두 행에 존재할 수 없게 막는 DB 제약인데, `(member_id, interest_id)` 조합에 걸어 둔 제약이 위반됐다는 내용입니다.
+구조부터 보면 단순합니다. 회원(member)과 관심분야를 잇는 매핑 테이블(member_interest)이 있고, 회원 하나가 관심분야 하나당 행 하나를 가집니다.
+
+![member와 member_interest의 1:N 관계를 그린 ERD. member_interest는 id(PK), member_id(FK), interest_id 세 컬럼뿐인 순수 매핑 테이블이고, member_id와 interest_id 조합에 uk_member_interest 유니크키가 걸려 있음을 표시](../../assets/jpa-member-interest-erd.svg)
+
+여기서 한 회원이 같은 관심분야를 두 번 가질 이유는 없습니다. `(member_id=14564, interest_id=10)` 같은 행이 두 개면 그 자체로 잘못된 데이터입니다. 그래서 이 조합이 유일하도록 유니크키를 걸어 뒀습니다. 유니크키(unique key, UK)는 지정한 컬럼 조합의 값이 같은 행이 테이블에 둘 이상 존재할 수 없게 막는 DB 제약으로, 애플리케이션 코드에 버그가 있어도 DB가 마지막에 중복을 거부해 주는 안전장치입니다.
+
+그런데 목록을 교체해 저장하는 API에서, 바로 그 안전장치가 위반됐다는 에러가 나기 시작했습니다. `'14564-10'`은 위반된 값의 조합(member_id 14564, interest_id 10)이고, `uk_member_interest`가 방금 걸어 둔 그 유니크키입니다.
 
 ```text
 ERROR o.h.e.jdbc.spi.SqlExceptionHelper -
 Duplicate entry '14564-10' for key 'uk_member_interest'
 ```
+
+중복을 막으려고 넣은 제약이 중복을 만들 리 없는 코드에서 터진 셈입니다.
 
 문제의 코드는 목록 교체의 흔한 패턴이었습니다. 컬렉션을 비우고 받은 값으로 다시 채웁니다.
 
