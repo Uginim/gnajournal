@@ -64,14 +64,14 @@ fun replaceInterests(newIds: List<Int>) {
 
 flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내보내는 동작입니다. 이때 Hibernate는 예약된 작업들을 ActionQueue라는 내부 큐에 모았다가 고정된 순서로 실행합니다. 공식 문서가 명시한 순서는 다음과 같습니다.
 
-1. `OrphanRemovalAction`
-2. `EntityInsertAction` 또는 `EntityIdentityInsertAction`
-3. `EntityUpdateAction`
-4. `QueuedOperationCollectionAction`
-5. `CollectionRemoveAction`
-6. `CollectionUpdateAction`
-7. `CollectionRecreateAction`
-8. `EntityDeleteAction`
+1. `OrphanRemovalAction`: 고아 삭제
+2. `EntityInsertAction` 또는 `EntityIdentityInsertAction`: 엔티티 삽입
+3. `EntityUpdateAction`: 엔티티 갱신
+4. `QueuedOperationCollectionAction`: 컬렉션 예약 작업
+5. `CollectionRemoveAction`: 컬렉션 삭제
+6. `CollectionUpdateAction`: 컬렉션 갱신
+7. `CollectionRecreateAction`: 컬렉션 재생성
+8. `EntityDeleteAction`: 엔티티 삭제
 
 삽입이 2순위, 엔티티 삭제가 8순위로 맨 마지막입니다. 공식 문서는 이 순서가 코드 작성 순서와 무관하다는 것을 예제로 못박습니다. 엔티티를 먼저 `remove()`하고 새 엔티티를 `persist()`해도, 실행은 INSERT가 먼저이고 DELETE가 나중입니다.
 
