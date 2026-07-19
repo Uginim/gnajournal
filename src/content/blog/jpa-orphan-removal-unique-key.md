@@ -60,7 +60,7 @@ fun replaceInterests(newIds: List<Int>) {
 
 여기까지는 문제가 아닙니다. 삭제가 먼저 실행되면 삽입은 성공합니다. 문제는 실행 순서입니다.
 
-## SQL은 코드 순서가 아니라 ActionQueue 순서로 나감
+## SQL은 코드 순서가 아니라 ActionQueue 순서로 실행됨
 
 flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내보내는 동작입니다. 이때 Hibernate는 예약된 작업들을 ActionQueue라는 내부 큐에 모았다가 고정된 순서로 실행합니다. 공식 문서가 명시한 순서는 다음과 같습니다.
 
