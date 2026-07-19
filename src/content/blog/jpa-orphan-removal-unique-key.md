@@ -64,7 +64,7 @@ fun replaceInterests(newIds: List<Int>) {
 
 flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내보내는 동작입니다. 이때 Hibernate는 예약된 작업들을 ActionQueue라는 내부 큐에 모았다가 고정된 순서로 실행합니다. 공식 문서가 명시한 순서는 다음과 같습니다.
 
-1. `OrphanRemovalAction`: 고아 삭제
+1. `OrphanRemovalAction`: 연관이 끊긴 엔티티 삭제
 2. `EntityInsertAction` 또는 `EntityIdentityInsertAction`: 엔티티 삽입
 3. `EntityUpdateAction`: 엔티티 갱신
 4. `QueuedOperationCollectionAction`: 컬렉션 예약 작업
@@ -153,7 +153,7 @@ fun replaceInterests(newIds: List<Int>) {
 - 목록 교체 API가 같은 값이 유지될 때만 `Duplicate entry`로 실패한다면, Hibernate의 flush 순서를 의심한다
 - Hibernate는 엔티티를 PK로만 식별한다. 값이 같아도 `clear()` + `add()`는 "기존 행 삭제 + 새 행 삽입"이 된다
 - SQL은 코드 순서가 아니라 ActionQueue의 고정 순서로 실행된다. 삽입이 2순위, 엔티티 삭제가 8순위다
-- `clear()`로 인한 고아 삭제는 1순위 `OrphanRemovalAction`이 아니라 8순위 `EntityDeleteAction`으로 간다
+- `clear()`로 연관이 끊긴 엔티티의 삭제는 1순위 `OrphanRemovalAction`이 아니라 8순위 `EntityDeleteAction`으로 간다
 - 이 순서는 FK를 지키기 위한 설계이고, 같은 테이블 안에서 삭제될 행과 삽입될 행이 유니크키 값을 주고받는 통째 교체만 예외적으로 걸린다
 - 유니크키를 지키려면 차집합으로 교체한다. 순수 매핑 테이블이고 쓰기 경로가 통제되면 유니크키 제거도 절충안이 된다
 
@@ -163,5 +163,5 @@ fun replaceInterests(newIds: List<Int>) {
 - [A beginner's guide to Hibernate flush operation order](https://vladmihalcea.com/hibernate-facts-knowing-flush-operations-order-matters/): 같은 유니크키 값을 가진 엔티티를 삭제 후 재생성할 때 제약 위반이 나는 재현 예제. 삭제 후 재삽입 대신 기존 엔티티를 갱신하라는 권장.
 - [How does orphanRemoval work with JPA and Hibernate](https://vladmihalcea.com/orphanremoval-jpa-hibernate/): orphanRemoval의 동작 정의.
 - [HHH-2801](https://hibernate.atlassian.net/browse/HHH-2801): "wrong insert/delete order when updating record-set". 2007년 등록, Rejected로 종료. 이 순서가 의도된 동작이라는 근거.
-- [Hibernate 5.6 소스, Cascade.java](https://github.com/hibernate/hibernate-orm/blob/5.6/hibernate-core/src/main/java/org/hibernate/engine/internal/Cascade.java): `deleteOrphans()`가 컬렉션의 고아를 일반 삭제 이벤트로 처리하는 부분.
+- [Hibernate 5.6 소스, Cascade.java](https://github.com/hibernate/hibernate-orm/blob/5.6/hibernate-core/src/main/java/org/hibernate/engine/internal/Cascade.java): `deleteOrphans()`가 컬렉션에서 제거되어 연관이 끊긴 엔티티를 일반 삭제 이벤트로 처리하는 부분.
 - [Hibernate 5.6 소스, SessionImpl.java](https://github.com/hibernate/hibernate-orm/blob/5.6/hibernate-core/src/main/java/org/hibernate/internal/SessionImpl.java): `removeOrphanBeforeUpdates()`와 HHH-6484 임시 조치라는 주석.
