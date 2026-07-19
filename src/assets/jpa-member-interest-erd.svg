@@ -25,9 +25,9 @@
   <text x="582" y="266" font-size="15" fill="#80828f">그 외 컬럼 없음 (순수 매핑 테이블)</text>
 
   <!-- UK 라벨 -->
-  <path d="M 894 156 L 908 156 L 908 230 L 894 230" fill="none" stroke="#4f46e5" stroke-width="2"/>
-  <text x="920" y="185" font-size="16" font-weight="700" fill="#4f46e5">이 조합이</text>
-  <text x="920" y="208" font-size="16" font-weight="700" fill="#4f46e5">유니크해야 함</text>
+  <path d="M 894 156 L 906 156 L 906 230 L 894 230" fill="none" stroke="#4f46e5" stroke-width="2"/>
+  <text x="914" y="185" font-size="15" font-weight="700" fill="#4f46e5">이 조합이</text>
+  <text x="914" y="207" font-size="15" font-weight="700" fill="#4f46e5">유니크해야 함</text>
 
   <text x="90" y="360" font-size="17" fill="#1f2330">한 회원이 같은 관심분야를 두 번 가질 수 없도록, 두 컬럼의 조합에 유니크키를 걸었습니다.</text>
   <text x="90" y="390" font-size="17" font-weight="600" fill="#4f46e5">UNIQUE KEY uk_member_interest (member_id, interest_id)</text>
