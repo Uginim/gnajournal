@@ -95,56 +95,19 @@ flush 시점에는 삽입 예약 두 건과 삭제 예약 두 건이 ActionQueue
 
 지우고 넣는 코드가 실제로는 넣으려다 기존 행에 막혀 실패합니다. 최종 상태만 보면 `(14564, 10)`은 한 행만 남는 것이 맞습니다. 그러나 DB는 구문(statement) 하나가 끝날 때마다 제약을 검사하므로, INSERT가 실행되는 순간의 겹침을 허용하지 않습니다.
 
-## clear()의 삭제는 마지막 순서로 실행됨
+## 빠진 자식의 삭제는 1순위가 아니라 8순위로 예약됨
 
 그런데 이상합니다. `replaceInterests()` 함수 내에서 `clear()`를 호출하면 엔티티의 관계는 사라질 텐데 `OrphanRemovalAction`이 먼저 실행되지 않는 걸까요?
 
-답은 실제 Hibernate 5.6 소스를 보면 나옵니다. 두 액션은 Hibernate가 상황을 보고 고르는 것이 아니라, **어느 메서드를 거쳐 삭제가 예약됐는지**로 정해집니다.
+`clear()`라는 호출이 그대로 SQL로 번역되는 것이 아닙니다. 번역하는 주체는 flush를 수행하는 세션이고, 세션이 보는 것은 호출 기록이 아니라 영속성 컨텍스트의 상태입니다.
 
-- 세션의 `delete()`를 거치면 8순위 `EntityDeleteAction`
-- 세션의 `removeOrphanBeforeUpdates()`를 거치면 1순위 `OrphanRemovalAction`
+영속성 컨텍스트는 컬렉션을 로드할 때의 원소 목록을 스냅샷으로 갖고 있습니다. flush 때 세션은 스냅샷과 현재 컬렉션을 비교해서 빠진 원소를 구합니다. `clear()`를 한 번 불렀는지 `remove()`를 여러 번 불렀는지는 남아 있지 않고, 결과만 비교됩니다.
 
-갈림길은 삭제 이벤트를 처리하는 `DefaultDeleteEventListener`의 `if`와 `else` 한 쌍입니다.
+![영속성 컨텍스트의 스냅샷과 현재 컬렉션을 비교하는 도식. 왼쪽 스냅샷에는 PK가 있는 영속 엔티티 id=1 (14564, 10)과 id=2 (14564, 20)이 있고, 오른쪽 현재 컬렉션에는 PK가 없는 새 객체 (14564, 10)과 (14564, 30)이 있음. 비교 결과 왼쪽 둘은 8순위 EntityDeleteAction으로, 오른쪽 둘은 2순위 EntityInsertAction으로 예약되어 값이 같은 (14564, 10)도 삭제 1건과 삽입 1건으로 갈림](../../assets/jpa-persistence-context-snapshot.svg)
 
-```java
-// DefaultDeleteEventListener.java:286~313 (hibernate-core 5.6.15.Final)
+그렇게 구한 원소마다 세션의 `delete()`가 호출됩니다. `em.remove()`를 직접 부른 것과 같은 일반 삭제 이벤트이고, 여기서 예약되는 작업이 8순위 `EntityDeleteAction`입니다.
 
-286  if ( isOrphanRemovalBeforeUpdates ) {      // 참일 때만 1순위 액션
-289      session.getActionQueue().addAction(
-290              new OrphanRemovalAction( ... ) // 290~298행. 생성자 인자는 인용에서 생략
-299      );
-300  }
-301  else {                                     // 그 밖의 모든 삭제는 8순위 액션
-303      session.getActionQueue().addAction(
-304              new EntityDeleteAction( ... )  // 304~312행. 생성자 인자는 인용에서 생략
-312      );
-313  }
-```
-
-`isOrphanRemovalBeforeUpdates`가 참이 되는 것은 `removeOrphanBeforeUpdates()`를 거쳐 들어온 삭제뿐입니다. 세션의 `delete()`로 들어온 삭제는 `else`로 갑니다. 소스 전체에서 두 액션을 만드는 곳은 이 두 줄뿐입니다.
-
-그러면 컬렉션에서 빠진 자식이 둘 중 어느 쪽으로 가는지 보면 됩니다. 그 처리를 맡은 `Cascade.deleteOrphans()`에는 `delete()` 호출 하나만 있습니다. 아래 코드의 `eventSource`는 세션을 가리킵니다. Hibernate가 세션을 이벤트 발생자로 다룰 때 쓰는 인터페이스이고, 실제 구현이 `SessionImpl`입니다.
-
-```java
-// Cascade.java:587~609 (hibernate-core 5.6.15.Final)
-
-587  /**
-588   * Delete any entities that were removed from the collection
-589   */
-590  private static void deleteOrphans(EventSource eventSource, String entityName, PersistentCollection pc) {
-591      ...   // 591~601행. 스냅샷과 현재 컬렉션을 비교해 orphans를 구하는 코드. 인용에서 생략
-603      for ( Object orphan : orphans ) {          // 컬렉션에서 빠진 자식들
-604          if ( orphan != null ) {
-605              LOG.tracev( "Deleting orphaned entity instance: {0}", entityName );
-606              eventSource.delete( entityName, orphan, false, new HashSet() );  // 일반 삭제 이벤트
-607          }
-608      }
-609  }
-```
-
-`removeOrphanBeforeUpdates()`를 호출하는 코드가 이 메서드에는 없습니다. 조건에 따라 갈라질 여지 없이 모든 자식이 `delete()`로 갑니다. `delete()`는 `em.remove()`를 직접 호출한 것과 같은 일반 삭제 이벤트이므로, 결과는 8순위 `EntityDeleteAction`입니다.
-
-`removeOrphanBeforeUpdates()`를 호출하는 코드는 일대일 연관을 처리하는 다른 메서드에만 있습니다. 그 메서드는 첫 줄에서 일대일 연관인지부터 확인하므로 컬렉션은 도달하지 않습니다. 소스 전체를 검색해도 1순위 액션을 만드는 경로는 그 하나뿐입니다. 검색 결과는 부록에 정리했습니다.
+1순위 `OrphanRemovalAction`은 세션의 다른 메서드인 `removeOrphanBeforeUpdates()`를 거쳐야만 만들어집니다. 그 메서드를 호출하는 코드는 일대일 연관 처리부에만 있고, 컬렉션은 거기 도달하지 않습니다. 소스에서 확인한 내용은 부록에 정리했습니다.
 
 그래서 `clear()`로 빠진 자식은 1순위가 아니라 8순위로 예약됩니다. 5순위 `CollectionRemoveAction`도 아닙니다. 그 액션은 컬렉션 자체를 비우는 작업인데, 이 연관은 `mappedBy`로 걸린 역방향이라 컬렉션이 자체 SQL을 내지 않습니다. 행의 삭제는 전부 자식 엔티티 단위 작업으로 나갑니다.
 
@@ -229,9 +192,49 @@ StaleStateException: actual row count: 0; expected: 1
 - 이 순서는 일반적인 연관관계 변경에서는 유리하다. 같은 테이블 안에서 삭제될 행과 삽입될 행이 유니크키 값을 공유할 때만 문제가 된다
 - 중복이 허용되지 않는 관계라면 유니크키를 유지하고, 유지할 행은 건드리지 않은 채 변경된 것만 지우고 추가한다. 유니크키 제거는 동시 쓰기까지 막을 다른 방법이 있을 때만 검토한다
 
-## 부록: 1순위 경로가 일대일 연관 전용이라는 근거
+## 부록: 삭제가 8순위로 예약된다는 근거
 
-본문에서 본 `isOrphanRemovalBeforeUpdates`가 참이 되는 경로는 하나뿐입니다. `SessionImpl.removeOrphanBeforeUpdates()`가 `DeleteEvent`를 만들면서 해당 인자에 `true`를 넘기는 경우입니다.
+컬렉션에서 빠진 자식을 처리하는 `Cascade.deleteOrphans()`에는 `delete()` 호출 하나만 있습니다. 아래 코드의 `eventSource`는 세션을 가리킵니다. Hibernate가 세션을 이벤트 발생자로 다룰 때 쓰는 인터페이스이고, 실제 구현이 `SessionImpl`입니다.
+
+```java
+// Cascade.java:587~609 (hibernate-core 5.6.15.Final)
+
+587  /**
+588   * Delete any entities that were removed from the collection
+589   */
+590  private static void deleteOrphans(EventSource eventSource, String entityName, PersistentCollection pc) {
+591      ...   // 591~601행. 스냅샷과 현재 컬렉션을 비교해 orphans를 구하는 코드. 인용에서 생략
+603      for ( Object orphan : orphans ) {          // 컬렉션에서 빠진 자식들
+604          if ( orphan != null ) {
+605              LOG.tracev( "Deleting orphaned entity instance: {0}", entityName );
+606              eventSource.delete( entityName, orphan, false, new HashSet() );  // 일반 삭제 이벤트
+607          }
+608      }
+609  }
+```
+
+`removeOrphanBeforeUpdates()`를 호출하는 코드가 이 메서드에는 없습니다. 조건에 따라 갈라질 여지 없이 모든 자식이 `delete()`로 갑니다.
+
+두 액션의 갈림길은 삭제 이벤트를 처리하는 `DefaultDeleteEventListener`의 `if`와 `else` 한 쌍입니다.
+
+```java
+// DefaultDeleteEventListener.java:286~313 (hibernate-core 5.6.15.Final)
+
+286  if ( isOrphanRemovalBeforeUpdates ) {      // 참일 때만 1순위 액션
+289      session.getActionQueue().addAction(
+290              new OrphanRemovalAction( ... ) // 290~298행. 생성자 인자는 인용에서 생략
+299      );
+300  }
+301  else {                                     // 그 밖의 모든 삭제는 8순위 액션
+303      session.getActionQueue().addAction(
+304              new EntityDeleteAction( ... )  // 304~312행. 생성자 인자는 인용에서 생략
+312      );
+313  }
+```
+
+세션의 `delete()`로 들어온 삭제는 이 플래그가 거짓이라 `else`로 갑니다. 소스 전체에서 두 액션을 만드는 곳은 이 두 줄뿐입니다.
+
+`isOrphanRemovalBeforeUpdates`가 참이 되는 경로는 하나뿐입니다. `SessionImpl.removeOrphanBeforeUpdates()`가 `DeleteEvent`를 만들면서 해당 인자에 `true`를 넘기는 경우입니다.
 
 ```java
 // SessionImpl.java:906~924 (hibernate-core 5.6.15.Final)

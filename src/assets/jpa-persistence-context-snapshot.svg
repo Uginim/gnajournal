@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 520" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+
+  <!-- 스냅샷 -->
+  <rect x="60" y="60" width="380" height="170" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <rect x="60" y="60" width="380" height="44" rx="8" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="250" y="89" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2330">스냅샷 (컬렉션 로드 시점)</text>
+  <text x="86" y="141" font-size="16" fill="#1f2330">id=1, (14564, 10)</text>
+  <text x="86" y="177" font-size="16" fill="#1f2330">id=2, (14564, 20)</text>
+  <text x="86" y="211" font-size="15" fill="#80828f">PK가 있는 영속 엔티티</text>
+
+  <!-- 현재 컬렉션 -->
+  <rect x="580" y="60" width="380" height="170" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <rect x="580" y="60" width="380" height="44" rx="8" fill="#fff2e8" stroke="#d9480f" stroke-width="2"/>
+  <text x="770" y="89" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2330">현재 컬렉션 (clear 후 add)</text>
+  <text x="606" y="141" font-size="16" fill="#1f2330">id=null, (14564, 10)</text>
+  <text x="606" y="177" font-size="16" fill="#1f2330">id=null, (14564, 30)</text>
+  <text x="606" y="211" font-size="15" fill="#80828f">PK가 없는 새 객체</text>
+
+  <!-- 비교 -->
+  <line x1="440" y1="145" x2="580" y2="145" stroke="#80828f" stroke-width="2"/>
+  <text x="510" y="136" text-anchor="middle" font-size="15" fill="#80828f">비교</text>
+
+  <text x="510" y="278" text-anchor="middle" font-size="17" font-weight="600" fill="#1f2330">flush 때 세션이 둘을 비교해 작업을 예약합니다</text>
+
+  <!-- 예약 결과 -->
+  <rect x="60" y="320" width="380" height="130" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <text x="86" y="356" font-size="17" font-weight="700" fill="#1f2330">삭제 예약</text>
+  <text x="86" y="390" font-size="16" fill="#1f2330">id=1, id=2</text>
+  <text x="86" y="424" font-size="16" font-weight="700" fill="#80828f">8순위 EntityDeleteAction</text>
+
+  <rect x="580" y="320" width="380" height="130" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <text x="606" y="356" font-size="17" font-weight="700" fill="#1f2330">삽입 예약</text>
+  <text x="606" y="390" font-size="16" fill="#1f2330">새 객체 2건</text>
+  <text x="606" y="424" font-size="16" font-weight="700" fill="#d9480f">2순위 EntityInsertAction</text>
+
+  <text x="510" y="492" text-anchor="middle" font-size="17" font-weight="700" fill="#d9480f">값이 같은 (14564, 10)도 삭제 1건과 삽입 1건으로 갈립니다</text>
+</svg>
