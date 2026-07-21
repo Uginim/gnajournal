@@ -10,7 +10,7 @@ tags: ['JPA', 'Hibernate', 'orphanRemoval', '유니크키', 'flush']
 
 조건도 이상했습니다. 목록이 전혀 다른 값으로 바뀔 때는 통과하고, 기존 값이 하나라도 남아 있을 때만 실패했습니다. 회원의 관심분야를 **여행**과 음악에서 **여행**과 요리로 바꾸는 경우입니다. 그대로 두려던 **여행** 하나 때문에 유니크키 위반이 났습니다.
 
-코드가 적힌 순서와 SQL이 실행되는 순서가 달랐기 때문입니다. Hibernate는 컬렉션에서 빠진 기존 행을 지우기 전에 새 엔티티의 INSERT를 먼저 실행했습니다.
+원인은 코드에 적힌 순서와 실제 SQL이 나가는 순서가 달랐다는 데 있었습니다. 이 글에서 상세하게 설명드리겠습니다.
 
 > 업무 내용을 그대로 적을 수 없어서 각색하였습니다. 도메인과 테이블 이름은 실제와 다르지만 에러와 원인, 해결 과정은 겪은 그대로입니다. 환경은 Spring Boot 2.7, Hibernate 5.6 기준이고, 이 글이 다루는 flush 순서는 Hibernate 공식 문서에 명시된 동작입니다.
 
@@ -22,16 +22,7 @@ tags: ['JPA', 'Hibernate', 'orphanRemoval', '유니크키', 'flush']
 
 여기서 한 회원이 같은 관심분야를 두 번 가질 이유는 없습니다. `(member_id=14564, interest_id=10)` 같은 행이 두 개면 그 자체로 잘못된 데이터입니다. 그래서 이 조합이 유일하도록 유니크키(unique key, UK)를 걸어 뒀습니다.
 
-그런데 목록을 교체해 저장하는 API에서 유니크키가 위반됐다는 에러가 나기 시작했습니다. `'14564-10'`은 위반된 값의 조합(member_id 14564, interest_id 10)이고, `uk_member_interest`가 위에서 걸어 둔 그 유니크키입니다.
-
-```text
-ERROR o.h.e.jdbc.spi.SqlExceptionHelper -
-Duplicate entry '14564-10' for key 'uk_member_interest'
-```
-
-중복을 막으려고 넣은 제약이 중복을 만들 리 없는 코드에서 오류를 낸 셈입니다.
-
-문제의 코드는 목록 교체의 흔한 패턴이었습니다. 컬렉션을 비우고 받은 값으로 다시 채웁니다.
+관심분야 목록을 교체해 저장하는 코드는 컬렉션을 비우고 받은 값으로 다시 채우는 방식이었습니다.
 
 ```kotlin
 @OneToMany(
@@ -48,22 +39,22 @@ fun replaceInterests(newIds: List<Int>) {
 }
 ```
 
-`orphanRemoval = true`는 `remove()`나 `clear()`로 부모의 컬렉션에서 제거된 자식 엔티티의 행을 DB에서도 삭제하라는 매핑 설정입니다. 그래서 의도는 명확합니다. `clear()`로 기존 행이 전부 삭제되고, `add()`로 새 행이 삽입됩니다.
+`orphanRemoval = true`는 `remove()`나 `clear()`로 부모의 컬렉션에서 제거된 자식 엔티티의 행을 DB에서도 삭제하라는 매핑 설정입니다. `clear()`로 기존 행이 전부 삭제되고, `add()`로 새 행이 삽입되기를 기대한 코드입니다.
 
-테스트가 이 버그를 놓친 이유도 실패 조건에 있습니다. 목록을 매번 전혀 다른 값으로 바꾸는 테스트만 있으면 전부 통과합니다.
+그런데 이 API에서 유니크키가 위반됐다는 에러가 나기 시작했습니다. `'14564-10'`은 위반된 값의 조합(member_id 14564, interest_id 10)이고, `uk_member_interest`가 위에서 걸어 둔 그 유니크키입니다.
 
-## Hibernate는 PK로만 엔티티를 식별하기 때문에
+```text
+ERROR o.h.e.jdbc.spi.SqlExceptionHelper -
+Duplicate entry '14564-10' for key 'uk_member_interest'
+```
 
-"같은 값이면 그대로 두면 되지 않나"가 자연스러운 기대인데, Hibernate는 그렇게 하지 않습니다. 엔티티를 기본키(PK)로만 식별하기 때문입니다.
-
-- `clear()`로 컬렉션에서 제거된 기존 자식: PK가 있는 엔티티. 삭제 대상
-- `add()`로 들어온 새 자식: PK가 null인 엔티티. 삽입 대상
-
-두 엔티티의 `(member_id, interest_id)` 값이 같다는 것은 유니크키를 아는 DB의 사정이고, Hibernate는 비즈니스 값을 추적하지 않습니다. PK가 다르면(또는 아직 없으면) 서로 무관한 엔티티입니다. 그래서 같은 값이 유지되는 경우에도 "기존 행 삭제 + 새 행 삽입" 두 작업이 예약됩니다.
-
-여기까지는 문제가 아닙니다. 삭제가 먼저 실행되면 삽입은 성공합니다. 문제는 실행 순서입니다.
+중복을 막으려고 넣은 제약이, 중복을 만들 리 없어 보이는 코드에서 오류를 낸 셈입니다.
 
 ## Hibernate에서 SQL은 코드 순서가 아니라 ActionQueue 순서로 실행됨
+
+이 코드는 문제없어 보이지만, Hibernate 입장에서는 값만 같을 뿐 서로 다른 엔티티 둘을 처리하는 코드입니다. `add()`로 새로 넣은 엔티티와, 그와 값이 같은 기존 엔티티의 삭제가 함께 예약됩니다.
+
+여기까지는 문제가 아닙니다. 삭제가 먼저 실행되면 삽입은 성공합니다. 문제는 실행 순서입니다.
 
 flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내보내는 동작입니다. 이때 Hibernate는 예약된 작업들을 ActionQueue라는 내부 큐에 모았다가 고정된 순서로 실행합니다. 공식 문서가 명시한 순서는 다음과 같습니다.
 
@@ -97,7 +88,23 @@ flush 시점에는 삽입 예약 두 건과 삭제 예약 두 건이 ActionQueue
 
 ## 빠진 자식의 삭제는 1순위가 아니라 8순위로 예약됨
 
-그런데 이상합니다. `replaceInterests()` 함수 내에서 `clear()`를 호출하면 엔티티의 관계는 사라질 텐데 `OrphanRemovalAction`이 먼저 실행되지 않는 걸까요?
+그런데 이상합니다. 목록 1순위에 `OrphanRemovalAction`이 있습니다. 이름 그대로 orphan, 즉 부모의 컬렉션에서 제거되어 연관이 끊긴 자식 엔티티를 삭제하는 작업이고, `orphanRemoval = true`로 지정한 그 삭제로 보입니다.
+
+`OrphanRemovalAction`만 보면 `clear()`로 컬렉션에서 빠진 자식은 이 1순위 작업으로 먼저 삭제될 것 같습니다. `replaceInterests()`에서 `clear()`를 호출하면 자식과 부모의 연관이 끊기니까요. 그런데 왜 먼저 실행되지 않을까요?
+
+이름만 보면 그렇지만, 실제 코드는 다릅니다. `OrphanRemovalAction`은 일반 삭제 작업인 `EntityDeleteAction`을 그대로 상속한 클래스이고, 생성자에서 부모 생성자를 부르는 것 말고는 아무 로직이 없습니다.
+
+```java
+// OrphanRemovalAction.java:14~19 (hibernate-core 5.6.15.Final)
+
+public final class OrphanRemovalAction extends EntityDeleteAction {
+    public OrphanRemovalAction( ... ) {   // 생성자 인자는 인용에서 생략
+        super( ... );
+    }
+}
+```
+
+삭제하는 동작은 `EntityDeleteAction`과 똑같고, ActionQueue에서 실행 순서만 1순위로 앞당기려고 따로 둔 타입입니다. 그래서 "`orphanRemoval`로 컬렉션에서 빠진 자식은 `OrphanRemovalAction`으로 처리된다"는 것은 이름에서 온 짐작이고, 실제로 이 타입이 쓰이는 경우는 훨씬 좁습니다. `clear()`로 빠진 컬렉션 자식은 여기에 해당하지 않습니다.
 
 `clear()`라는 호출이 그대로 SQL로 번역되는 것이 아닙니다. 번역하는 주체는 flush를 수행하는 세션이고, 세션이 보는 것은 호출 기록이 아니라 영속성 컨텍스트의 상태입니다.
 
@@ -138,27 +145,27 @@ DELETE 옛 부모
 
 당장 문제가 있었을 땐 유니크키만 제거했습니다. 제약을 빼면 에러는 사라지지만 원인은 그대로 남습니다.
 
-## 유지할 행은 지우지 말고 변경된 것만 지우고 추가해야 함
+## 없어진 것만 지우고 새로 생긴 것만 넣어야 함
 
-유니크키를 유지하면서 교체하려면, 전체를 지우고 다시 넣는 대신 없어진 것만 지우고 새로 생긴 것만 추가해야 합니다. 유지되는 행은 건드리지 않으므로 같은 값의 재삽입이 없고, 충돌도 없습니다.
+유니크키를 유지하면서 교체하려면, 전체를 지우고 다시 넣는 대신 없어진 것만 지우고 새로 생긴 것만 넣어야 합니다. 유지되는 행은 건드리지 않으므로 같은 값의 재삽입이 없고, 충돌도 없습니다.
 
 ```kotlin
 fun replaceInterests(newIds: List<Int>) {
     val target = newIds.toSet()
     val current = interests.map { it.interestId }.toSet()
 
-    interests.removeIf { it.interestId !in target }   // 빠진 것만 삭제
+    interests.removeIf { it.interestId !in target }   // 없어진 것만 지움
     target.filter { it !in current }
-          .forEach { interests.add(MemberInterest(this, it)) }  // 새로운 것만 삽입
+          .forEach { interests.add(MemberInterest(this, it)) }  // 새로 생긴 것만 넣음
 }
 ```
 
-다른 선택지와 함께 별도 프로젝트에서 전부 실행해 봤습니다. 조건은 모두 같습니다. 기존 목록이 `[1, 2]`이고 새 목록이 `[2, 3]`이라 값 2가 유지됩니다.
+다른 선택지와 함께 별도 프로젝트에서 전부 실행해 봤습니다. 조건은 모두 같습니다. 기존 목록이 `[10, 20]`이고 새 목록이 `[10, 30]`이라 값 10이 유지됩니다.
 
 | 방법 | 유니크키 | 결과 | 실행된 SQL |
 | --- | --- | --- | --- |
 | `clear()` 후 `add()` (문제의 코드) | 유지 | 실패 | INSERT에서 위반, DELETE 0건 |
-| 빠진 것만 삭제하고 새 것만 삽입 (위 코드) | 유지 | 성공 | INSERT 1건, DELETE 1건 |
+| 없어진 것만 지우고 새로 생긴 것만 넣기 (위 코드) | 유지 | 성공 | INSERT 1건, DELETE 1건 |
 | `clear()` 후 강제 `flush()` | 유지 | 성공 | DELETE 2건 후 INSERT 2건 |
 | 유니크키 제거 | 포기 | 성공 | INSERT 2건 후 DELETE 2건 |
 | 네이티브 DELETE 후 INSERT | 유지 | 실패 | `StaleStateException` |
@@ -179,18 +186,52 @@ delete from MemberInterest where id=?
 StaleStateException: actual row count: 0; expected: 1
 ```
 
-유니크키를 제거하면 오류는 사라집니다. 다만 로그를 보면 `INSERT` 두 건이 `DELETE` 두 건보다 먼저 실행됩니다. 트랜잭션 중간에 `(member_id, 2)` 행이 두 개 존재하는 순간이 실재하고, 최종 상태만 정상입니다. 애플리케이션 코드로 중복을 막는 데도 한계가 있습니다. `distinct()`가 막는 것은 한 요청 안에서 전달된 목록의 중복뿐입니다. 같은 회원을 고치는 요청이 동시에 들어오거나, 배치나 관리자 기능처럼 다른 저장 경로가 나중에 추가되면 막지 못합니다. 쓰기 메서드가 하나라는 것은 호출 경로가 하나라는 뜻이지, 한 번에 하나씩 실행된다는 뜻이 아닙니다.
+유니크키를 제거하면 오류는 사라집니다. 다만 로그를 보면 `INSERT` 두 건이 `DELETE` 두 건보다 먼저 실행됩니다. 트랜잭션 중간에 `(member_id, 10)` 행이 두 개 존재하는 순간이 실재하고, 최종 상태만 정상입니다. 애플리케이션 코드로 중복을 막는 데도 한계가 있습니다. `distinct()`가 막는 것은 한 요청 안에서 전달된 목록의 중복뿐입니다. 같은 회원을 고치는 요청이 동시에 들어오거나, 배치나 관리자 기능처럼 다른 저장 경로가 나중에 추가되면 막지 못합니다. 쓰기 메서드가 하나라는 것은 호출 경로가 하나라는 뜻이지, 한 번에 하나씩 실행된다는 뜻이 아닙니다.
 
 이 조합의 중복이 잘못된 데이터라면, 애플리케이션 코드에 버그가 있어도 DB가 중복을 거부하게 두는 편이 낫습니다. 유니크키 제거는 중복이 실제로 문제가 되지 않거나, 동시 쓰기까지 포함해 다른 방법으로 정합성을 보장할 수 있을 때만 검토할 일입니다.
+
+## 테스트로 미리 잡으려면 유지되는 값을 넣어야 함
+
+이 버그는 실패 조건이 좁아서 테스트로 잡기 어렵습니다. 교체 전후 목록에 같은 값이 하나도 없으면 통과하고, 하나라도 유지될 때만 실패합니다. 목록을 매번 전혀 다른 값으로 바꾸는 테스트만 있으면 오류가 드러나지 않습니다.
+
+그래서 교체 코드의 테스트에는 유지되는 값이 있는 케이스를 반드시 넣어야 합니다. 재현 프로젝트에 `[10, 20]`을 `[10, 30]`으로 바꾸는 테스트를 넣어 두 방식을 확인했습니다. 값 10이 유지되는 이 케이스에서 문제의 코드는 예외로 실패하고, 해결 코드는 통과합니다.
+
+```java
+// 문제의 코드(clear 후 add): 유지되는 값이 있으면 유니크키 위반으로 실패한다
+@Test
+void clearAdd_유지되는_값이_있으면_실패한다() {
+    Long id = seed(List.of(10, 20));
+
+    assertThatThrownBy(() -> runInTx(em -> {
+        Member m = em.find(Member.class, id);
+        m.replaceClearAdd(List.of(10, 30));
+    })).isInstanceOf(RollbackException.class);
+}
+
+// 해결 코드(없어진 것만 지우고 새로 생긴 것만 넣음): 같은 케이스가 통과하고 결과도 [10, 30]이다
+@Test
+void diff_유지되는_값이_있어도_통과한다() {
+    Long id = seed(List.of(10, 20));
+
+    runInTx(em -> {
+        Member m = em.find(Member.class, id);
+        m.replaceDiff(List.of(10, 30));
+    });
+
+    assertThat(findInterestIds(id)).containsExactlyInAnyOrder(10, 30);
+}
+```
+
+`seed`, `runInTx`, `findInterestIds`는 트랜잭션과 조회를 감싼 테스트 헬퍼입니다.
 
 ## 정리
 
 - 목록 교체 API가 같은 값이 유지될 때만 `Duplicate entry`로 실패한다면, Hibernate의 flush 순서를 의심한다
-- Hibernate는 엔티티를 PK로만 식별한다. 값이 같아도 `clear()` + `add()`는 "기존 행 삭제 + 새 행 삽입"이 된다
+- `clear()` 후 `add()`로 다시 넣은 자식은 값만 같을 뿐 별개 엔티티라, 값이 유지돼도 삭제 한 건과 삽입 한 건으로 갈라진다
 - SQL은 코드 순서가 아니라 ActionQueue의 고정 순서로 실행된다. 삽입이 2순위, 엔티티 삭제가 8순위다
 - `clear()`로 연관이 끊긴 엔티티의 삭제는 1순위 `OrphanRemovalAction`이 아니라 8순위 `EntityDeleteAction`으로 간다
 - 이 순서는 일반적인 연관관계 변경에서는 유리하다. 같은 테이블 안에서 삭제될 행과 삽입될 행이 유니크키 값을 공유할 때만 문제가 된다
-- 중복이 허용되지 않는 관계라면 유니크키를 유지하고, 유지할 행은 건드리지 않은 채 변경된 것만 지우고 추가한다. 유니크키 제거는 동시 쓰기까지 막을 다른 방법이 있을 때만 검토한다
+- 중복이 허용되지 않는 관계라면 유니크키를 유지하고, 유지할 행은 건드리지 않은 채 없어진 것만 지우고 새로 생긴 것만 넣는다. 유니크키 제거는 동시 쓰기까지 막을 다른 방법이 있을 때만 검토한다
 
 ## 부록: 삭제가 8순위로 예약된다는 근거
 
