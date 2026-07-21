@@ -4,12 +4,18 @@
 // 1. GitHub 저장소에서 Discussions 기능을 활성화
 // 2. giscus 앱을 저장소에 설치: https://github.com/apps/giscus
 // 3. https://giscus.app/ko 에서 설정 값 생성
+//
+// 미설정 안내 문구는 개발 환경에서만 노출한다. 프로덕션에 "댓글을 설정해주세요"
+// 같은 제작 중 표시가 남으면 AdSense 심사에서 미완성 사이트로 감점될 수 있다.
+const showPlaceholder = import.meta.env.DEV;
 ---
 
 <div id="giscus-container">
-	<p class="giscus-placeholder">
-		댓글을 사용하려면 <a href="https://giscus.app/ko" target="_blank" rel="noopener">Giscus</a>를 설정해주세요.
-	</p>
+	{showPlaceholder && (
+		<p class="giscus-placeholder">
+			댓글을 사용하려면 <a href="https://giscus.app/ko" target="_blank" rel="noopener">Giscus</a>를 설정해주세요. (개발 환경에서만 보임)
+		</p>
+	)}
 </div>
 
 <script>
