@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="1020" height="510" fill="#f7f7fb"/>
+
+  <text x="90" y="78" font-size="28" font-weight="700" fill="#1f2330">IN과 EXISTS, 무엇이 빠를까</text>
+
+  <rect x="150" y="150" width="300" height="76" rx="8" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="300" y="196" text-anchor="middle" font-size="19" font-weight="700" fill="#4f46e5">IN (서브쿼리)</text>
+
+  <rect x="570" y="150" width="300" height="76" rx="8" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="720" y="196" text-anchor="middle" font-size="19" font-weight="700" fill="#4f46e5">EXISTS (서브쿼리)</text>
+
+  <path d="M300 226 L300 290 L510 290 L510 330" fill="none" stroke="#9aa0b4" stroke-width="2.5"/>
+  <path d="M720 226 L720 290 L510 290 L510 330" fill="none" stroke="#9aa0b4" stroke-width="2.5"/>
+  <path d="M510 342 l-7 -12 l14 0 z" fill="#9aa0b4"/>
+
+  <rect x="310" y="342" width="400" height="80" rx="8" fill="#4f46e5"/>
+  <text x="510" y="382" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">같은 semijoin 변환</text>
+  <text x="510" y="406" text-anchor="middle" font-size="14" fill="#dfe0ff">최신 버전 기준</text>
+
+  <text x="90" y="483" font-size="19" font-weight="600" fill="#1f2330">최신 옵티마이저는 IN과 EXISTS를 같은 semijoin으로 변환합니다.</text>
+  <text x="90" y="499" font-size="15" fill="#7a7c88">어느 쪽이 빠른지는 데이터 크기와 실행 계획에 따라 달라집니다.</text>
+</svg>

@@ -56,7 +56,7 @@ Duplicate entry '14564-10' for key 'uk_member_interest'
 
 여기까지는 문제가 아닙니다. 삭제가 먼저 실행되면 삽입은 성공합니다. 문제는 실행 순서입니다.
 
-flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내보내는 동작입니다. 이때 Hibernate는 예약된 작업들을 ActionQueue라는 내부 큐에 모았다가 고정된 순서로 실행합니다. 공식 문서가 명시한 순서는 다음과 같습니다.
+flush는 영속성 컨텍스트에 쌓인 변경을 SQL로 만들어 DB에 내보내는 동작입니다. 이때 Hibernate는 예약된 작업들을 ActionQueue라는 내부 큐에 모았다가 고정된 순서로 실행합니다. 공식 문서가 명시한 순서입니다.
 
 1. `OrphanRemovalAction`: 연관이 끊긴 엔티티 삭제
 2. `EntityInsertAction` 또는 `EntityIdentityInsertAction`: 엔티티 삽입
@@ -118,7 +118,7 @@ public final class OrphanRemovalAction extends EntityDeleteAction {
 
 그래서 `clear()`로 빠진 자식은 1순위가 아니라 8순위로 예약됩니다. 5순위 `CollectionRemoveAction`도 아닙니다. 그 액션은 컬렉션 자체를 비우는 작업인데, 이 연관은 `mappedBy`로 걸린 역방향이라 컬렉션이 자체 SQL을 내지 않습니다. 행의 삭제는 전부 자식 엔티티 단위 작업으로 나갑니다.
 
-정리하면 `orphanRemoval = true`는 "컬렉션에서 제거된 자식을 삭제하라"는 정책일 뿐, 언제 삭제할지까지 정하지 않습니다. `clear()`로 비운 컬렉션의 삭제는 맨 마지막 순서입니다.
+`orphanRemoval = true`는 "컬렉션에서 제거된 자식을 삭제하라"는 정책일 뿐, 언제 삭제할지까지 정하지 않습니다. `clear()`로 비운 컬렉션의 삭제는 맨 마지막 순서입니다.
 
 ## 삽입이 먼저 실행돼도 대부분은 문제가 없음
 
@@ -160,7 +160,7 @@ fun replaceInterests(newIds: List<Int>) {
 }
 ```
 
-다른 선택지와 함께 별도 프로젝트에서 전부 실행해 봤습니다. 조건은 모두 같습니다. 기존 목록이 `[10, 20]`이고 새 목록이 `[10, 30]`이라 값 10이 유지됩니다.
+다른 선택지까지 같은 조건으로 실행한 결과입니다. 기존 목록이 `[10, 20]`이고 새 목록이 `[10, 30]`이라 값 10이 유지됩니다.
 
 | 방법 | 유니크키 | 결과 | 실행된 SQL |
 | --- | --- | --- | --- |

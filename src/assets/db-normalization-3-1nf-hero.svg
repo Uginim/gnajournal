@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="1020" height="510" fill="#f7f7fb"/>
+
+  <text x="90" y="78" font-size="28" font-weight="700" fill="#1f2330">제1정규형 (1NF)</text>
+
+  <text x="260" y="128" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2330">한 칸에 여러 값</text>
+  <rect x="110" y="185" width="300" height="235" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <rect x="146" y="270" width="228" height="66" rx="6" fill="#fdf1ea" stroke="#d9480f" stroke-width="2"/>
+  <text x="260" y="309" text-anchor="middle" font-size="18" fill="#d9480f">여행, 음악</text>
+  <text x="260" y="372" text-anchor="middle" font-size="15" fill="#7a7c88">한 칸에 값이 여러 개</text>
+
+  <text x="760" y="128" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2330">한 칸에 하나의 값</text>
+  <rect x="610" y="185" width="300" height="235" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <rect x="646" y="238" width="228" height="52" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="760" y="270" text-anchor="middle" font-size="17" fill="#4f46e5">여행</text>
+  <rect x="646" y="302" width="228" height="52" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="760" y="334" text-anchor="middle" font-size="17" fill="#4f46e5">음악</text>
+
+  <text x="90" y="497" font-size="19" font-weight="600" fill="#1f2330">한 칸에 여러 값을 넣지 않고, 한 칸에 하나의 값으로 다룹니다.</text>
+</svg>
