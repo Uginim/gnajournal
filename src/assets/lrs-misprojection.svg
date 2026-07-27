@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="'Pretendard','Malgun Gothic',sans-serif">
+  <rect width="680" height="300" fill="#ffffff"/>
+  <text x="24" y="34" font-size="18" font-weight="700" fill="#111827">정류장이 반대 방향 경로에 투영되는 경우</text>
+  <text x="24" y="56" font-size="13" fill="#6b7280">투영은 가장 가까운 점만 찾는다. 정류장 B가 반대 방향 경로에 더 가까우면 그쪽에 투영된다</text>
+
+  <!-- upper path: left -> right, measure increases -->
+  <line x1="60" y1="120" x2="620" y2="120" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <polygon points="620,120 606,113 606,127" fill="#2563eb"/>
+  <text x="452" y="110" font-size="12" fill="#2563eb">진행 방향 (measure 증가)</text>
+  <!-- lower path: right -> left -->
+  <line x1="60" y1="210" x2="620" y2="210" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+  <polygon points="60,210 74,203 74,217" fill="#93c5fd"/>
+  <text x="470" y="232" font-size="12" fill="#60a5fa">반대 방향 경로</text>
+
+  <!-- stops A, C on upper path -->
+  <circle cx="180" cy="120" r="6" fill="#111827"/><text x="180" y="104" font-size="12" fill="#111827" text-anchor="middle">A (300m)</text>
+  <circle cx="380" cy="120" r="6" fill="#111827"/><text x="380" y="104" font-size="12" fill="#111827" text-anchor="middle">C (800m)</text>
+
+  <!-- stop B, drawn closer to the lower (opposite) path -->
+  <circle cx="280" cy="180" r="7" fill="#e11d48"/>
+  <text x="238" y="184" font-size="12" fill="#e11d48" text-anchor="end">정류장 B</text>
+
+  <!-- wrong projection: shortest distance goes down to the opposite path -->
+  <line x1="280" y1="180" x2="280" y2="210" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 4"/>
+  <circle cx="280" cy="210" r="6" fill="#ef4444"/>
+  <text x="292" y="196" font-size="11" fill="#ef4444">거리 30</text>
+  <text x="296" y="226" font-size="12" fill="#ef4444">잘못된 투영 (measure &gt; C)</text>
+
+  <!-- correct projection: farther, up to the travel-direction path -->
+  <line x1="280" y1="180" x2="280" y2="120" stroke="#16a34a" stroke-width="2" stroke-dasharray="5 4"/>
+  <circle cx="280" cy="120" r="6" fill="#16a34a"/>
+  <text x="292" y="150" font-size="11" fill="#16a34a">거리 60</text>
+  <text x="296" y="134" font-size="12" fill="#16a34a">정상 투영</text>
+
+  <text x="24" y="282" font-size="13" fill="#374151">결과: B의 measure가 직후 정류장 C(800m)보다 <tspan font-weight="700" fill="#ef4444">커진다</tspan>. 순서가 <tspan font-weight="700">A &lt; C &lt; B</tspan> 로 뒤집힌다</text>
+</svg>

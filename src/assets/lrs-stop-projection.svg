@@ -11,6 +11,6 @@
   <!-- perpendicular dashed -->
   <line x1="330" y1="127" x2="330" y2="165" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4 4"/>
   <text x="345" y="150" font-size="11" fill="#6b7280">offset</text>
-  <text x="330" y="196" font-size="12" fill="#111827" text-anchor="middle">투영점 · measure ≈ 540 m</text>
+  <text x="330" y="196" font-size="12" fill="#111827" text-anchor="middle">투영점 (measure ≈ 540 m)</text>
   <text x="60" y="205" font-size="12" fill="#2563eb">출발점(0 m)</text>
 </svg>
