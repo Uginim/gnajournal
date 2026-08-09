@@ -8,10 +8,11 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, image = FallbackImage } = Astro.props;
+const { title, description, image = FallbackImage, noindex = false } = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -31,6 +32,9 @@ const { title, description, image = FallbackImage } = Astro.props;
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+
+<!-- Robots: noindex for thin/utility pages (search, per-tag archives) -->
+{noindex && <meta name="robots" content="noindex, follow" />}
 
 <!-- Site verification -->
 <meta name="naver-site-verification" content="cf1bcb71602461b9b21e73b827060a1ebcfc8ac5" />
@@ -61,10 +65,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
 
 <!-- Google AdSense -->
-<!-- TODO: ca-pub-XXXXXXXXXXXXXXXX를 본인의 AdSense 클라이언트 ID로 교체 -->
-<!--
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
--->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1312333295592976" crossorigin="anonymous" is:inline></script>
 
 <!-- Google Analytics -->
 <!-- TODO: G-XXXXXXXXXX를 본인의 GA4 측정 ID로 교체 후 주석 해제 -->
