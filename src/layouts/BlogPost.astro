@@ -11,11 +11,34 @@ import Giscus from '../components/Giscus.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: title,
+	description,
+	datePublished: pubDate.toISOString(),
+	...(updatedDate && { dateModified: updatedDate.toISOString() }),
+	...(heroImage && { image: new URL(heroImage.src, Astro.site).href }),
+	author: {
+		'@type': 'Person',
+		name: 'kimenugi',
+		url: new URL('/about/', Astro.site).href,
+	},
+	publisher: {
+		'@type': 'Person',
+		name: 'kimenugi',
+		url: new URL('/about/', Astro.site).href,
+	},
+	mainEntityOfPage: canonicalURL.href,
+};
 ---
 
 <html lang="ko">
 	<head>
 		<BaseHead title={title} description={description} image={heroImage} />
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 	</head>
 
 	<body>
