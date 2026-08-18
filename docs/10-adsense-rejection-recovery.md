@@ -250,7 +250,7 @@ curl -s -o /dev/null -w "%{http_code}\n" -A "AdsBot-Google" https://example.com/
 |---|---|---|
 | 데이터베이스 | 8 | 정규화 6편, IN vs EXISTS, 버스 정류장 LRS |
 | 백엔드와 API | 4 | JPA 2편, Spring 테스트 OOM, Jackson null |
-| 개발 도구 | 1 | 프롬프트 캐싱 |
+| 개발 도구 | 2 | 프롬프트 캐싱, Kotlin LSP |
 
 글이 한두 편뿐인 카테고리를 만들지 않으려고 공간 데이터를 따로 빼지 않고 데이터베이스에
 넣었다.
@@ -299,9 +299,16 @@ sitemap에 `/categories/`와 `/contact/` 포함, BreadcrumbList 순서 정상.
   되살린다.
 - **이용약관과 면책고지.** 애드센스 필수 요건은 개인정보처리방침이다. 광고를 붙이는 사이트에
   있으면 좋다는 의견이 있어 판단이 필요하다.
-- **`claude-code-kotlin-lsp-gradle-subdirectory` 글이 라이브에는 있는데 git에 없다.**
-  깨끗한 체크아웃에서 다시 빌드해 배포하면 사라진다. 커밋해야 한다. 이 글을 커밋하면
-  개발 도구 카테고리가 2편이 된다.
+해결됨(2026-08-18): `claude-code-kotlin-lsp-gradle-subdirectory` 글이 라이브에는 있는데
+git에 없었다. 배포 직전에 발견해 커밋했다. 그대로 배포했으면 구글에 색인된 URL이 404가
+될 뻔했다. **배포 전에 라이브 sitemap과 새 빌드 sitemap을 비교해 사라지는 URL이 없는지
+확인하는 습관이 필요하다.**
+
+```bash
+curl -s https://example.com/sitemap-0.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//' | sort > /tmp/live.txt
+grep -o '<loc>[^<]*' dist/sitemap-0.xml | sed 's/<loc>//' | sort > /tmp/new.txt
+comm -23 /tmp/live.txt /tmp/new.txt   # 출력이 있으면 그 URL이 사라진다
+```
 
 ---
 
