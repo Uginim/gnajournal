@@ -4,6 +4,7 @@ description: '컬렉션을 clear()로 비우고 새로 채우는 교체 패턴�
 pubDate: 'Jul 19 2026'
 heroImage: '../../assets/jpa-orphan-removal-unique-key-hero.png'
 tags: ['JPA', 'Hibernate', 'orphanRemoval', '유니크키', 'flush', '웹개발']
+category: 'backend'
 ---
 
 예전에 업무상 특정 API를 작성할 때, 1:N 관계의 테이블을 통째로 바꾸는 코드에서 `Duplicate entry` 오류가 난 적이 있습니다. 기존 목록을 지우고 새 목록을 넣는 코드인데 중복이라서 혼란스러웠습니다.

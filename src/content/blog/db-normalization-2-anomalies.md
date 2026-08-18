@@ -4,6 +4,7 @@ description: '정규화가 해결하려는 문제인 삽입, 갱신, 삭제 이�
 pubDate: 'Jun 13 2026'
 heroImage: '../../assets/db-normalization-2-anomalies-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '함수적종속성']
+category: 'database'
 draft: false
 ---
 

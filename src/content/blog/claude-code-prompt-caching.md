@@ -4,6 +4,7 @@ description: 'Claude Code는 매 요청마다 전체 컨텍스트를 다시 전�
 pubDate: 'Jul 15 2026'
 heroImage: '../../assets/claude-code-prompt-caching-hero.png'
 tags: ['ClaudeCode', '프롬프트캐싱', '토큰', 'LLM', '비용']
+category: 'devtools'
 draft: false
 ---
 

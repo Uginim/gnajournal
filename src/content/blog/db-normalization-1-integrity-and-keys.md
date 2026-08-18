@@ -4,6 +4,7 @@ description: '정규화를 다루기 전에 토대가 되는 개념을 정리합
 pubDate: 'Jun 12 2026'
 heroImage: '../../assets/db-normalization-1-integrity-and-keys-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '데이터무결성']
+category: 'database'
 draft: false
 ---
 

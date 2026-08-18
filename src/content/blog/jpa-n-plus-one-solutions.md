@@ -4,6 +4,7 @@ description: 'JPA에서 N+1 문제를 해결하는 @EntityGraph, JPQL fetch join
 pubDate: 'Jun 11 2026'
 heroImage: '../../assets/jpa-n-plus-one-hero.png'
 tags: ['JPA', 'Spring', 'QueryDSL', 'Kotlin', '백엔드', '웹개발']
+category: 'backend'
 draft: false
 ---
 

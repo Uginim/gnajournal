@@ -4,6 +4,7 @@ description: '제3정규형(3NF)을 다룹니다. 이행적 함수적 종속의 
 pubDate: 'Jun 25 2026'
 heroImage: '../../assets/db-normalization-5-3nf-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '3NF']
+category: 'database'
 draft: false
 ---
 

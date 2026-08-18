@@ -4,6 +4,7 @@ description: 'Oracle ORA-08103의 실제 의미와 원인, 대응법을 정리�
 pubDate: 'Jul 23 2026'
 heroImage: '../../assets/blog-placeholder-2.jpg'
 tags: ['Oracle', 'DB', '트러블슈팅']
+category: 'database'
 draft: true
 ---
 

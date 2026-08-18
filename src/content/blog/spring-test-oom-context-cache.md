@@ -4,6 +4,7 @@ description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨
 pubDate: 'Jun 24 2026'
 heroImage: '../../assets/spring-test-oom-context-cache-hero.png'
 tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM', '웹개발']
+category: 'backend'
 draft: false
 ---
 

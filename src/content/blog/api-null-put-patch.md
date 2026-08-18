@@ -3,6 +3,7 @@ title: 'Spring과 Jackson에서 필드 부재와 명시적 null 구분하기'
 description: '수정 API에서 필드에 null을 넣는 것과 필드를 아예 빼는 것은 다릅니다. 서버가 필드 부재와 명시적 null을 구분하지 못하면 null 규칙을 정할 수 없습니다. Jackson의 동작과 패치 본문 형식을 로컬에서 실행해 확인했습니다.'
 pubDate: 'Aug 14 2026'
 tags: ['API', 'HTTP', 'REST', 'Jackson', 'Kotlin', '웹개발']
+category: 'backend'
 draft: false
 ---
 예전에 특정 API의 값이 초기화되지 않는다는 리포팅을 받은 적이 있습니다.

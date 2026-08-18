@@ -4,6 +4,7 @@ description: '제2정규형(2NF)을 다룹니다. 2NF의 토대인 함수적 종
 pubDate: 'Jun 15 2026'
 heroImage: '../../assets/db-normalization-4-2nf-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '2NF']
+category: 'database'
 draft: false
 ---
 

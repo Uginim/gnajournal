@@ -4,6 +4,7 @@ description: '보이스-코드 정규형(BCNF)을 다룹니다. 3NF가 남긴 �
 pubDate: 'Jun 26 2026'
 heroImage: '../../assets/db-normalization-6-bcnf-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', 'BCNF']
+category: 'database'
 draft: false
 ---
 

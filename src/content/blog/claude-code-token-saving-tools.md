@@ -4,6 +4,7 @@ description: 'Claude Code용 토큰 절감 도구는 무엇을 압축하느냐�
 pubDate: 'Jul 16 2026'
 heroImage: '../../assets/claude-code-token-saving-tools-hero.png'
 tags: ['ClaudeCode', '프롬프트캐싱', '토큰', '절감도구', 'LLM']
+category: 'devtools'
 draft: true
 ---
 
