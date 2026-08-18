@@ -6,13 +6,19 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import AdBanner from '../components/AdBanner.astro';
+import AuthorBox from '../components/AuthorBox.astro';
 import Giscus from '../components/Giscus.astro';
+import { AUTHOR, getCategory } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], category } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const authorUrl = new URL(AUTHOR.aboutPath, Astro.site).href;
+const person = { '@type': 'Person', name: AUTHOR.name, url: authorUrl };
+const categoryInfo = category ? getCategory(category) : undefined;
+
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'BlogPosting',
@@ -21,17 +27,41 @@ const jsonLd = {
 	datePublished: pubDate.toISOString(),
 	...(updatedDate && { dateModified: updatedDate.toISOString() }),
 	...(heroImage && { image: new URL(heroImage.src, Astro.site).href }),
-	author: {
-		'@type': 'Person',
-		name: 'kimenugi',
-		url: new URL('/about/', Astro.site).href,
-	},
-	publisher: {
-		'@type': 'Person',
-		name: 'kimenugi',
-		url: new URL('/about/', Astro.site).href,
-	},
+	...(categoryInfo && { articleSection: categoryInfo.name }),
+	author: person,
+	publisher: person,
 	mainEntityOfPage: canonicalURL.href,
+};
+
+// 브레드크럼은 카테고리가 있으면 홈 > 카테고리 > 해당 카테고리 > 글,
+// 없으면 홈 > 글 목록 > 글 순서로 만든다.
+const trail = [
+	{ name: '홈', path: '/' },
+	...(categoryInfo
+		? [
+				{ name: '카테고리', path: '/categories/' },
+				{ name: categoryInfo.name, path: `/categories/${categoryInfo.slug}/` },
+			]
+		: [{ name: '글', path: '/blog/' }]),
+];
+
+const breadcrumbLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BreadcrumbList',
+	itemListElement: [
+		...trail.map((item, i) => ({
+			'@type': 'ListItem',
+			position: i + 1,
+			name: item.name,
+			item: new URL(item.path, Astro.site).href,
+		})),
+		{
+			'@type': 'ListItem',
+			position: trail.length + 1,
+			name: title,
+			item: canonicalURL.href,
+		},
+	],
 };
 ---
 
@@ -39,11 +69,21 @@ const jsonLd = {
 	<head>
 		<BaseHead title={title} description={description} image={heroImage} />
 		<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
 	</head>
 
 	<body>
 		<Header />
 		<main>
+			<nav class="breadcrumb" aria-label="현재 위치">
+				{trail.map((item) => (
+					<Fragment>
+						<a href={item.path}>{item.name}</a>
+						<span aria-hidden="true">&rsaquo;</span>
+					</Fragment>
+				))}
+				<span aria-current="page">{title}</span>
+			</nav>
 			<article>
 				{heroImage && (
 					<div class="hero-image">
@@ -59,9 +99,14 @@ const jsonLd = {
 									(수정: <FormattedDate date={updatedDate} />)
 								</span>
 							)}
-							<span class="author"><a href="/about/">kimenugi</a></span>
+							<span class="author"><a href={AUTHOR.aboutPath}>{AUTHOR.name}</a></span>
 						</div>
 						<h1>{title}</h1>
+						{categoryInfo && (
+							<p class="category">
+								<a href={`/categories/${categoryInfo.slug}/`}>{categoryInfo.name}</a>
+							</p>
+						)}
 						{tags.length > 0 && (
 							<div class="tags">
 								{tags.map((tag: string) => (
@@ -73,6 +118,7 @@ const jsonLd = {
 					</div>
 					<slot />
 				</div>
+				<AuthorBox />
 			</article>
 			<div class="ad-section">
 				<AdBanner />
@@ -91,6 +137,35 @@ const jsonLd = {
 		max-width: calc(100% - 2em);
 		margin: auto;
 		padding: 2em 1em;
+	}
+	.breadcrumb {
+		font-size: 0.85em;
+		color: var(--text-muted);
+		margin-bottom: 1.5em;
+	}
+	.breadcrumb a {
+		color: var(--text-muted);
+	}
+	.breadcrumb a:hover {
+		color: var(--accent);
+	}
+	.breadcrumb span {
+		margin: 0 0.4em;
+	}
+	.breadcrumb [aria-current] {
+		margin: 0;
+		color: var(--text);
+	}
+	.category {
+		margin: 0 0 0.2em;
+		font-size: 0.9em;
+	}
+	.category a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	.category a:hover {
+		text-decoration: underline;
 	}
 	.hero-image {
 		margin-bottom: 2em;

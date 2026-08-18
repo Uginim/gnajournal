@@ -1,6 +1,18 @@
 export const SITE_TITLE = '그나저나 메모';
 export const SITE_DESCRIPTION = '개발하다 궁금했던 것들을 직접 확인하고 기록합니다. 백엔드, 데이터베이스 그리고 가끔은 그 밖의 관심사를 다룹니다.';
 
+// 운영자 정보 단일 출처.
+// 글의 바이라인, 구조화 데이터의 author/publisher, 하단 소개 박스, 문의 페이지가
+// 모두 여기를 참조한다. 이름이 페이지마다 달라지지 않게 하려는 목적이다.
+export const AUTHOR = {
+	name: 'kimenugi',
+	aboutPath: '/about/',
+	github: 'https://github.com/Uginim',
+	// privacy 페이지에서 이미 공개하고 있는 주소와 같은 것을 쓴다.
+	email: 'hyeonukkim1990@gmail.com',
+	bio: '백엔드와 데이터베이스를 다룹니다. 문서에 적힌 설명이 실제로도 그런지 직접 실행해 확인하고, 확인한 과정을 함께 남기는 편입니다.',
+};
+
 // 카테고리 단일 출처.
 // 글의 frontmatter `category`는 여기 slug 중 하나를 쓴다.
 // 태그와 달리 카테고리 페이지는 색인 대상이므로, 목록만 있는 얇은 페이지가
