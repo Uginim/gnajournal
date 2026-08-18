@@ -3,7 +3,7 @@ title: 'JPA 테스트가 CI에서 OOM으로 죽은 이유: Spring 컨텍스트 �
 description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨텍스트 캐시가 무력화되어 CI에서 OutOfMemoryError가 납니다. 원인인 컨텍스트 캐시 키(MergedContextConfiguration)의 동작과 해결 방법을 공식 문서, 소스를 근거로 정리합니다.'
 pubDate: 'Jun 24 2026'
 heroImage: '../../assets/spring-test-oom-context-cache-hero.png'
-tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM']
+tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM', '웹개발']
 draft: false
 ---
 

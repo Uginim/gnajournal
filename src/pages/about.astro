@@ -8,7 +8,7 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="ko">
 	<head>
-		<BaseHead title={`소개 — ${SITE_TITLE}`} description="그나저나 블로그 소개" />
+		<BaseHead title={`소개 — ${SITE_TITLE}`} description="그나저나 메모 소개. 웹 개발, 데이터베이스, API 설계, 공간 데이터를 직접 확인하고 기록하는 블로그입니다." />
 	</head>
 	<body>
 		<Header />
@@ -16,25 +16,30 @@ import { SITE_TITLE } from '../consts';
 			<article class="about">
 				<h1>소개</h1>
 				<p>
-					안녕하세요, <strong>그나저나</strong> 블로그에 오신 것을 환영합니다.
+					<strong>그나저나 메모</strong>는 개발하다 궁금했던 것을 직접 확인하고 기록하는 블로그입니다.
 				</p>
 				<p>
-					이 블로그는 개인적인 이야기와 기술적인 내용을 함께 기록하는 공간입니다.
-					일상에서 느낀 것들, 개발하면서 배운 것들, 그나저나 떠오르는 생각들을 편하게 적고 있습니다.
+					문서에 적힌 설명이 실제로도 그런지 확인해보고, 확인한 과정과 결과를 함께 남깁니다.
+					일하다 막혔던 문제와 그 원인을 추적한 기록이 대부분입니다.
 				</p>
 
-				<h2>이 블로그에서는</h2>
+				<h2>다루는 주제</h2>
 				<ul>
-					<li><strong>개발</strong> — 웹 개발, 프로그래밍 관련 기술 글</li>
-					<li><strong>일상</strong> — 일상적인 이야기와 생각</li>
-					<li><strong>기록</strong> — 읽은 책, 본 영화, 배운 것들</li>
+					<li><strong>웹 개발</strong>: Spring, JPA, Hibernate로 백엔드를 만들며 겪은 문제와 원인 추적</li>
+					<li><strong>API 설계</strong>: HTTP 메서드의 의미, 직렬화, 요청 본문에서의 null 처리</li>
+					<li><strong>데이터베이스</strong>: 정규화와 정규형, 쿼리 최적화. MySQL, MariaDB, Oracle을 다룹니다.</li>
+					<li><strong>공간 데이터</strong>: Oracle Spatial과 선형 참조(LRS)로 위치 데이터 다루기</li>
+					<li><strong>개발 도구</strong>: Claude Code를 쓰면서 확인한 동작</li>
 				</ul>
+				<p>
+					가끔은 그 밖의 관심사도 적습니다.
+				</p>
 
 				<h2>연락</h2>
 				<p>
-					궁금한 점이나 문의는 GitHub
-					<a href="https://github.com/Uginim" target="_blank" rel="noopener">@Uginim</a>
-					또는 각 글의 댓글로 남겨주세요.
+					궁금한 점이나 잘못된 내용 제보는 GitHub
+					<a href="https://github.com/Uginim" target="_blank" rel="noopener">@Uginim</a>으로
+					남겨주세요.
 				</p>
 			</article>
 		</main>
