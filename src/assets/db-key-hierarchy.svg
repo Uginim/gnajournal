@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <!-- 슈퍼키: 가장 바깥 -->
+  <text x="40" y="24" font-size="13" font-weight="700" fill="#1f2330">슈퍼키 (Super Key)</text>
+  <rect x="40" y="36" width="520" height="196" fill="#f7f7fb" stroke="#8a8a96" stroke-width="1.3"/>
+  <text x="60" y="62" font-size="12" fill="#80828f">행을 유일하게 식별한다. 불필요한 속성이 섞여 있어도 된다.</text>
+  <text x="60" y="80" font-size="12" font-weight="600" fill="#80828f">예) {회원ID, 이름}</text>
+
+  <!-- 후보키: 슈퍼키 안 -->
+  <rect x="64" y="92" width="472" height="124" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="84" y="116" font-size="13" font-weight="700" fill="#4f46e5">후보키 (Candidate Key)</text>
+  <text x="258" y="116" font-size="12" fill="#5b5fb0">최소성까지 만족한다. 예) {회원ID}</text>
+
+  <!-- 기본키: 후보키 안, 하나만 -->
+  <rect x="88" y="130" width="200" height="70" fill="#e7ecff" stroke="#4f46e5" stroke-width="1.7"/>
+  <text x="188" y="156" text-anchor="middle" font-size="13" font-weight="700" fill="#4f46e5">기본키 (Primary Key)</text>
+  <text x="188" y="178" text-anchor="middle" font-size="12" fill="#5b5fb0">후보키 중 골라 쓰는 하나</text>
+
+  <!-- 대체키: 후보키 안, 나머지 -->
+  <rect x="312" y="130" width="200" height="70" fill="#ffffff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="412" y="156" text-anchor="middle" font-size="13" font-weight="700" fill="#4f46e5">대체키 (Alternate Key)</text>
+  <text x="412" y="178" text-anchor="middle" font-size="12" fill="#5b5fb0">고르지 않은 나머지 후보키</text>
+
+  <text x="40" y="264" font-size="12.5" font-weight="600" fill="#5b5fb0">모든 후보키는 슈퍼키다. 후보키 중 하나가 기본키가 되고 나머지가 대체키가 된다</text>
+</svg>
