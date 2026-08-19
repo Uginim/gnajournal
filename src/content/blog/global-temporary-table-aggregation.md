@@ -3,6 +3,7 @@ title: '집계용 중간 결과 테이블을 Global Temporary Table로 바꾸기
 description: '집계 중간 결과를 일반 테이블 하나에 담고 매 실행 앞에서 DELETE로 비우면 비용이 세 군데서 나옵니다. Global Temporary Table이 그중 무엇을 없애고, redo 감소는 왜 조건부인지 Oracle 12c 문서를 근거로 정리합니다.'
 pubDate: 'Jul 27 2026'
 tags: ['Oracle', '데이터베이스', '성능', 'SQL']
+category: 'database'
 draft: false
 ---
 예전에 매일 정해진 시간에 Oracle 프로시저로 실행되는 일 배치를 다룬 적이 있습니다. 여러 원천 데이터를 가공해 중간 테이블에 넣고, 뒤에 이어지는 단계들이 그 결과를 반복해서 읽는 방식이었습니다.
