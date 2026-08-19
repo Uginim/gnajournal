@@ -2,7 +2,8 @@
 title: 'JPA에서 유니크한 관계에 유니크키를 걸었는데 Duplicate entry가 나는 이유: Hibernate flush 순서'
 description: '컬렉션을 clear()로 비우고 새로 채우는 교체 패턴에 유니크키를 얹으면 Duplicate entry가 납니다. Hibernate가 삭제를 마지막에 실행하는 flush 순서를 공식 문서와 소스를 근거로 정리하고, 유니크키를 유지하면서 교체하는 방법을 다룹니다.'
 pubDate: 'Jul 19 2026'
-heroImage: '../../assets/jpa-orphan-removal-unique-key-hero.png'
+heroImage: '../../assets/jpa-orphan-removal-unique-key-hero.svg'
+ogImage: '../../assets/jpa-orphan-removal-unique-key-hero.png'
 tags: ['JPA', 'Hibernate', 'orphanRemoval', '유니크키', 'flush', '웹개발']
 category: 'backend'
 ---

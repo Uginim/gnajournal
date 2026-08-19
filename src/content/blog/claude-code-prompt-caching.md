@@ -2,7 +2,8 @@
 title: '클로드는 프롬프트 캐싱을 어떻게 할까: Claude Code 사용량이 빨리 소진되는 이유'
 description: 'Claude Code는 매 요청마다 전체 컨텍스트를 다시 전송합니다. 서버는 요청의 앞부분이 이전과 정확히 일치할 때만 재계산을 생략합니다. 공식 문서를 근거로, 이 일치가 무너지는 조건과 그때의 비용을 정리합니다.'
 pubDate: 'Jul 15 2026'
-heroImage: '../../assets/claude-code-prompt-caching-hero.png'
+heroImage: '../../assets/claude-code-prompt-caching-hero.svg'
+ogImage: '../../assets/claude-code-prompt-caching-hero.png'
 tags: ['ClaudeCode', '프롬프트캐싱', '토큰', 'LLM', '비용']
 category: 'devtools'
 draft: false

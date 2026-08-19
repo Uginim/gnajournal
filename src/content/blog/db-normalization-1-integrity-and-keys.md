@@ -2,7 +2,8 @@
 title: '데이터베이스 정규화 (1): 정규화 전에, 데이터 무결성과 키부터'
 description: '정규화를 둘러싼 흔한 오해 세 가지에서 출발해, 정규형에 들어가기 전 토대가 되는 개념을 정리합니다. 데이터 무결성의 종류(개체, 참조, 도메인)와 키의 계층(슈퍼키, 후보키, 자연키, 대리키), 그리고 키가 제약조건으로 동작하는 방식을 설명합니다.'
 pubDate: 'Jun 12 2026'
-heroImage: '../../assets/db-normalization-1-integrity-and-keys-hero.png'
+heroImage: '../../assets/db-normalization-1-integrity-and-keys-hero.svg'
+ogImage: '../../assets/db-normalization-1-integrity-and-keys-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '데이터무결성']
 category: 'database'
 draft: false

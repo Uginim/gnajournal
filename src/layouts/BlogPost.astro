@@ -12,7 +12,10 @@ import { AUTHOR, getCategory } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], category } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, ogImage, tags = [], category } = Astro.props;
+
+// 소셜 카드는 래스터여야 한다. SVG 히어로를 쓰는 글은 ogImage 로 PNG 를 따로 준다.
+const socialImage = ogImage ?? heroImage;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const authorUrl = new URL(AUTHOR.aboutPath, Astro.site).href;
@@ -26,7 +29,7 @@ const jsonLd = {
 	description,
 	datePublished: pubDate.toISOString(),
 	...(updatedDate && { dateModified: updatedDate.toISOString() }),
-	...(heroImage && { image: new URL(heroImage.src, Astro.site).href }),
+	...(socialImage && { image: new URL(socialImage.src, Astro.site).href }),
 	...(categoryInfo && { articleSection: categoryInfo.name }),
 	author: person,
 	publisher: person,
@@ -67,7 +70,7 @@ const breadcrumbLd = {
 
 <html lang="ko">
 	<head>
-		<BaseHead title={title} description={description} image={heroImage} />
+		<BaseHead title={title} description={description} image={socialImage} />
 		<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 		<script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
 	</head>

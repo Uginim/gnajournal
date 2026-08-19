@@ -12,6 +12,11 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			// 소셜 카드(og:image, twitter:image)용 이미지.
+			// heroImage 를 SVG 로 두면 X, 페이스북, 카카오톡, 슬랙이 렌더하지 못한다.
+			// 그래서 화면에 보이는 히어로는 SVG 로 두고, 소셜 카드는 래스터를 따로 준다.
+			// 생략하면 heroImage 를 그대로 쓴다.
+			ogImage: z.optional(image()),
 			tags: z.array(z.string()).default([]),
 			draft: z.boolean().default(false),
 			// 카테고리는 색인 대상 페이지를 만든다. 공개하는 글에는 반드시 있어야 하며,

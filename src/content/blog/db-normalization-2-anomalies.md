@@ -2,7 +2,8 @@
 title: '데이터베이스 정규화 (2): 이상현상과 함수적 종속성, 왜 정규화가 필요한가'
 description: '정규화가 해결하려는 문제인 삽입, 갱신, 삭제 이상현상을 예시로 설명하고, 그 근본 원인인 함수적 종속성을 정리합니다. E.F. Codd의 원전 정의를 근거로 정규화의 목적을 짚습니다.'
 pubDate: 'Jun 13 2026'
-heroImage: '../../assets/db-normalization-2-anomalies-hero.png'
+heroImage: '../../assets/db-normalization-2-anomalies-hero.svg'
+ogImage: '../../assets/db-normalization-2-anomalies-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '함수적종속성']
 category: 'database'
 draft: false

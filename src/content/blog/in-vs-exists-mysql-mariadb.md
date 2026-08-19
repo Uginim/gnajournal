@@ -2,7 +2,8 @@
 title: '억울한 EXISTS, 정말 IN보다 느릴까?'
 description: 'EXISTS를 IN으로 바꾸면 빨라진다는 통념을 따져봅니다. 성능 개선과 원인 입증은 다른 문제라는 것, 그리고 동등한 서브쿼리 IN과 EXISTS가 현대 MySQL에서 같은 최적화 후보가 되는 것을 로컬 실측으로 확인합니다.'
 pubDate: 'Jul 24 2026'
-heroImage: '../../assets/in-vs-exists-mysql-mariadb-hero.png'
+heroImage: '../../assets/in-vs-exists-mysql-mariadb-hero.svg'
+ogImage: '../../assets/in-vs-exists-mysql-mariadb-hero.png'
 tags: ['데이터베이스', 'MySQL', 'MariaDB', '쿼리최적화', 'SQL']
 category: 'database'
 draft: false
