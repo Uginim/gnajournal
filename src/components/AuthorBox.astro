@@ -1,0 +1,65 @@
+---
+// 글 하단에 붙는 운영자 소개 박스.
+// 누가 쓴 글인지가 글 페이지 안에서 끝나도록 하려는 목적이다.
+import { AUTHOR } from '../consts';
+---
+
+<aside class="author-box">
+	<p class="label">쓴 사람</p>
+	<p class="name">
+		<a href={AUTHOR.aboutPath}>{AUTHOR.name}</a>
+	</p>
+	<p class="bio">{AUTHOR.bio}</p>
+	<p class="links">
+		<a href={AUTHOR.aboutPath}>소개</a>
+		<a href="/contact/">문의</a>
+		<a href={AUTHOR.github} target="_blank" rel="noopener">GitHub</a>
+	</p>
+</aside>
+
+<style>
+	.author-box {
+		margin-top: 3em;
+		padding: 1.5em;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--bg-secondary);
+	}
+	.label {
+		margin: 0 0 0.4em;
+		font-size: 0.8em;
+		color: var(--text-muted);
+		letter-spacing: 0.05em;
+	}
+	.name {
+		margin: 0 0 0.6em;
+		font-size: 1.1em;
+		font-weight: 600;
+	}
+	.name a {
+		color: var(--text);
+		text-decoration: none;
+	}
+	.name a:hover {
+		color: var(--accent);
+	}
+	.bio {
+		margin: 0 0 1em;
+		font-size: 0.92em;
+		line-height: 1.8;
+		color: var(--text-secondary);
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
+		margin: 0;
+		font-size: 0.88em;
+	}
+	.links a {
+		color: var(--text-muted);
+	}
+	.links a:hover {
+		color: var(--accent);
+	}
+</style>

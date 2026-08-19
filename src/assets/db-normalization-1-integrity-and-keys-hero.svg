@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="1020" height="510" fill="#f7f7fb"/>
+
+  <text x="90" y="78" font-size="28" font-weight="700" fill="#1f2330">데이터 무결성과 키</text>
+
+  <rect x="230" y="140" width="560" height="290" rx="12" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <text x="510" y="172" text-anchor="middle" font-size="19" font-weight="700" fill="#5b5e6b">슈퍼키 (행을 식별하는 모든 조합)</text>
+
+  <rect x="300" y="196" width="420" height="200" rx="10" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="510" y="226" text-anchor="middle" font-size="18" font-weight="700" fill="#4f46e5">후보키 (최소 조합)</text>
+
+  <rect x="372" y="256" width="276" height="110" rx="8" fill="#4f46e5"/>
+  <text x="510" y="304" text-anchor="middle" font-size="19" font-weight="700" fill="#ffffff">기본키</text>
+  <text x="510" y="332" text-anchor="middle" font-size="14" fill="#dfe0ff">후보키 중 하나</text>
+
+  <text x="90" y="497" font-size="19" font-weight="600" fill="#1f2330">행을 유일하게 식별하는 슈퍼키 중 최소 조합이 후보키이고, 그중 하나를 기본키로 삼습니다.</text>
+</svg>

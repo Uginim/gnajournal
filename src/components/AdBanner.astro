@@ -15,9 +15,13 @@ const { format = 'auto' } = Astro.props;
 const CLIENT_ID = 'ca-pub-XXXXXXXXXXXXXXXX'; // TODO: 본인의 AdSense 클라이언트 ID
 const AD_SLOT = 'XXXXXXXXXX'; // TODO: 광고 단위 ID
 const isConfigured = !CLIENT_ID.includes('XXXX');
+// 미설정 상태의 자리 표시자는 개발 환경에서만 노출한다.
+// 프로덕션에 "광고 영역 (설정 후 표시)" 같은 제작 중 표시가 남으면
+// AdSense 심사에서 미완성 사이트로 감점될 수 있어 렌더링하지 않는다.
+const showPlaceholder = !isConfigured && import.meta.env.DEV;
 ---
 
-{isConfigured ? (
+{isConfigured && (
 	<div class="ad-container">
 		<ins
 			class="adsbygoogle"
@@ -28,9 +32,10 @@ const isConfigured = !CLIENT_ID.includes('XXXX');
 			data-full-width-responsive="true"
 		></ins>
 	</div>
-) : (
+)}
+{showPlaceholder && (
 	<div class="ad-placeholder">
-		<p>광고 영역 (AdSense 설정 후 표시됩니다)</p>
+		<p>광고 영역 (AdSense 설정 후 표시됩니다 · 개발 환경에서만 보임)</p>
 	</div>
 )}
 

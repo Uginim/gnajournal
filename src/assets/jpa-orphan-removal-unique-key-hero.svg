@@ -26,5 +26,5 @@
   <text x="760" y="326" text-anchor="middle" font-size="16" fill="#a0a2b0">실행되지 못함</text>
   <text x="760" y="400" text-anchor="middle" font-size="17" font-weight="700" fill="#d9480f">삽입이 먼저 실행됨</text>
 
-  <text x="90" y="470" font-size="19" font-weight="600" fill="#1f2330">Hibernate는 SQL을 코드 순서가 아니라 고정된 flush 순서로 실행합니다. 삭제는 맨 마지막입니다.</text>
+  <text x="90" y="470" font-size="19" font-weight="600" fill="#1f2330">코드에서 먼저 지워도 DELETE는 INSERT 뒤에 실행됩니다.</text>
 </svg>

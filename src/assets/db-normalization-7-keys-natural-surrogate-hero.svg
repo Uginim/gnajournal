@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="1020" height="510" fill="#f7f7fb"/>
+
+  <text x="90" y="78" font-size="28" font-weight="700" fill="#1f2330">기본키를 자연키로 둘까, 대리키로 둘까</text>
+
+  <!-- 왼쪽: 자연키를 기본키로 -->
+  <text x="260" y="128" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2330">자연키(이메일)를 기본키로</text>
+  <rect x="110" y="185" width="300" height="235" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <rect x="126" y="205" width="268" height="44" rx="6" fill="#fdf1ea" stroke="#d9480f" stroke-width="2"/>
+  <text x="260" y="233" text-anchor="middle" font-size="16" fill="#d9480f">회원 PK = 이메일</text>
+  <rect x="126" y="261" width="268" height="44" rx="6" fill="#fdf1ea" stroke="#d9480f" stroke-width="2"/>
+  <text x="260" y="289" text-anchor="middle" font-size="16" fill="#d9480f">주문 FK = 이메일</text>
+  <text x="260" y="345" text-anchor="middle" font-size="15" fill="#7a7c88">이메일이 바뀌면</text>
+  <rect x="126" y="360" width="268" height="44" rx="6" fill="#fbe0d3" stroke="#d9480f" stroke-width="2.5"/>
+  <text x="260" y="388" text-anchor="middle" font-size="16" font-weight="700" fill="#d9480f">FK를 전부 함께 변경</text>
+  <text x="260" y="455" text-anchor="middle" font-size="17" font-weight="700" fill="#d9480f">참조가 흔들림</text>
+
+  <!-- 오른쪽: 대리키를 기본키로 -->
+  <text x="760" y="128" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2330">대리키(id)를 기본키로</text>
+  <rect x="610" y="185" width="300" height="235" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <rect x="626" y="205" width="268" height="44" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="760" y="233" text-anchor="middle" font-size="16" fill="#4f46e5">회원 PK = id, 이메일은 UNIQUE</text>
+  <rect x="626" y="261" width="268" height="44" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="760" y="289" text-anchor="middle" font-size="16" fill="#4f46e5">주문 FK = id</text>
+  <text x="760" y="345" text-anchor="middle" font-size="15" fill="#7a7c88">이메일이 바뀌어도</text>
+  <rect x="626" y="360" width="268" height="44" rx="6" fill="#e7f5ff" stroke="#4f46e5" stroke-width="2.5"/>
+  <text x="760" y="388" text-anchor="middle" font-size="16" font-weight="700" fill="#4f46e5">FK(id)는 그대로</text>
+  <text x="760" y="455" text-anchor="middle" font-size="17" font-weight="700" fill="#4f46e5">참조가 안정적</text>
+
+  <text x="90" y="497" font-size="19" font-weight="600" fill="#1f2330">자연키를 기본키로 두면 값이 바뀔 때 참조가 흔들리고, 대리키는 값이 바뀌어도 참조가 그대로입니다.</text>
+</svg>

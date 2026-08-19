@@ -3,7 +3,8 @@ title: 'JPA 테스트가 CI에서 OOM으로 죽은 이유: Spring 컨텍스트 �
 description: '@DataJpaTest마다 서로 다른 H2 DB 이름을 주면 Spring 컨텍스트 캐시가 무력화되어 CI에서 OutOfMemoryError가 납니다. 원인인 컨텍스트 캐시 키(MergedContextConfiguration)의 동작과 해결 방법을 공식 문서, 소스를 근거로 정리합니다.'
 pubDate: 'Jun 24 2026'
 heroImage: '../../assets/spring-test-oom-context-cache-hero.png'
-tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM']
+tags: ['Spring', 'JPA', '테스트', 'H2', 'OOM', '웹개발']
+category: 'backend'
 draft: false
 ---
 
@@ -43,7 +44,7 @@ class OrderRepositoryTest
 
 Spring 테스트는 무거운 `ApplicationContext`를 테스트마다 새로 만들지 않으려고 캐시에 담아 재사용합니다. 이때 키는 단순한 문자열이 아니라 **`MergedContextConfiguration` 객체**입니다. 테스트 클래스의 모든 컨텍스트 설정을 병합한 것으로, 두 테스트의 이 객체가 `equals()`로 같으면 컨텍스트를 공유하고, 하나라도 다르면 별도 컨텍스트를 만듭니다.
 
-키에 포함되는 주요 구성요소는 다음과 같습니다.
+키에 포함되는 주요 구성요소입니다.
 
 | 구성요소 | 출처 |
 |---|---|
@@ -104,9 +105,9 @@ Full GC를 돌려도 사용량이 내려가지 않는다는 것은, 힙에 있�
 
 ## H2 인메모리 DB는 이름이 같으면 같은 DB임
 
-여기서 한 가지 더 주의할 점이 있습니다. **H2 인메모리 DB는 같은 JVM 안에서 이름으로 식별**됩니다. `jdbc:h2:mem:sharedDb`는 이름이 같으면 물리적으로 같은 DB입니다.
+**H2 인메모리 DB는 같은 JVM 안에서 이름으로 식별**됩니다. `jdbc:h2:mem:sharedDb`는 이름이 같으면 물리적으로 같은 DB입니다.
 
-그래서 서로 다른 컨텍스트가 같은 DB 이름을 공유하면, 각자 `create-drop`으로 스키마를 만들고 지우다가 한 컨텍스트가 종료될 때 다른 컨텍스트의 테이블까지 drop해 충돌할 수 있습니다. 정리하면 규칙은 이렇습니다.
+그래서 서로 다른 컨텍스트가 같은 DB 이름을 공유하면, 각자 `create-drop`으로 스키마를 만들고 지우다가 한 컨텍스트가 종료될 때 다른 컨텍스트의 테이블까지 drop해 충돌할 수 있습니다.
 
 - **같은 컨텍스트를 공유하는 테스트** → 같은 DB 이름 (캐시 재사용)
 - **컨텍스트 설정이 다른 테스트** → 다른 DB 이름 (스키마 충돌 방지)

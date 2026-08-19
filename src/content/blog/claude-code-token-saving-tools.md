@@ -4,6 +4,7 @@ description: 'Claude Code용 토큰 절감 도구는 무엇을 압축하느냐�
 pubDate: 'Jul 16 2026'
 heroImage: '../../assets/claude-code-token-saving-tools-hero.png'
 tags: ['ClaudeCode', '프롬프트캐싱', '토큰', '절감도구', 'LLM']
+category: 'devtools'
 draft: true
 ---
 
@@ -69,7 +70,7 @@ draft: true
 
 서드파티가 토큰을 정확히 셀 방법이 없습니다. Claude 토크나이저는 공개되지 않았습니다. 많은 도구가 tiktoken으로 추정하는데 그것은 OpenAI의 토크나이저입니다. Anthropic이 배포한 스킬 문서는 tiktoken이 일반 텍스트에서 Claude 토큰을 15~20% 과소 계산하며, 코드나 비영어 입력에서는 그보다 더 크게 틀린다고 설명합니다. 한국어 프로젝트라면 이 오차가 커집니다.
 
-공식 token counting 문서에 따르면 Claude Opus 4.7부터의 새 모델들은 새 토크나이저를 사용합니다. 같은 텍스트가 이전 모델 대비 약 30% 더 많은 토큰이 되고, 정확한 증가폭은 콘텐츠에 따라 다릅니다. 그 이전에 측정된 벤치마크는 그대로 적용되지 않습니다. 확인 가능한 것은 API 응답의 `usage` 필드와, 과금되지 않는 `count_tokens` 엔드포인트입니다.
+공식 token counting 문서에 따르면 Claude Opus 4.7부터의 새 모델들은 새 토크나이저를 사용합니다. 같은 텍스트라도 이전 모델보다 토큰 수가 늘고, 증가폭은 콘텐츠에 따라 다릅니다. 그 이전에 측정된 벤치마크는 그대로 적용되지 않습니다. 확인 가능한 것은 API 응답의 `usage` 필드와, 과금되지 않는 `count_tokens` 엔드포인트입니다.
 
 ## 지운 정보는 다시 읽게 됨
 
