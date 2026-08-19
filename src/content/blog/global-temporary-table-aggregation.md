@@ -60,7 +60,7 @@ CREATE GLOBAL TEMPORARY TABLE agg_scratch (
 
 바뀐 것은 집계 로직이 아니라 중간 결과를 담는 자리입니다. 일반 테이블에서 Global Temporary Table로 바꾸자 매 실행 앞에 붙어 있던 대량 `DELETE`가 필요 없어졌습니다.
 
-## Global Temporary Table을 써도 redo는 자동으로 사라지지 않음
+## 당시엔 몰랐던 한계: Global Temporary Table을 써도 redo는 사라지지 않음
 
 "Global Temporary Table은 redo를 만들지 않는다"는 설명을 자주 봅니다. 이 문장은 조건을 빼고 말하면 사실과 다릅니다.
 
@@ -74,7 +74,7 @@ redo를 없애려면 temporary undo 기능을 켜야 합니다. 초기화 파라
 
 당시 temporary undo는 켜지 않았고, redo 양을 재 보지도 않았습니다. Global Temporary Table을 택한 이유도 redo가 아니라 비우는 단계를 없애는 데 있었습니다. 그래서 여기까지는 문헌으로 확인한 내용입니다. 다음 절에서 지금 띄울 수 있는 환경에 같은 상황을 만들어 재 봤습니다.
 
-## 26ai Free에 같은 상황을 만들어 세 비용을 각각 측정함
+## 유사한 환경을 만들어 세 비용을 각각 재 봄
 
 당시 쓰던 12c 환경은 남아 있지 않습니다. 그래서 지금 띄울 수 있는 환경에 같은 모양을 만들어 측정했습니다. 컨테이너로 띄운 Oracle AI Database 26ai Free(23.26.2.0.0)이고, 컬럼 세 개에 인덱스 하나를 둔 테이블에 20만 행을 넣었습니다. 아래 숫자는 12c 실측이 아니라 26ai Free에서의 재현입니다.
 
