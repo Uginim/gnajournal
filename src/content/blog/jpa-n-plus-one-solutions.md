@@ -3,7 +3,8 @@ title: 'JPA N+1 문제와 세 가지 해결법 비교 (@EntityGraph / JPQL / Que
 description: 'JPA에서 N+1 문제를 해결하는 @EntityGraph, JPQL fetch join, QueryDSL을 검증 시점, 안전성, 적합한 상황 기준으로 비교합니다. 언제 무엇을 쓸지 정리했습니다.'
 pubDate: 'Jun 11 2026'
 heroImage: '../../assets/jpa-n-plus-one-hero.png'
-tags: ['JPA', 'Spring', 'QueryDSL', 'Kotlin', '백엔드']
+tags: ['JPA', 'Spring', 'QueryDSL', 'Kotlin', '백엔드', '웹개발']
+category: 'backend'
 draft: false
 ---
 

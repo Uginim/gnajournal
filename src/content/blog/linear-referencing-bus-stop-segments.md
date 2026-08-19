@@ -3,6 +3,7 @@ title: '버스 노선 공간 데이터에서 정류장 간 구간 형상 만들�
 description: '버스 노선의 선형과 정류장 좌표로 정류장 간 구간 형상을 만드는 과정을 설명합니다. Linear Referencing으로 정류장을 Measure로 바꾸고 두 Measure 사이를 추출합니다.'
 pubDate: 'Jul 27 2026'
 tags: ['Oracle', 'Spatial', 'LRS', 'GIS', '데이터베이스']
+category: 'database'
 draft: false
 ---
 

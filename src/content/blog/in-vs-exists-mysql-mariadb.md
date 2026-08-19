@@ -4,6 +4,7 @@ description: 'EXISTS를 IN으로 바꾸면 빨라진다는 통념을 따져봅�
 pubDate: 'Jul 24 2026'
 heroImage: '../../assets/in-vs-exists-mysql-mariadb-hero.png'
 tags: ['데이터베이스', 'MySQL', 'MariaDB', '쿼리최적화', 'SQL']
+category: 'database'
 draft: false
 ---
 

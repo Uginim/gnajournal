@@ -4,6 +4,7 @@ description: 'MySQL 공간 타입(POINT)을 Spring Data JPA와 Hibernate Spatial
 pubDate: 'Jul 23 2026'
 heroImage: '../../assets/blog-placeholder-3.jpg'
 tags: ['MySQL', 'JPA', 'Hibernate', '공간데이터']
+category: 'database'
 draft: true
 ---
 

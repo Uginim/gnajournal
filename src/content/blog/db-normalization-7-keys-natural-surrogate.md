@@ -4,6 +4,7 @@ description: '자연키와 대리키(surrogate key)를 다룹니다. 용어의 �
 pubDate: 'Jun 18 2026'
 heroImage: '../../assets/db-normalization-7-keys-natural-surrogate-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '기본키', '키설계']
+category: 'database'
 draft: true
 ---
 

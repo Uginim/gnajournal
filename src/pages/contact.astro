@@ -1,0 +1,139 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { AUTHOR, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead
+			title={`문의 — ${SITE_TITLE}`}
+			description="그나저나 메모에 문의하는 방법. 글의 오류 제보, 내용 관련 질문, 그 밖의 연락은 이메일이나 GitHub로 받습니다."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<article class="contact">
+				<nav class="breadcrumb" aria-label="현재 위치">
+					<a href="/">홈</a>
+					<span aria-hidden="true">&rsaquo;</span>
+					<span aria-current="page">문의</span>
+				</nav>
+
+				<h1>문의</h1>
+				<p class="lead">
+					글에서 잘못된 내용을 발견하셨거나, 내용에 대해 궁금한 점이 있으시면 알려주세요.
+					틀린 부분을 알려주시면 확인하고 글을 고칩니다.
+				</p>
+
+				<h2>연락 방법</h2>
+				<dl class="channels">
+					<dt>이메일</dt>
+					<dd>
+						<a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+					</dd>
+					<dt>GitHub</dt>
+					<dd>
+						<a href={AUTHOR.github} target="_blank" rel="noopener">{AUTHOR.github}</a>
+					</dd>
+				</dl>
+				<p class="note">
+					이 사이트에는 문의 양식이 없습니다. 별도의 서버 없이 정적 페이지로 운영하고 있어,
+					양식을 두면 입력하신 내용이 전달되지 않습니다. 그래서 위 두 가지만 안내합니다.
+				</p>
+
+				<h2>답변에 대해</h2>
+				<p>
+					개인이 운영하는 블로그입니다. 확인하는 대로 답을 드리지만, 회신까지 시간이 걸릴 수
+					있습니다. 답변 시점을 약속드리기는 어렵습니다.
+				</p>
+
+				<h2>어떤 문의가 도움이 되나요</h2>
+				<ul>
+					<li>글의 사실관계 오류나 재현되지 않는 예시</li>
+					<li>설명이 이해되지 않는 부분과, 어디서 막혔는지</li>
+					<li>깨진 링크, 잘못 표시되는 코드나 이미지</li>
+				</ul>
+				<p>
+					다만 개별 프로젝트의 문제를 대신 진단해 드리기는 어렵습니다. 글에 쓴 내용의 범위
+					안에서 답변드립니다.
+				</p>
+
+				<h2>개인정보</h2>
+				<p>
+					문의하며 보내주신 이메일 주소와 내용은 답변 목적으로만 사용하고, 다른 용도로
+					쓰거나 제3자에게 제공하지 않습니다. 자세한 내용은
+					<a href="/privacy/">개인정보처리방침</a>을 참고하세요.
+				</p>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.contact {
+		max-width: 720px;
+		margin: 0 auto;
+	}
+	.breadcrumb {
+		font-size: 0.85em;
+		color: var(--text-muted);
+		margin-bottom: 1.5em;
+	}
+	.breadcrumb a {
+		color: var(--text-muted);
+	}
+	.breadcrumb a:hover {
+		color: var(--accent);
+	}
+	.breadcrumb span {
+		margin: 0 0.4em;
+	}
+	.breadcrumb [aria-current] {
+		margin: 0;
+		color: var(--text);
+	}
+	.contact h1 {
+		font-size: 2em;
+		margin-bottom: 0.5em;
+	}
+	.contact h2 {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+		font-size: 1.2em;
+	}
+	.contact p {
+		line-height: 1.9;
+		color: var(--text);
+	}
+	.lead {
+		color: var(--text-secondary);
+	}
+	.channels {
+		margin: 0;
+	}
+	.channels dt {
+		font-weight: 600;
+		margin-top: 0.8em;
+	}
+	.channels dd {
+		margin: 0.2em 0 0;
+		line-height: 1.9;
+	}
+	.note {
+		margin-top: 1.2em;
+		font-size: 0.92em;
+		color: var(--text-muted);
+	}
+	.contact ul {
+		padding-left: 1.2em;
+	}
+	.contact li {
+		margin-bottom: 0.5em;
+		line-height: 1.8;
+	}
+</style>

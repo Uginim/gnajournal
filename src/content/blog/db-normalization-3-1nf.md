@@ -4,6 +4,7 @@ description: '제1정규형(1NF)을 자세히 다룹니다. 원자값의 의미�
 pubDate: 'Jun 14 2026'
 heroImage: '../../assets/db-normalization-3-1nf-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '1NF']
+category: 'database'
 draft: false
 ---
 
