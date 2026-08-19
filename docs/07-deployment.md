@@ -45,9 +45,15 @@ git push -u origin main
 "Save and Deploy" 클릭하면 자동 빌드 및 배포됩니다.
 완료 후 `프로젝트명.pages.dev` 도메인이 할당됩니다.
 
-## 자동 배포
+## 자동 배포 (이 저장소에는 해당하지 않음)
 
-설정 후에는 GitHub에 push할 때마다 자동으로 빌드 + 배포됩니다.
+> **주의.** 위 1~4단계는 Git 연동 방식 기준입니다. **이 저장소(gnajournal)는 Git 연동이
+> 아니라 Direct Upload로 운영합니다.** `git push`로는 배포되지 않습니다. 실제 배포 절차와
+> 주의사항은 [`AGENTS.md`](../AGENTS.md)의 "Cloudflare Deploy (Wrangler)" 절이 기준입니다.
+> 이 문서는 새 프로젝트를 Git 연동으로 새로 세팅할 때의 참고용으로 남겨 둡니다.
+
+Git 연동으로 설정한 프로젝트라면, 이후에는 GitHub에 push할 때마다 자동으로 빌드와 배포가
+이루어집니다.
 
 ```bash
 # 새 글 작성 후

@@ -24,29 +24,19 @@
 - Naming: Components PascalCase (`Header.astro`), pages/routes kebab-case (`blog/index.astro`), content slugs kebab-case, assets lowercase-with-hyphens.
 - Keep imports sorted; remove unused code. No linters/formatters configured, so follow Astro + TypeScript defaults.
 
-## Writing Style (blog posts and chat replies)
+## Writing Style
 
-Full rules: [`docs/writing-style.md`](docs/writing-style.md). Terminology: [`docs/writing-terms.md`](docs/writing-terms.md).
+**Read [`docs/writing-style.md`](docs/writing-style.md) before writing or editing any blog
+content.** It is the single source for sentence rules, the banned list, heading grammar,
+citation rules, and which check skill to run when. Do not restate its rules elsewhere;
+a partial copy drifts and then contradicts it.
 
-`.claude/hooks/blog-style-check.sh` blocks these automatically, **in blog markdown and in chat replies alike**. Knowing them up front avoids a rejected turn:
+Terminology: [`docs/writing-terms.md`](docs/writing-terms.md). Look up English technical
+terms there instead of inventing a Korean translation.
 
-- No em dash (`—`). Use a colon in titles, a comma mid-sentence, or split the sentence.
-- No interpunct (`·`) for lists. Use commas or write it out.
-- No period inside a bold label (`**label.**`). Use the colon form (`**label**: text`).
-- Keep the polite `~합니다` ending in Korean prose.
-
-Judgment calls the hook cannot catch, and the skills that check them:
-
-| Concern | Skill | When |
-|---|---|---|
-| Do the headings tell the story on their own? | `toc-flow-review` | after writing or restructuring any multi-heading post |
-| Does each sentence belong where it is? | `blog-flow-check` | right after a draft, and after large edits |
-| Tone, translationese, overclaiming | `blog-tone-check` | before publishing |
-
-Two rules that cost a rework this session:
-
-- **Heading format is matched within the post, not across the repo.** Copying another post's convention makes the headings read as machine-written in the post you are editing.
-- **Never state an unverified result.** Numbers, command output, and error messages in a post must come from an actual run. Reproduce it, then paste what came back.
+`.claude/hooks/blog-style-check.sh` blocks the mechanically detectable subset on its own,
+**in blog markdown saves and in chat replies alike**. Being blocked costs a turn, so read
+the doc up front rather than learning the rules from rejections.
 
 ## Testing Guidelines
 - No tests yet. Manually verify builds, pages, tag filtering, search, and `/rss.xml`.
