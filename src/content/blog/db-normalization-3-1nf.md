@@ -2,7 +2,8 @@
 title: '데이터베이스 정규화 (3): 제1정규형(1NF), 원자값과 반복 그룹'
 description: '제1정규형(1NF)을 자세히 다룹니다. 원자값의 의미와 흔한 오해, 반복 그룹을 분리하는 방법, 그리고 1NF가 아직 보장하지 못하는 것까지 예시와 함께 정리합니다.'
 pubDate: 'Jun 14 2026'
-heroImage: '../../assets/db-normalization-3-1nf-hero.png'
+heroImage: '../../assets/db-normalization-3-1nf-hero.svg'
+ogImage: '../../assets/db-normalization-3-1nf-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '1NF']
 category: 'database'
 draft: false

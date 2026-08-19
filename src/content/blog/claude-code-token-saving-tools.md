@@ -2,7 +2,8 @@
 title: 'Claude Code 토큰 절감 도구가 오히려 비용을 늘리는 경우: 프롬프트 캐싱과의 충돌'
 description: 'Claude Code용 토큰 절감 도구는 무엇을 압축하느냐에 따라 갈립니다. 대화에 들어가기 전의 툴 출력을 줄이는 것은 안전하지만, 이미 들어간 기록을 재작성하면 프롬프트 캐시가 깨져 토큰을 줄이고도 비용이 늘어납니다. 판별 기준과 측정 방법을 정리합니다.'
 pubDate: 'Jul 16 2026'
-heroImage: '../../assets/claude-code-token-saving-tools-hero.png'
+heroImage: '../../assets/claude-code-token-saving-tools-hero.svg'
+ogImage: '../../assets/claude-code-token-saving-tools-hero.png'
 tags: ['ClaudeCode', '프롬프트캐싱', '토큰', '절감도구', 'LLM']
 category: 'devtools'
 draft: true

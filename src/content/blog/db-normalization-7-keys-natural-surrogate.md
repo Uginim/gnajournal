@@ -2,7 +2,8 @@
 title: '데이터베이스 정규화 (7): 자연키와 대리키, 무엇을 기본키로 삼을 것인가'
 description: '자연키와 대리키(surrogate key)를 다룹니다. 용어의 출발, Codd가 1979년에 지적한 자연키의 세 가지 문제, 그리고 두 방식의 장단점과 실무에서 자주 쓰는 절충 패턴을 정리합니다.'
 pubDate: 'Jun 18 2026'
-heroImage: '../../assets/db-normalization-7-keys-natural-surrogate-hero.png'
+heroImage: '../../assets/db-normalization-7-keys-natural-surrogate-hero.svg'
+ogImage: '../../assets/db-normalization-7-keys-natural-surrogate-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '기본키', '키설계']
 category: 'database'
 draft: true

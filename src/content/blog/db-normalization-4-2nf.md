@@ -2,7 +2,8 @@
 title: '데이터베이스 정규화 (4): 제2정규형(2NF), 함수적 종속과 부분 함수적 종속 제거'
 description: '제2정규형(2NF)을 다룹니다. 2NF의 토대인 함수적 종속성을 완전 함수적 종속, 부분 함수적 종속으로 나누어 설명하고, 복합키에서 생기는 부분 함수적 종속을 어떻게 제거하는지 예시와 함께 정리합니다.'
 pubDate: 'Jun 15 2026'
-heroImage: '../../assets/db-normalization-4-2nf-hero.png'
+heroImage: '../../assets/db-normalization-4-2nf-hero.svg'
+ogImage: '../../assets/db-normalization-4-2nf-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '2NF']
 category: 'database'
 draft: false
