@@ -7,11 +7,11 @@ on:
 
 jobs:
   build-check:
-    # 다른 저장소(chess-motif-stats)는 self-hosted 러너를 쓰지만 이 저장소에는
-    # 등록된 러너가 없으므로 기본값을 ubuntu-latest 로 둔다. 나중에 러너를
-    # 붙이면 코드 수정 없이 저장소 변수로 바꾼다.
-    #   gh variable set RUNNER_LABEL --body self-hosted
-    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    # ~/workspace/runners/gnajournal 에 등록된 셀프호스티드 macOS arm64 러너로 간다.
+    # 러너가 있는 맥이 꺼져 있어 잡이 큐에 쌓이면, 코드 수정 없이 저장소 변수로
+    # 호스팅 러너에 되돌린다.
+    #   gh variable set RUNNER_LABEL --body ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'self-hosted' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,7 +20,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+        # cache: 'npm' 을 쓰지 않는다. 셀프호스티드 러너는 머신에 npm 캐시가
+        # 영구 보존되므로 GitHub Actions Cache 에 또 올릴 필요가 없다.
+        # chess-motif-stats 에서 post-job 캐시 저장이 7.7 GB 업로드를 시도하다
+        # 약 1.5시간 뒤 SAS 토큰 만료로 잡 전체가 실패한 사례가 있다(빌드 자체는 성공).
+        # ubuntu-latest 로 되돌릴 경우 install 이 조금 더 걸리지만 자주 있는
+        # 경로가 아니므로 감수한다.
 
       - name: Install
         run: npm ci
