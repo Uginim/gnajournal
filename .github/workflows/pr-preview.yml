@@ -1,0 +1,100 @@
+# PR 이 사이트 배포에 영향을 주는지 판정하고, 영향이 있으면 프리뷰를 올린 뒤
+# 변경된 페이지의 직접 링크를 코멘트로 남긴다.
+#
+# 이 저장소는 Cloudflare Pages Direct Upload 로 운영한다. git push 로는
+# 배포되지 않으므로, 프로덕션 배포는 여전히 수동이다. 이 워크플로는
+# 프리뷰만 올리며 프로덕션에는 손대지 않는다.
+#
+# 단계별로 동작한다.
+#   - Secret 없이도: 배포 필요 여부 판정 + sitemap 안전검사 + 변경 페이지 목록
+#   - CLOUDFLARE_API_TOKEN 을 넣으면: 위에 더해 프리뷰 배포와 직접 링크
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# 같은 PR 에 새 커밋이 오면 이전 실행을 취소한다.
+concurrency:
+  group: pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 변경된 파일 목록 수집
+        run: |
+          git diff --name-only \
+            "origin/${{ github.event.pull_request.base.ref }}...HEAD" \
+            > /tmp/changed.txt
+          echo "--- 변경된 파일 ---"
+          cat /tmp/changed.txt
+
+      - name: 배포 영향 판정
+        id: gate
+        run: |
+          if grep -qE '^(src/|public/|astro\.config\.mjs$|package(-lock)?\.json$)' /tmp/changed.txt; then
+            echo "needs_deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_deploy=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.needs_deploy == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 빌드
+        if: steps.gate.outputs.needs_deploy == 'true'
+        run: |
+          npm ci
+          npm run build
+
+      # 토큰이 있을 때만 프리뷰를 올린다. 브랜치 이름을 넘겨 Preview 환경으로 보낸다.
+      # (--branch main 으로 보내면 프로덕션이 되므로 절대 쓰지 않는다.)
+      - name: 프리뷰 배포
+        id: preview
+        if: steps.gate.outputs.needs_deploy == 'true' && env.CLOUDFLARE_API_TOKEN != ''
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          npx wrangler@4 pages deploy dist \
+            --project-name gnajournal \
+            --branch "pr-${{ github.event.pull_request.number }}" \
+            --commit-dirty=true 2>&1 | tee /tmp/deploy.log
+          url=$(grep -oE 'https://[a-z0-9]+\.gnajournal\.pages\.dev' /tmp/deploy.log | tail -1)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: 보고서 작성
+        id: report
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          node scripts/pr-deploy-report.mjs /tmp/changed.txt "${{ steps.preview.outputs.url }}" \
+            > /tmp/report.md || echo "sitemap_warning=true" >> "$GITHUB_OUTPUT"
+          cat /tmp/report.md
+
+      - name: PR 코멘트
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          path: /tmp/report.md
+
+      # 라이브 URL 이 사라지는 빌드는 실패로 표시해 머지 전에 눈에 띄게 한다.
+      - name: 사라지는 URL 이 있으면 실패
+        if: steps.report.outputs.sitemap_warning == 'true'
+        run: |
+          echo "라이브에 있던 URL 이 이 빌드에서 사라진다. 보고서를 확인할 것."
+          exit 1
