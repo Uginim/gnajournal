@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-check:
+    # 다른 저장소(chess-motif-stats)는 self-hosted 러너를 쓰지만 이 저장소에는
+    # 등록된 러너가 없으므로 기본값을 ubuntu-latest 로 둔다. 나중에 러너를
+    # 붙이면 코드 수정 없이 저장소 변수로 바꾼다.
+    #   gh variable set RUNNER_LABEL --body self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      # 규칙의 단일 출처는 scripts/check-blog-style.sh 다.
+      # Claude Code 훅도 같은 스크립트를 호출한다. 사람이 직접 편집하거나
+      # 다른 도구로 고친 경우에도 여기서 걸린다.
+      - name: 글쓰기 스타일 검사
+        run: |
+          shopt -s nullglob
+          files=(src/content/blog/*.md src/content/blog/*.mdx)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "검사할 글이 없다."
+            exit 0
+          fi
+          echo "검사 대상 ${#files[@]}편"
+          ./scripts/check-blog-style.sh "${files[@]}"
+
+      # 빌드가 콘텐츠 스키마와 이미지 참조를 함께 검증한다.
+      # 공개 글에 category 가 없거나, 참조한 이미지가 저장소에 없으면 여기서 실패한다.
+      - name: Build
+        run: npm run build
