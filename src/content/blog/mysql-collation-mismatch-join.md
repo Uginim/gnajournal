@@ -220,15 +220,15 @@ SHOW CREATE TABLE temp_import;
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 ```
 
-테이블 기준으로만 조회하면 정상으로 보입니다. 현황을 볼 때 테이블 축과 컬럼 축을 모두 봐야 하는 이유입니다.
+테이블 기준으로만 조회하면 정상으로 보입니다. 현황을 볼 때 테이블 단위와 컬럼 단위를 모두 봐야 하는 이유입니다.
 
 ```sql
--- 테이블 축
+-- 테이블 단위
 SELECT TABLE_NAME, TABLE_COLLATION FROM information_schema.TABLES
 WHERE TABLE_SCHEMA = DATABASE() AND TABLE_TYPE = 'BASE TABLE'
   AND TABLE_COLLATION <> 'utf8mb4_general_ci';
 
--- 컬럼 축
+-- 컬럼 단위
 SELECT TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, COLLATION_NAME FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA = DATABASE() AND COLLATION_NAME IS NOT NULL
   AND COLLATION_NAME <> 'utf8mb4_general_ci';
@@ -303,7 +303,7 @@ charset은 `utf8mb4`로 두고 collation만 바꾸므로 값이 손실되지 않
 
 남은 4개는 작업용 임시 테이블이라 고칠 필요가 없었습니다.
 
-이건 테이블 축 기준입니다. 컬럼 축으로 보면 `temp_import`의 컬럼 11개가 그대로 남아 있습니다. 두 축을 따로 봐야 하는 이유가 정리 단계에서도 그대로 나옵니다.
+이건 테이블 단위로 센 것입니다. 컬럼 단위로 보면 `temp_import`의 컬럼 11개가 그대로 남아 있습니다. 둘을 따로 봐야 하는 이유가 정리 단계에서도 그대로 나옵니다.
 
 조치 뒤에 잘 됐는지 보려고 문의받은 조인문을 그대로 실행했습니다. 잘 동작했습니다.
 
