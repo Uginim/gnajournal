@@ -13,6 +13,10 @@
 | project model | 프로젝트 모델 | | |
 | root marker | root marker | 루트 표식 | 영어 유지 |
 | bug report (from users/QA) | 리포팅 | 제보, 보고 | 사용자 확정 (2026-08-14). 음차지만 실무 관용으로 채택 |
+| lifecycle (중간 결과, 데이터) | 라이프 사이클 | 수명(설계 범위를 말할 때) | 생성, 사용, 정리까지 전체 과정을 포괄하는 표현. 단순 보존 기간만 가리킬 때는 "수명"을 쓸 수 있음. 사용자 확정 (2026-08-19) |
+| expansion (collation) | 확장(expansion) | | CUBRID 공식 한국어 매뉴얼이 "확장"으로 표기. 근거 있음 (2026-08-24) |
+| contraction (collation) | 축약(contraction) | | CUBRID 공식 한국어 매뉴얼이 "축약"으로 표기. 근거 있음 (2026-08-24) |
+| ignorable character (collation) | ignorable character | 무시 문자 | 정착 역어를 확인 못 함. CUBRID 문서에도 이 용어가 없고 가중치 0 처리로만 설명됨. 영어를 쓰고 뜻을 문장으로 붙인다 (2026-08-24) |
 
 ## 원칙
 
