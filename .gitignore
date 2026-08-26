@@ -39,3 +39,6 @@ reco-hyeonuk-gist-backup/
 # 사내 원본 자료 경로와 검토 메모 (발주처 식별 정보 — 공개 저장소 커밋 금지)
 docs/private/
 docs/reviews/
+
+# 작업용 스크래치 (사내 재료가 들어갈 수 있어 커밋하지 않는다)
+_workspace/
