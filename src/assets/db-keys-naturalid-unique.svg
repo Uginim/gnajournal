@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320"
+     font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+
+  <text x="30" y="26" font-size="13" font-weight="700" fill="#1f2330">두 애노테이션이 하는 일</text>
+
+  <!-- 바깥: @NaturalId -->
+  <ellipse cx="280" cy="175" rx="238" ry="108" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.6"/>
+  <text x="280" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#4f46e5">@NaturalId</text>
+  <text x="280" y="106" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5b5fb0">Hibernate 전용</text>
+
+  <!-- 안쪽: @UniqueConstraint -->
+  <ellipse cx="172" cy="196" rx="122" ry="66" fill="#eef9f0" stroke="#2f9e44" stroke-width="1.6"/>
+  <text x="172" y="176" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2f9e44">@UniqueConstraint</text>
+  <text x="172" y="193" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5b8a63">JPA 표준</text>
+  <text x="172" y="218" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f2330">유니크 제약 생성</text>
+
+  <!-- 바깥에만 있는 것 -->
+  <text x="398" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f2330">값 변경 차단</text>
+  <text x="398" y="204" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f2330">자연키 조회</text>
+
+  <!-- 캡션 -->
+  <text x="30" y="304" font-size="12.5" font-weight="600" fill="#5b5fb0">기능은 안쪽이 바깥에 포함되지만, 표준을 따르는 쪽은 안쪽이다</text>
+</svg>
