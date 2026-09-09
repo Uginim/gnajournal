@@ -31,8 +31,8 @@ draft: false
 > 4. [제2정규형 (2NF)](/blog/db-normalization-4-2nf/)
 > 5. [제3정규형 (3NF)](/blog/db-normalization-5-3nf/)
 > 6. [보이스-코드 정규형 (BCNF)](/blog/db-normalization-6-bcnf/)
-> 7. 자연키와 대리키: 키 설계
-> 8. 제4, 제5정규형 개요와 그 너머
+> 7. [자연키와 대리키: 키 설계](/blog/db-normalization-7-keys-natural-surrogate/)
+> 8. [제4정규형과 제5정규형, 함수적 종속 너머의 중복](/blog/db-normalization-8-higher-normal-forms/)
 > 9. 정규화 절차와 역정규화
 
 ## 데이터 무결성이란

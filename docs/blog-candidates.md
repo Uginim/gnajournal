@@ -76,6 +76,7 @@
 | 🔲 | Git Bash 한글 깨짐 등 환경설정 팁 | |
 | 🔲 | 배포 직후 마이그레이션 체크리스트 | |
 | 🔲 | self-hosted 러너 좀비 자동 복구 (러너 워치독) | 51시간 CI 장애, 원인(actions/runner#3892), 감지와 복구 자동화, 실전 효과. gist Uginim (본인 프로젝트, IP 안전) |
+| ⭐ | 난독화하면 소리가 안 나던 함수들 (예약어로 지킨 오디오 코드) | 개인 프로젝트 snap-rhythm(본인 소유, IP 안전)의 2025-01 ~ 2025-07 Vite 시절 기록. 프런트 로직 보호를 위해 난독화를 켰더니 프로덕션 빌드에서 메트로놈 소리가 안 났다. 공격적 옵션(controlFlowFlattening, deadCodeInjection, stringArray, transformObjectKeys, numbersToExpressions, selfDefending)을 끄고, 브라우저 오디오 API 관련 이름 116개를 reservedNames 에 등록해 해결. 빌드 시간도 20.74초에서 4.32초로 줄었다는 기록이 있음. 자료: snap-rhythm `documents/OBFUSCATION_GUIDE.md`, `documents/working-history/2025-07-15-web-audio-obfuscation-fix.md`, `2025-01-15-vite-obfuscation-config-audio-protection-claude.md`. **필요 작업**: (1) 당시 기록의 원인 진단이 추정형이라 어느 옵션이 무엇을 깼는지 재현으로 확인해야 함, (2) "호환성 100% 확보" 같은 표현은 게시 불가, (3) 지금 코드베이스에는 난독화 설정이 없음(Next.js 이전 시 제거된 것으로 보임), 그 경위를 확인해 결말로 쓸지 정할 것, (4) 난독화 도구 이름 표기 범위 확인 |
 
 ## D. 언어, 프레임워크 학습
 
