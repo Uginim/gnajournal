@@ -4,7 +4,7 @@ description: 'BCNF를 만족하는 테이블에도 중복이 남습니다. 함�
 pubDate: 'Sep 09 2026'
 heroImage: '../../assets/db-normalization-8-higher-normal-forms-hero.svg'
 ogImage: '../../assets/db-normalization-8-higher-normal-forms-hero.png'
-tags: ['데이터베이스', '정규화', 'DB설계', '정규형']
+tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '4NF', '5NF']
 category: 'database'
 draft: false
 ---
