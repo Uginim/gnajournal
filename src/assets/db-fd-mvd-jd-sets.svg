@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400"
+     font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <text x="20" y="24" font-size="13" font-weight="700" fill="#1f2330">세 종속의 포함 관계</text>
+
+  <ellipse cx="280" cy="195" rx="270" ry="155" fill="#fbfbfd" stroke="#80828f" stroke-width="1.4"/>
+  <ellipse cx="280" cy="195" rx="190" ry="108" fill="#eef0ff" stroke="#5b5fb0" stroke-width="1.6"/>
+  <ellipse cx="280" cy="195" rx="110" ry="58" fill="#ffffff" stroke="#4f46e5" stroke-width="2"/>
+
+  <text x="280" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2330">조인 종속  *{A, B, C}</text>
+  <text x="280" y="84" text-anchor="middle" font-size="12" fill="#80828f">테이블 셋 이상으로 나눠야 복원됨</text>
+
+  <text x="280" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#5b5fb0">다치 종속  X ↠ Y</text>
+  <text x="280" y="130" text-anchor="middle" font-size="12" fill="#5b5fb0">테이블 둘로 나누는 조인 종속</text>
+
+  <text x="280" y="190" text-anchor="middle" font-size="13" font-weight="700" fill="#4f46e5">함수적 종속  X → Y</text>
+  <text x="280" y="208" text-anchor="middle" font-size="12" fill="#4f46e5">Y 값이 하나로 정해짐</text>
+
+  <text x="280" y="385" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f2330">제4정규형은 가운데까지, 제5정규형은 바깥까지 본다</text>
+</svg>

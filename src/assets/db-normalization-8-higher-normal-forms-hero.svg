@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 574" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
   <rect width="1020" height="574" fill="#f7f7fb"/>
 
-  <text x="80" y="76" font-size="28" font-weight="700" fill="#1f2330">제4, 제5정규형, 함수적 종속 너머의 중복</text>
-  <text x="80" y="112" font-size="18" fill="#7a7c88">BCNF를 만족하는 표에도 중복이 남습니다</text>
+  <text x="80" y="76" font-size="26" font-weight="700" fill="#1f2330">제4정규형과 제5정규형, 함수적 종속 너머의 중복</text>
+  <text x="80" y="112" font-size="18" fill="#7a7c88">BCNF를 만족하는 테이블에도 중복이 남습니다</text>
 
   <!-- 왼쪽: 함수적 종속 -->
   <rect x="80" y="160" width="270" height="250" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
@@ -31,7 +31,7 @@
   <text x="805" y="340" text-anchor="middle" font-size="15" fill="#7a7c88">제5정규형</text>
   <text x="805" y="378" text-anchor="middle" font-size="16" font-weight="700" fill="#4f46e5">1979</text>
 
-  <text x="80" y="470" font-size="19" font-weight="600" fill="#1f2330">무관한 목록 둘을 한 표에 담으면 조합이 곱해져 저장됩니다.</text>
+  <text x="80" y="470" font-size="19" font-weight="600" fill="#1f2330">무관한 목록 둘을 한 테이블에 담으면 조합이 곱해져 저장됩니다.</text>
   <text x="80" y="504" font-size="19" font-weight="600" fill="#1f2330">함수적 종속으로는 그 중복이 설명되지 않습니다.</text>
   <text x="80" y="542" font-size="16" fill="#7a7c88">데이터베이스 정규화 (8)</text>
 </svg>

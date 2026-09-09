@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 336"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 306"
      font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
   <defs>
     <marker id="arrow4nf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -6,9 +6,9 @@
     </marker>
   </defs>
 
-  <text x="30" y="24" font-size="13" font-weight="700" fill="#1f2330">한 표에 담은 교재 목록과 교수 목록</text>
+  <text x="30" y="24" font-size="13" font-weight="700" fill="#1f2330">한 테이블에 담은 교재 목록과 교수 목록</text>
 
-  <!-- 왼쪽: 한 표 -->
+  <!-- 왼쪽: 한 테이블 -->
   <text x="30" y="46" font-size="12.5" font-weight="700" fill="#d9480f">✕ 조합이 곱해져 저장됨</text>
 
   <rect x="30" y="56" width="110" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
@@ -46,16 +46,17 @@
   <text x="185" y="189" text-anchor="middle" font-size="12" fill="#1f2330">교재B</text>
   <text x="275" y="189" text-anchor="middle" font-size="12" fill="#1f2330">정교수</text>
 
-  <text x="30" y="220" font-size="12.5" font-weight="600" fill="#d9480f">교재 2권과 교수 2명이 네 줄로 저장됩니다</text>
-  <text x="30" y="240" font-size="12" fill="#80828f">교재를 한 권 더 넣으려면 두 줄을 넣어야 합니다</text>
+  <text x="30" y="220" font-size="12.5" font-weight="600" fill="#d9480f">교재 2권과 교수 2명이 네 행으로 저장됩니다</text>
+  <text x="30" y="240" font-size="12" fill="#80828f">교재를 한 권 더 넣으려면 두 행을 넣어야 합니다</text>
 
   <!-- 가운데 화살표 -->
   <path d="M 336 128 L 400 128" stroke="#5b5fb0" stroke-width="2" fill="none" marker-end="url(#arrow4nf)"/>
-  <text x="368" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#5b5fb0">과목 ↠ 교재</text>
-  <text x="368" y="150" text-anchor="middle" font-size="12" fill="#5b5fb0">기준으로 분리</text>
+  <text x="368" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#5b5fb0">과목 ↠ 교재</text>
+  <text x="368" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#5b5fb0">과목 ↠ 교수</text>
+  <text x="368" y="152" text-anchor="middle" font-size="12" fill="#5b5fb0">기준으로 분리</text>
 
-  <!-- 오른쪽: 두 표 -->
-  <text x="420" y="46" font-size="12.5" font-weight="700" fill="#2f9e44">✓ 관계마다 표를 나눔</text>
+  <!-- 오른쪽: 두 테이블 -->
+  <text x="420" y="46" font-size="12.5" font-weight="700" fill="#2f9e44">✓ 관계마다 테이블을 나눔</text>
 
   <rect x="420" y="56" width="110" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
   <rect x="530" y="56" width="90" height="30" fill="#eef0ff" stroke="#4f46e5" stroke-width="1.4"/>
@@ -87,8 +88,7 @@
   <text x="475" y="239" text-anchor="middle" font-size="12" fill="#1f2330">데이터베이스</text>
   <text x="575" y="239" text-anchor="middle" font-size="12" fill="#1f2330">정교수</text>
 
-  <text x="420" y="270" font-size="12.5" font-weight="600" fill="#2f9e44">두 줄과 두 줄로 나뉩니다</text>
-  <text x="420" y="290" font-size="12" fill="#80828f">교재를 한 권 더 넣으면 한 줄만 추가합니다</text>
+  <text x="420" y="270" font-size="12.5" font-weight="600" fill="#2f9e44">두 행과 두 행으로 나뉩니다</text>
+  <text x="420" y="290" font-size="12" fill="#80828f">교재를 한 권 더 넣으면 한 행만 추가합니다</text>
 
-  <text x="30" y="322" font-size="12.5" font-weight="600" fill="#5b5fb0">두 표를 과목으로 조인하면 원래 네 줄이 그대로 복원됩니다.</text>
 </svg>

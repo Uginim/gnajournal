@@ -17,6 +17,9 @@
 | expansion (collation) | 확장(expansion) | | CUBRID 공식 한국어 매뉴얼이 "확장"으로 표기. 근거 있음 (2026-08-24) |
 | contraction (collation) | 축약(contraction) | | CUBRID 공식 한국어 매뉴얼이 "축약"으로 표기. 근거 있음 (2026-08-24) |
 | ignorable character (collation) | ignorable character | 무시 문자 | 정착 역어를 확인 못 함. CUBRID 문서에도 이 용어가 없고 가중치 0 처리로만 설명됨. 영어를 쓰고 뜻을 문장으로 붙인다 (2026-08-24) |
+| relation (관계 모델) | 테이블 | 표 | 릴레이션을 가리킬 때는 "테이블". "표"는 화면에 그려진 마크다운 표만. 사용자 확정 (2026-09-09) |
+| projection (관계 대수) | 프로젝션(projection) | 사영, 투영 | 국내 데이터베이스 교재와 자격시험 자료가 음차 "프로젝션"을 쓴다. 제5정규형의 projection-join normal form도 "프로젝션 조인 정규형" (2026-09-09) |
+| row, tuple | 행 | 줄 | "줄"은 코드 라인으로 읽힌다. 사용자 확정 (2026-09-09) |
 
 ## 원칙
 
