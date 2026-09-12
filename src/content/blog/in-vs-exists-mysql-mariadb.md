@@ -96,7 +96,7 @@ LIMIT :size OFFSET :offset;
 
 그렇다면 실행 구조를 그대로 둔 채, 논리적으로 동등한 EXISTS와 서브쿼리 IN을 비교하면 어떨까요? 동등하고 변환 조건을 충족하는 서브쿼리 IN과 EXISTS는 현대 MySQL, MariaDB에서 같은 최적화 후보가 됩니다. 옵티마이저가 둘을 semijoin이라는 같은 형태로 바꾼 뒤 비용으로 전략을 고르기 때문입니다. `LIMIT`, 집계, `HAVING` 같은 제약이 없고 서로 동등한 경우입니다. MySQL 문서는 8.0.16부터 EXISTS 서브쿼리가 동등한 IN 서브쿼리와 같은 semijoin 변환을 받는다고 적습니다.
 
-로컬 MariaDB 11.4에서 최소 재현으로 확인했습니다. 조회 대상 `big`(100만 행, `gid`에 인덱스)과 값 집합 `sub`(5만 행)를 만들었습니다.
+로컬 MariaDB 11.4에서 최소 재현으로 확인했습니다. 조회 대상 `big`(100만 행, `gid`에 인덱스)과 값 집합 `sub`(5만 행)를 만들었습니다(만드는 스크립트는 부록).
 
 ```sql
 big  (id PK, gid, KEY(gid))     -- 조회 대상, 100만 행
@@ -138,14 +138,36 @@ IN 리스트가 작으면 효율적일 수 있습니다. 그러나 데이터가 
 
 IN 리스트를 JPA로 쓸 때 한 가지 더 붙는 비용이 있습니다. JPA는 쿼리를 PreparedStatement로 실행합니다. 값을 SQL에 직접 넣지 않고 `?` 자리에 바인딩하기 때문에, `where id in :ids`는 리스트 원소 개수만큼 `?`가 생깁니다. 크기가 3이면 `in (?, ?, ?)`, 5면 `in (?, ?, ?, ?, ?)`입니다. IN 리스트의 크기가 달라지면 SQL 텍스트도 달라지므로, 같은 prepared statement나 statement cache 항목을 재사용하기 어려워질 수 있습니다.
 
-Hibernate 6에 로컬 MariaDB를 붙여, 크기 3, 5, 6, 7을 각각 두 번씩 실행하며 서버가 새로 파싱한 횟수(`Com_stmt_prepare` 증가)를 셌습니다.
+Hibernate 6에 로컬 MariaDB를 붙여, 크기 3, 5, 6, 7을 각각 두 번씩 실행하며 서버가 새로 파싱한 횟수(`Com_stmt_prepare` 증가)를 셌습니다. 실행한 쿼리는 하나이고 `:ids`에 넣는 리스트의 크기만 바꿨습니다.
+
+```java
+em.createQuery("select count(b) from Big b where b.gid in :ids", Long.class)
+        .setParameter("ids", ids)
+        .getSingleResult();
+```
+
+`Com_stmt_prepare`는 서버가 문장을 파싱한 횟수입니다. 파싱을 서버에서 하도록 `useServerPrepStmts=true`로 접속하고, `cachePrepStmts=true`를 함께 켜서 측정했습니다. 드라이버는 같은 SQL이면 준비된 문장을 재사용하고, SQL 텍스트가 다를 때만 서버에 파싱을 새로 요청합니다.
+
+크기별로 생성된 SQL은 이렇게 갈렸습니다.
+
+```sql
+-- in_clause_parameter_padding = false: 크기마다 SQL이 다르다
+where gid in (?,?,?)
+where gid in (?,?,?,?,?)
+where gid in (?,?,?,?,?,?)
+where gid in (?,?,?,?,?,?,?)
+
+-- true: 3은 4로, 5와 6과 7은 8로 뭉친다
+where gid in (?,?,?,?)
+where gid in (?,?,?,?,?,?,?,?)
+```
 
 | in_clause_parameter_padding | 서로 다른 SQL | Com_stmt_prepare 증가 |
 |---|---|---|
 | false (기본값) | 4종류 (물음표 3, 5, 6, 7개) | +4 |
 | true | 2종류 (물음표 4개, 8개) | +2 |
 
-이 실험 환경에서는 같은 크기의 목록을 두 번째로 실행했을 때 추가 prepare가 발생하지 않았습니다. `hibernate.query.in_clause_parameter_padding`을 켜자 서로 다른 SQL 텍스트의 수가 4개에서 2개로 줄었습니다. 재현 코드는 참고 문헌의 gist에 있습니다.
+이 실험 환경에서는 같은 크기의 목록을 두 번째로 실행했을 때 추가 prepare가 발생하지 않았습니다. `hibernate.query.in_clause_parameter_padding`을 켜자 서로 다른 SQL 텍스트의 수가 4개에서 2개로 줄었습니다.
 
 ## 그렇다면 어떻게 판단할까?
 
@@ -172,6 +194,36 @@ IN과 EXISTS 중 하나를 팀의 기본 규칙으로 정할 수는 없습니다
 > 성능을 SQL 문법의 이름으로 판단하지 않는다. 실제 실행계획을 확인하고, 변경 조건을 분리해 측정한다.
 
 EXISTS가 억울했던 이유는 절대로 느릴 수 없는 문법이어서가 아닙니다. 확인되지 않은 원인을 혼자 떠안았기 때문입니다.
+
+## 부록: 재현 데이터 만들기
+
+본문 표를 낸 `big`과 `sub`는 로컬 MariaDB 11.4에서 아래 스크립트로 만들었습니다. `RAND`에 시드를 고정했으므로 다시 실행해도 같은 분포가 나옵니다.
+
+```sql
+DROP TABLE IF EXISTS big, sub;
+CREATE TABLE big (
+    id  INT PRIMARY KEY AUTO_INCREMENT,
+    gid INT NOT NULL,
+    KEY idx_gid (gid)
+) ENGINE=InnoDB;
+CREATE TABLE sub (id INT PRIMARY KEY) ENGINE=InnoDB;
+
+SET SESSION max_recursive_iterations = 2000000;
+
+-- big: gid는 0 이상 200,000 미만 균등 분포, 100만 행
+INSERT INTO big (gid)
+  WITH RECURSIVE n(x) AS (SELECT 1 UNION ALL SELECT x+1 FROM n WHERE x < 1000000)
+  SELECT FLOOR(RAND(1)*200000) FROM n;
+
+-- sub: 0부터 4씩 증가하는 5만 개 값
+INSERT INTO sub (id)
+  WITH RECURSIVE n(x) AS (SELECT 0 UNION ALL SELECT x+1 FROM n WHERE x < 49999)
+  SELECT x*4 FROM n;
+
+ANALYZE TABLE big, sub;
+```
+
+`max_recursive_iterations`는 재귀 CTE의 반복 상한입니다. 100만 행을 만들려면 그보다 크게 둡니다. 마지막 `ANALYZE TABLE`은 옵티마이저가 참조하는 통계를 갱신합니다.
 
 ## 부록: Handler 카운터 확인하기
 
@@ -200,4 +252,3 @@ SHOW SESSION STATUS WHERE Variable_name
 - [MariaDB, Semi-join Subquery Optimizations](https://mariadb.com/kb/en/semi-join-subquery-optimizations/): semi-join 최적화(기본 활성)와 전략들.
 - [MariaDB, EXISTS-to-IN Optimization](https://mariadb.com/docs/server/ha-and-performance/optimization-and-tuning/query-optimizations/subquery-optimizations/exists-to-in-optimization): 조건을 만족하는 EXISTS를 IN으로 변환해 semijoin, materialization 등의 최적화 후보를 쓸 수 있게 한다.
 - [MariaDB, Conversion of Big IN Predicates Into Subqueries](https://mariadb.com/docs/server/ha-and-performance/optimization-and-tuning/query-optimizations/subquery-optimizations/conversion-of-big-in-predicates-into-subqueries): 값이 많은 IN 조건을 임시 테이블을 쓰는 서브쿼리 형태로 변환한다. 이 글의 5만 개 IN 리스트 실험이 이 경우다.
-- [재현 코드 (Hibernate + MariaDB)](https://gist.github.com/Uginim/9b85b93f8daea512d3e74e2d29ab4f3e): IN 크기별 생성 SQL과 `Com_stmt_prepare` 비교, IN 서브쿼리와 EXISTS의 Handler 카운터 대조. 이 글의 재현 표가 나온 스크립트.
