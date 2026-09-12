@@ -1,7 +1,7 @@
 ---
 title: '데이터베이스 정규화 (8): 제4정규형과 제5정규형, 함수적 종속 너머의 중복'
 description: 'BCNF를 만족하는 테이블에도 중복이 남습니다. 함수적 종속으로는 설명되지 않는 그 중복의 이름인 다치 종속과 조인 종속, 자명한 종속을 조건에서 빼는 이유, 제4정규형과 제5정규형의 정의와 분해 절차, 그리고 도메인키 정규형과 제6정규형까지 정리합니다.'
-pubDate: 'Sep 09 2026'
+pubDate: 'Sep 06 2026'
 heroImage: '../../assets/db-normalization-8-higher-normal-forms-hero.svg'
 ogImage: '../../assets/db-normalization-8-higher-normal-forms-hero.png'
 tags: ['데이터베이스', '정규화', 'DB설계', '정규형', '4NF', '5NF']
