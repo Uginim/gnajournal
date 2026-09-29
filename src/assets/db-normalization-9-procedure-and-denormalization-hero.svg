@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 574" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="1020" height="574" fill="#f7f7fb"/>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+
+  <text x="80" y="76" font-size="26" font-weight="700" fill="#1f2330">정규화 절차와 역정규화</text>
+  <text x="80" y="112" font-size="18" fill="#7a7c88">나누는 근거는 종속이고, 되돌리는 근거는 조회입니다</text>
+
+  <!-- 왼쪽: 정규화 절차 -->
+  <rect x="80" y="160" width="420" height="250" rx="8" fill="#ffffff" stroke="#4f46e5" stroke-width="2.5"/>
+  <text x="290" y="200" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2330">정규화: 종속을 찾아 나눈다</text>
+
+  <rect x="106" y="226" width="110" height="40" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="161" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#4f46e5">키 확정</text>
+  <path d="M 216 246 L 234 246" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="236" y="226" width="110" height="40" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="291" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#4f46e5">1NF ~ 3NF</text>
+  <path d="M 346 246 L 364 246" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="366" y="226" width="110" height="40" rx="6" fill="#eef0ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="421" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#4f46e5">BCNF ~ 5NF</text>
+
+  <text x="290" y="306" text-anchor="middle" font-size="16" fill="#5b5fb0">결정자를 키로 하는 테이블로 프로젝션</text>
+  <text x="290" y="336" text-anchor="middle" font-size="16" fill="#5b5fb0">조인하면 원래 테이블이 복원된다</text>
+  <text x="290" y="380" text-anchor="middle" font-size="15" fill="#7a7c88">이상현상이 사라지는 자리에서 멈춘다</text>
+
+  <!-- 오른쪽: 역정규화 -->
+  <rect x="530" y="160" width="410" height="250" rx="8" fill="#ffffff" stroke="#c6c8d4" stroke-width="2"/>
+  <text x="735" y="200" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2330">역정규화: 중복을 다시 넣는다</text>
+
+  <rect x="556" y="226" width="170" height="40" rx="6" fill="#fff4ec" stroke="#d9480f" stroke-width="2"/>
+  <text x="641" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#d9480f">복사한 컬럼</text>
+  <rect x="744" y="226" width="170" height="40" rx="6" fill="#fff4ec" stroke="#d9480f" stroke-width="2"/>
+  <text x="829" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#d9480f">미리 계산한 집계값</text>
+
+  <text x="735" y="306" text-anchor="middle" font-size="16" fill="#5b5fb0">갱신 이상이 돌아온다</text>
+  <text x="735" y="336" text-anchor="middle" font-size="16" fill="#5b5fb0">동기화 책임을 누가 지는지 정해야 한다</text>
+  <text x="735" y="380" text-anchor="middle" font-size="15" fill="#7a7c88">트리거, 응용 코드, DBMS의 물리화 뷰</text>
+
+  <text x="80" y="470" font-size="19" font-weight="600" fill="#1f2330">역정규화는 정규화한 뒤에 하는 선택입니다.</text>
+  <text x="80" y="504" font-size="19" font-weight="600" fill="#1f2330">정규화하지 않은 상태와는 다릅니다.</text>
+  <text x="80" y="542" font-size="16" fill="#7a7c88">데이터베이스 정규화 (9)</text>
+</svg>

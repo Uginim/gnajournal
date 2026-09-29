@@ -20,7 +20,7 @@ draft: false
 > 6. **보이스-코드 정규형 (BCNF)** (이번 글)
 > 7. [자연키와 대리키: 키 설계](/blog/db-normalization-7-keys-natural-surrogate/)
 > 8. [제4정규형과 제5정규형, 함수적 종속 너머의 중복](/blog/db-normalization-8-higher-normal-forms/)
-> 9. 정규화 절차와 역정규화
+> 9. [정규화 절차와 역정규화](/blog/db-normalization-9-procedure-and-denormalization/)
 
 ## 등장 배경
 
