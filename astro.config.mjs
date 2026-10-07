@@ -3,10 +3,18 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://meeemo.net',
+	markdown: {
+		// 기존 글이 본문에 $를 쓰므로 인라인 $...$ 수식은 끄고 $$ 블록만 수식으로 읽는다.
+		remarkPlugins: [[remarkMath, { singleDollarTextMath: false }]],
+		// \text{} 안의 한글을 경고 없이 렌더한다.
+		rehypePlugins: [[rehypeKatex, { strict: false }]],
+	},
 	integrations: [
 		mdx(),
 		sitemap({
