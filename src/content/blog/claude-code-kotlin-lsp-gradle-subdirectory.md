@@ -303,7 +303,6 @@ Neovim에서 어떤 루트가 선택됐는지는 `:LspInfo`의 `root_dir`로 확
 - [Kotlin Language Server](https://github.com/Kotlin/kotlin-lsp): Homebrew 설치, Gradle과 Maven 지원 기능과 Alpha 상태.
 - [Language Server Protocol](https://microsoft.github.io/language-server-protocol/): 개발 도구와 언어 서버가 JSON-RPC로 코드 탐색 기능을 주고받는 구조.
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): 파일에서 상위 디렉토리의 root marker를 찾아 LSP 워크스페이스를 정하는 방식과 Kotlin LSP 기본 marker.
-- [별도 레포지토리 적용 기록 gist](https://gist.github.com/Uginim/bc0d046e517bc28e957fc7d4276117f5): 본문의 프록시를 다른 레포지토리에 적용해 워밍업 후 8건, 3파일을 확인한 기록.
 
 <!-- HUMANIZE-SUMMARY v1.6.1
 run_id: 2026-08-06-001
