@@ -1,5 +1,5 @@
 ---
-title: 'Spring Boot 3 전환 뒤 QueryDSL 하위 쿼리가 500을 낸 이유: JPQLTemplates와 Hibernate 6'
+title: 'Spring Boot 3 전환 뒤 QueryDSL 테스트가 오류를 놓친 이유: 앱과 테스트의 JPQLTemplates 차이'
 description: 'Spring Boot 3로 올린 뒤 테스트를 통과한 QueryDSL 쿼리가 앱에서만 실패했습니다. JPAQueryFactory가 고르는 두 템플릿(자동 감지와 JPQLTemplates.DEFAULT)이 Hibernate 6에서 각각 어떤 패턴을 깨는지 QueryDSL 소스를 근거로 정리하고, 앱과 테스트의 템플릿을 맞춘 과정을 다룹니다.'
 pubDate: 'Oct 17 2026'
 tags: ['QueryDSL', 'Hibernate', 'JPA', 'Spring Boot', '테스트', '웹개발']
