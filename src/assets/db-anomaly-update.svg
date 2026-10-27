@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 196" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect width="580" height="196" rx="8" fill="#f7f7fb"/>
   <text x="40" y="24" font-size="13" font-weight="700" fill="#1f2330">영업부 부서장을 박부장 → 최부장으로 교체</text>
 
   <!-- header -->
