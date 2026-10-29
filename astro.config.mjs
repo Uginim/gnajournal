@@ -14,6 +14,8 @@ export default defineConfig({
 		remarkPlugins: [[remarkMath, { singleDollarTextMath: false }]],
 		// \text{} 안의 한글을 경고 없이 렌더한다.
 		rehypePlugins: [[rehypeKatex, { strict: false }]],
+		// 각주 영역 제목과 되돌아가기 링크 라벨을 한국어로 표시한다.
+		remarkRehype: { footnoteLabel: '각주', footnoteBackLabel: '본문으로 돌아가기' },
 	},
 	integrations: [
 		mdx(),
